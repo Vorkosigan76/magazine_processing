@@ -65,6 +65,11 @@ magazines:
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
+  - name: "Daily Mail"
+    # Matches: Daily Mail - 6 March 2026.pdf → Daily Mail - 2026-03-06.pdf
+    pattern: "^Daily Mail - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
   - name: "Family Tree USA"
     # Matches: Family Tree USA – March April 2026.pdf → Family Tree USA 202603 - March April 2026.pdf
     pattern: "^Family Tree USA . ([A-Za-z]+ [A-Za-z]+) (\\d{4})\\.pdf$"
@@ -92,10 +97,9 @@ magazines:
     date_groups: [day, month_name, year]
 
   - name: "L Auto-Journal"
-    # Matches: L'Auto-Journal - 5 Mars 2026.pdf → L Auto-Journal - 20260305.pdf
+    # Matches: L'Auto-Journal - 5 Mars 2026.pdf → L Auto-Journal - 2026-03-05.pdf
     pattern: "^L'Auto-Journal - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
-    template: "{name} - {year}{month}{day}.pdf"
 
   - name: "L Automobile Magazine"
     # Matches: L'Automobile Magazine - Mars 2026.pdf → L Automobile Magazine 202603 - Mars 2026.pdf
@@ -241,9 +245,19 @@ magazines:
     pattern: "^Midi Olympique Vert - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
+  - name: "MoneyWeek"
+    # Matches: MoneyWeek 06 March 2026.pdf → MoneyWeek - 2026-03-06.pdf
+    pattern: "^MoneyWeek (\\d{2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
   - name: "New Scientist"
     # Matches: New Scientist_0703.pdf → New Scientist - 2026-03-07.pdf (year defaults to current)
     pattern: "^New Scientist_(\\d{2})(\\d{2})\\.pdf$"
+    date_groups: [day, month]
+
+  - name: "Newsweek"
+    # Matches: Newsweek_1303.pdf → Newsweek - 2026-03-13.pdf (year defaults to current)
+    pattern: "^Newsweek_(\\d{2})(\\d{2})\\.pdf$"
     date_groups: [day, month]
 
   - name: "Octane UK"
@@ -325,6 +339,12 @@ magazines:
   - name: "Vocable Espagnol"
     # Matches: Vocable Espagnol - Mars 2026.pdf → Vocable Espagnol 202603 - Mars 2026.pdf
     pattern: "^Vocable Espagnol - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "Vogue Australia"
+    # Matches: Vogue Australia – March 2026.pdf → Vogue Australia 202603 - March 2026.pdf
+    pattern: "^Vogue Australia . ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
