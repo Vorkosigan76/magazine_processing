@@ -96,14 +96,24 @@ magazines:
     pattern: "^Global Times - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
+  - name: "Herald Sun"
+    # Matches: Herald Sun - 6 March 2026.pdf → Herald Sun - 2026-03-06.pdf
+    pattern: "^Herald Sun - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "Kuwait Times"
+    # Matches: Kuwait - Kuwait Times 06-03-26.pdf → Kuwait Times - 2026-03-06.pdf
+    pattern: "^Kuwait - Kuwait Times (\\d{2})-(\\d{2})-(\\d{2})\\.pdf$"
+    date_groups: [day, month, year_short]
+
   - name: "L Auto-Journal"
     # Matches: L'Auto-Journal - 5 Mars 2026.pdf → L Auto-Journal - 2026-03-05.pdf
-    pattern: "^L'Auto-Journal - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    pattern: "^L['\u2019]Auto-Journal - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
   - name: "L Automobile Magazine"
     # Matches: L'Automobile Magazine - Mars 2026.pdf → L Automobile Magazine 202603 - Mars 2026.pdf
-    pattern: "^L'Automobile Magazine - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    pattern: "^L['\u2019]Automobile Magazine - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
@@ -285,6 +295,11 @@ magazines:
   - name: "South China Morning Post"
     # Matches: South China Morning Post - 6 March 2026.pdf → South China Morning Post - 2026-03-06.pdf
     pattern: "^South China Morning Post - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "The Australian"
+    # Matches: The Australian - 6 March 2026.pdf → The Australian - 2026-03-06.pdf
+    pattern: "^The Australian - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
   - name: "The Daily Telegraph"

@@ -39,8 +39,8 @@ class MagazineHandler(FileSystemEventHandler):
 
 
 def process_existing(import_dir: Path, magazines: list[dict], output_dir: Path, quarantine_dir: Path):
-    """Process any PDFs already sitting in the import directory."""
-    for f in import_dir.iterdir():
+    """Process any PDFs already sitting in the import directory (including subfolders)."""
+    for f in import_dir.rglob("*"):
         if f.is_file() and f.suffix.lower() == ".pdf":
             process_file(f, magazines, output_dir, quarantine_dir)
 
@@ -58,7 +58,7 @@ def main():
 
     handler = MagazineHandler(magazines, PROCESSED_DIR, QUARANTINE_DIR)
     observer = PollingObserver(timeout=5)
-    observer.schedule(handler, str(IMPORT_DIR), recursive=False)
+    observer.schedule(handler, str(IMPORT_DIR), recursive=True)
     observer.start()
     logger.info("Watching %s for new PDFs...", IMPORT_DIR)
 
