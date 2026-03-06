@@ -37,7 +37,7 @@ Add an entry to `config/magazines.yaml`:
   date_groups: [day, month, year]
   template: "{name} - {date}.pdf"  # optional, default
 ```
-The pattern must capture date components as groups. `date_groups` maps each group to `day`, `month`, or `year` (`day` is optional for monthlies). `template` controls the output filename. The config is mounted as a Docker volume so changes take effect on container restart. **Always keep entries in `magazines.yaml` sorted alphabetically by `name`.**
+The pattern must capture date components as groups. `date_groups` maps each group to `day`, `month`, `year`, `month_name`, `month_range`, `season`, or `year_short` (`day` is optional for monthlies; `month` defaults to January for year-only entries; `season` maps season names like "hiver"/"winter" to months). `template` controls the output filename. The config is mounted as a Docker volume so changes take effect on container restart. **Always keep entries in `magazines.yaml` sorted alphabetically by `name`.**
 
 ## Deleting Unwanted Magazines
 
