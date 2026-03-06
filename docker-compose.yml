@@ -1,6 +1,8 @@
 services:
   magazine-processor:
-    build: .
+    image: ghcr.io/vorkosigan76/magazine_processing:latest
+    build:
+      context: https://github.com/Vorkosigan76/magazine_processing.git
     environment:
       - IMPORT_DIR=/import
       - PROCESSED_DIR=/processed
