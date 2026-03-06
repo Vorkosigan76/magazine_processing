@@ -1,0 +1,13 @@
+services:
+  magazine-processor:
+    build: .
+    environment:
+      - IMPORT_DIR=/import
+      - PROCESSED_DIR=/processed
+      - QUARANTINE_DIR=/quarantine
+    volumes:
+      - ./import:/import
+      - ./processed:/processed
+      - ./quarantine:/quarantine
+      - ./config:/app/config
+    restart: unless-stopped

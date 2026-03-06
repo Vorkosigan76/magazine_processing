@@ -1,0 +1,5 @@
+import/
+processed/
+__pycache__/
+*.pyc
+.venv/

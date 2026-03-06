@@ -1,0 +1,168 @@
+# Output template placeholders:
+#   {name}       - magazine display name
+#   {original}   - original filename (unchanged)
+#   {date}       - full date as YYYY-MM-DD
+#   {year}       - 4-digit year
+#   {month}      - 2-digit month
+#   {day}        - 2-digit day
+#   {month_name} - full month name (e.g. March)
+#   {month_name_orig} - original month name text as captured (e.g. "Mars")
+#   {month_range} - original month range text (e.g. "Mars-Avril")
+#
+# date_groups values: day, month, year, month_name, month_range
+#   - month_name: parses text month names in English and French (e.g. "March", "Mars")
+#   - month_range: parses first month from a range (e.g. "Mars-Avril"), full text available as {month_range}
+#   - year: defaults to current year if omitted
+#   - day: defaults to 1 if omitted
+#
+# Default template (if omitted): "{name} - {date}.pdf"
+
+magazines:
+  - name: "Challenges"
+    # Matches: Challenges - 5 Mars 2026.pdf → Challenges - 2026-03-05.pdf
+    pattern: "^Challenges - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "Charlie Hebdo"
+    # Matches: Charlie Hebdo du Mercredi 04 Mars 2026.pdf → Charlie Hebdo - 20260304.pdf
+    pattern: "^Charlie Hebdo du [A-Za-zÀ-ÿ]+ (\\d{2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+    template: "{name} - {year}{month}{day}.pdf"
+
+  - name: "Cuisine et Vins de France"
+    # Matches: Cuisine et Vins de France - Mars-Avril 2026.pdf → Cuisine et Vins de France 202603 - Mars-Avril 2026.pdf
+    pattern: "^Cuisine et Vins de France - ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [month_range, year]
+    template: "{name} {year}{month} - {month_range} {year}.pdf"
+
+  - name: "L Auto-Journal"
+    # Matches: L'Auto-Journal - 5 Mars 2026.pdf → L Auto-Journal - 20260305.pdf
+    pattern: "^L'Auto-Journal - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+    template: "{name} - {year}{month}{day}.pdf"
+
+  - name: "La Tribune"
+    # Matches: La Tribune - 5 Mars 2026.pdf → La Tribune - 2026-03-05.pdf
+    pattern: "^La Tribune - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "Le Figaro"
+    # Matches: Le Figaro • Mercredi 4 Mars 2026.Pdf → Le Figaro - 2026-03-04.pdf
+    pattern: "^Le Figaro . [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "Le Nouvel Obs"
+    # Matches: Le Nouvel Obs - 5 Mars 2026.pdf → Le Nouvel Obs - 2026-03-05.pdf
+    pattern: "^Le Nouvel Obs - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "Le Parisien"
+    # Matches: Le Parisien - 5 Mars 2026.pdf → Le Parisien - 2026-03-05.pdf
+    pattern: "^Le Parisien - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "Le Point"
+    # Matches: Le Point - 5 Mars 2026.pdf → Le Point - 2026-03-05.pdf
+    pattern: "^Le Point - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "Le Temps"
+    # Matches: Le Temps - 5 Mars 2026.pdf → Le Temps - 2026-03-05.pdf
+    pattern: "^Le Temps - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "Les Echos"
+    # Matches: LesEchos05032026.pdf → Les Echos - 20260305.pdf
+    pattern: "^LesEchos(\\d{2})(\\d{2})(\\d{4})\\.pdf$"
+    date_groups: [day, month, year]
+    template: "{name} - {year}{month}{day}.pdf"
+
+  - name: "Liberation"
+    # Matches: lib050326.pdf → Liberation - 20260305.pdf
+    pattern: "^lib(\\d{2})(\\d{2})(\\d{2})\\.pdf$"
+    date_groups: [day, month, year_short]
+    template: "{name} - {year}{month}{day}.pdf"
+
+  - name: "Le Journal de Mickey"
+    # Matches: Le Journal de Mickey - 4 Mars 2026.pdf → Le Journal de Mickey - 2026-03-04.pdf
+    pattern: "^Le Journal de Mickey - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "Le Journal de Spirou"
+    # Matches: Le Journal de Spirou - 4 Mars 2026.pdf → Le Journal de Spirou - 2026-03-04.pdf
+    pattern: "^Le Journal de Spirou - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "Le Monde"
+    pattern: "^lmnd(\\d{2})(\\d{2})(\\d{4})\\.pdf$"
+    date_groups: [day, month, year]
+    # template: "{name} - {date}.pdf"  # daily → Le Monde - 2026-03-06.pdf
+
+  - name: "L Express"
+    # Matches: L Express N3896 • 5 au 11 Mars 2026.pdf → keeps original filename
+    pattern: "^L Express N\\d+ . (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+    template: "{original}"
+
+  - name: "Marianne"
+    # Matches: Marianne - 5 Mars 2026.pdf → Marianne - 2026-03-05.pdf
+    pattern: "^Marianne - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "New Scientist"
+    # Matches: New Scientist_0703.pdf → New Scientist - 2026-03-07.pdf (year defaults to current)
+    pattern: "^New Scientist_(\\d{2})(\\d{2})\\.pdf$"
+    date_groups: [day, month]
+
+  - name: "Santé Magazine"
+    # Matches: Santé Magazine - Avril 2026.pdf → Santé Magazine 202604 - Avril 2026.pdf
+    pattern: "^Santé Magazine - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "The Wall Street Journal"
+    # Matches both formats:
+    #   "The Wall Street Journal - 3 March 2026.pdf"       (day month_name year)
+    #   "The Wall Street Journal - March 05, 2026.pdf"     (month_name day, year)
+    patterns:
+      - pattern: "^The Wall Street Journal - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^The Wall Street Journal - ([A-Za-z]+) (\\d{2}), (\\d{4})\\.pdf$"
+        date_groups: [month_name, day, year]
+
+  - name: "USA Today"
+    # Matches: USA Today - March 5, 2026.pdf → USA Today - 2026-03-05.pdf
+    pattern: "^USA Today - ([A-Za-z]+) (\\d{1,2}), (\\d{4})\\.pdf$"
+    date_groups: [month_name, day, year]
+
+  - name: "Vocable Allemand"
+    # Matches: Vocable Allemand - Mars 2026.pdf → Vocable Allemand 202603 - Mars 2026.pdf
+    pattern: "^Vocable Allemand - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "Vocable Anglais"
+    # Matches: Vocable Anglais - Mars 2026.pdf → Vocable Anglais 202603 - Mars 2026.pdf
+    pattern: "^Vocable Anglais - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "Vocable Espagnol"
+    # Matches: Vocable Espagnol - Mars 2026.pdf → Vocable Espagnol 202603 - Mars 2026.pdf
+    pattern: "^Vocable Espagnol - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  # Examples for other frequencies:
+  #
+  # Monthly magazine:
+  # - name: "National Geographic"
+  #   pattern: "^natgeo(\\d{2})(\\d{4})\\.pdf$"
+  #   date_groups: [month, year]
+  #   template: "{name} - {year}-{month}.pdf"
+  #
+  # Monthly with month name:
+  # - name: "Science & Vie"
+  #   pattern: "^sv(\\d{2})(\\d{4})\\.pdf$"
+  #   date_groups: [month, year]
+  #   template: "{name} - {month_name} {year}.pdf"
