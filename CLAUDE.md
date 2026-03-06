@@ -39,6 +39,16 @@ Add an entry to `config/magazines.yaml`:
 ```
 The pattern must capture date components as groups. `date_groups` maps each group to `day`, `month`, or `year` (`day` is optional for monthlies). `template` controls the output filename. The config is mounted as a Docker volume so changes take effect on container restart.
 
+## Deleting Unwanted Magazines
+
+Add an entry with `delete: true` to `config/magazines.yaml`:
+```yaml
+- name: "Unwanted Magazine"
+  pattern: "^Unwanted.*\\.pdf$"
+  delete: true
+```
+Matched files are automatically deleted from `/import`. No `date_groups` or `template` needed.
+
 ## Docker Volumes
 
 | Container Path | Purpose |

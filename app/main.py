@@ -40,8 +40,9 @@ class MagazineHandler(FileSystemEventHandler):
 
 def process_existing(import_dir: Path, magazines: list[dict], output_dir: Path, quarantine_dir: Path):
     """Process any PDFs already sitting in the import directory."""
-    for pdf in import_dir.glob("*.pdf"):
-        process_file(pdf, magazines, output_dir, quarantine_dir)
+    for f in import_dir.iterdir():
+        if f.is_file() and f.suffix.lower() == ".pdf":
+            process_file(f, magazines, output_dir, quarantine_dir)
 
 
 def main():

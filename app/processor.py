@@ -26,8 +26,17 @@ def load_magazines(config_path: Path = CONFIG_PATH) -> list[dict]:
         config = yaml.safe_load(f)
     magazines = config.get("magazines", [])
     for mag in magazines:
-        # Support single pattern or multiple patterns per magazine
-        if "pattern" in mag:
+        if mag.get("delete"):
+            # Delete-only entries: just need compiled patterns, no date groups
+            if "pattern" in mag:
+                mag["_compiled_patterns"] = [re.compile(mag["pattern"], re.IGNORECASE)]
+            else:
+                mag["_compiled_patterns"] = [
+                    re.compile(v["pattern"], re.IGNORECASE) for v in mag["patterns"]
+                ]
+            mag["_variants"] = []
+        elif "pattern" in mag:
+            # Support single pattern or multiple patterns per magazine
             mag["_variants"] = [
                 (re.compile(mag["pattern"], re.IGNORECASE), mag["date_groups"])
             ]
@@ -67,6 +76,8 @@ def match_magazine(filename: str, magazines: list[dict]) -> tuple[str, date, str
     Returns (magazine_name, publication_date, output_template, extra_vars) or None.
     """
     for mag in magazines:
+        if mag.get("delete"):
+            continue
         for compiled, date_groups in mag["_variants"]:
             m = compiled.match(filename)
             if m:
@@ -103,6 +114,19 @@ def format_output_name(name: str, pub_date: date, template: str, original: str, 
     return template.format(**values)
 
 
+def match_delete(filename: str, magazines: list[dict]) -> str | None:
+    """Check if a filename matches a magazine marked for deletion.
+    Returns the magazine name if matched, None otherwise.
+    """
+    for mag in magazines:
+        if not mag.get("delete"):
+            continue
+        for compiled in mag["_compiled_patterns"]:
+            if compiled.match(filename):
+                return mag["name"]
+    return None
+
+
 DUPLICATE_SUFFIX = re.compile(r"\(\d+\)\.(pdf)$", re.IGNORECASE)
 
 
@@ -110,9 +134,23 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
     """Process a single PDF file: recognize, rename, and move it.
     Unrecognized files are moved to quarantine_dir.
     """
+    # Normalize .Pdf / .PDF etc. to .pdf on disk
+    if filepath.suffix.lower() == ".pdf" and filepath.suffix != ".pdf":
+        corrected = filepath.with_name(filepath.stem + ".pdf")
+        logger.info("Renamed extension: %s -> %s", filepath.name, corrected.name)
+        filepath = filepath.rename(corrected)
+
     filename = filepath.name
     # Strip duplicate suffixes like (1), (2) before matching
     cleaned = DUPLICATE_SUFFIX.sub(r".\1", filename)
+
+    # Check if file matches a magazine marked for deletion
+    delete_name = match_delete(cleaned, magazines)
+    if delete_name:
+        logger.info("Unwanted magazine '%s', deleting: %s", delete_name, filename)
+        filepath.unlink()
+        return False
+
     result = match_magazine(cleaned, magazines)
 
     if result is None:
