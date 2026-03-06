@@ -36,6 +36,14 @@ class MagazineHandler(FileSystemEventHandler):
         # Brief delay to let the file finish being written/copied
         time.sleep(1)
         process_file(filepath, self.magazines, self.output_dir, self.quarantine_dir)
+        # Remove the parent folder if it's now empty (and not the import root)
+        parent = filepath.parent
+        if parent != IMPORT_DIR:
+            try:
+                parent.rmdir()
+                logger.info("Removed empty folder: %s", parent)
+            except OSError:
+                pass
 
 
 def process_existing(import_dir: Path, magazines: list[dict], output_dir: Path, quarantine_dir: Path):
@@ -43,6 +51,18 @@ def process_existing(import_dir: Path, magazines: list[dict], output_dir: Path, 
     for f in import_dir.rglob("*"):
         if f.is_file() and f.suffix.lower() == ".pdf":
             process_file(f, magazines, output_dir, quarantine_dir)
+    cleanup_empty_dirs(import_dir)
+
+
+def cleanup_empty_dirs(import_dir: Path):
+    """Remove empty subdirectories inside the import directory (bottom-up)."""
+    for dirpath in sorted(import_dir.rglob("*"), reverse=True):
+        if dirpath.is_dir():
+            try:
+                dirpath.rmdir()  # only succeeds if empty
+                logger.info("Removed empty folder: %s", dirpath)
+            except OSError:
+                pass
 
 
 def main():
