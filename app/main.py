@@ -4,7 +4,7 @@ import sys
 import time
 from pathlib import Path
 
-from watchdog.observers import Observer
+from watchdog.observers.polling import PollingObserver
 from watchdog.events import FileSystemEventHandler, FileCreatedEvent
 
 from app.processor import load_magazines, process_file
@@ -57,7 +57,7 @@ def main():
     process_existing(IMPORT_DIR, magazines, PROCESSED_DIR, QUARANTINE_DIR)
 
     handler = MagazineHandler(magazines, PROCESSED_DIR, QUARANTINE_DIR)
-    observer = Observer()
+    observer = PollingObserver(timeout=5)
     observer.schedule(handler, str(IMPORT_DIR), recursive=False)
     observer.start()
     logger.info("Watching %s for new PDFs...", IMPORT_DIR)
