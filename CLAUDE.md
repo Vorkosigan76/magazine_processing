@@ -26,7 +26,7 @@ python -m pytest tests/
 
 - **`app/main.py`** — Entry point. Uses `watchdog` to monitor `/import` for new PDFs. Also processes any files already present on startup.
 - **`app/processor.py`** — Core logic: loads magazine patterns from YAML config, matches filenames via regex, extracts dates, and moves files to the output directory.
-- **`config/magazines.yaml`** — Magazine definitions. Each entry has a `name`, a `pattern` (regex with capture groups for date parts), `date_groups` mapping (ordered list of `day`/`month`/`year`), and an optional `template` for the output filename (placeholders: `{name}`, `{date}`, `{year}`, `{month}`, `{day}`, `{month_name}`; defaults to `{name} - {date}.pdf`).
+- **`config/magazines.yaml`** — Magazine definitions. Each entry has a `name`, a `pattern` (regex with capture groups for date parts), `date_groups` mapping (ordered list of `day`/`month`/`year`), and an optional `template` for the output filename (placeholders: `{name}`, `{date}`, `{year}`, `{month}`, `{day}`, `{day_short}`, `{month_name}`; defaults to `{name} - {date}.pdf`).
 
 ## Adding a New Magazine
 
@@ -37,7 +37,7 @@ Add an entry to `config/magazines.yaml`:
   date_groups: [day, month, year]
   template: "{name} - {date}.pdf"  # optional, default
 ```
-The pattern must capture date components as groups. `date_groups` maps each group to `day`, `month`, or `year` (`day` is optional for monthlies). `template` controls the output filename. The config is mounted as a Docker volume so changes take effect on container restart.
+The pattern must capture date components as groups. `date_groups` maps each group to `day`, `month`, or `year` (`day` is optional for monthlies). `template` controls the output filename. The config is mounted as a Docker volume so changes take effect on container restart. **Always keep entries in `magazines.yaml` sorted alphabetically by `name`.**
 
 ## Deleting Unwanted Magazines
 

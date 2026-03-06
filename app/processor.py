@@ -9,6 +9,8 @@ import yaml
 import calendar
 
 MONTH_NAMES = {name.lower(): num for num, name in enumerate(calendar.month_name) if num}
+MONTH_ABBR = {name.lower(): num for num, name in enumerate(calendar.month_abbr) if num}
+MONTH_NAMES.update(MONTH_ABBR)
 MONTH_NAMES_FR = {
     "janvier": 1, "février": 2, "fevrier": 2, "mars": 3, "avril": 4,
     "mai": 5, "juin": 6, "juillet": 7, "août": 8, "aout": 8,
@@ -61,7 +63,7 @@ def _parse_group(key: str, value: str) -> tuple[str, int, dict]:
             raise ValueError(f"Unknown month name: {value}")
         return "month", month_num, {"month_name_orig": value}
     if key == "month_range":
-        first_month = value.split("-")[0]
+        first_month = re.split(r"[-\s]", value)[0]
         month_num = MONTH_NAMES.get(first_month.lower())
         if month_num is None:
             raise ValueError(f"Unknown month name: {first_month}")
@@ -88,8 +90,12 @@ def match_magazine(filename: str, magazines: list[dict]) -> tuple[str, date, str
                     date_key, parsed, extras = _parse_group(key, groups[i])
                     date_map[date_key] = parsed
                     extra_vars.update(extras)
-                year = date_map.get("year", date.today().year)
-                pub_date = date(year, date_map["month"], date_map.get("day", 1))
+                today = date.today()
+                if not date_map:
+                    pub_date = today
+                else:
+                    year = date_map.get("year", today.year)
+                    pub_date = date(year, date_map["month"], date_map.get("day", 1))
                 template = mag.get("template", DEFAULT_TEMPLATE)
                 return mag["name"], pub_date, template, extra_vars
     return None
@@ -97,7 +103,7 @@ def match_magazine(filename: str, magazines: list[dict]) -> tuple[str, date, str
 
 def format_output_name(name: str, pub_date: date, template: str, original: str, extra_vars: dict = None) -> str:
     """Format the output filename using the template.
-    Available placeholders: {name}, {date}, {year}, {month}, {day}, {month_name},
+    Available placeholders: {name}, {date}, {year}, {month}, {day}, {day_short}, {month_name},
     plus any extra vars like {month_range}.
     """
     values = {
@@ -107,6 +113,7 @@ def format_output_name(name: str, pub_date: date, template: str, original: str, 
         "year": pub_date.year,
         "month": f"{pub_date.month:02d}",
         "day": f"{pub_date.day:02d}",
+        "day_short": str(pub_date.day),
         "month_name": pub_date.strftime("%B"),
     }
     if extra_vars:
