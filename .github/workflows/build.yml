@@ -30,6 +30,9 @@ jobs:
         with:
           context: .
           push: true
+          build-args: |
+            BUILD_DATE=${{ github.event.head_commit.timestamp }}
+            BUILD_VERSION=${{ steps.version.outputs.VERSION }}
           tags: |
             ghcr.io/vorkosigan76/magazine_processing:${{ steps.version.outputs.VERSION }}
             ghcr.io/vorkosigan76/magazine_processing:latest

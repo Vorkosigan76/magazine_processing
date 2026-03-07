@@ -70,6 +70,10 @@ def main():
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     QUARANTINE_DIR.mkdir(parents=True, exist_ok=True)
 
+    version = os.environ.get("BUILD_VERSION", "dev")
+    build_date = os.environ.get("BUILD_DATE", "unknown")
+    logger.info("Magazine Processor v%s (built %s)", version, build_date)
+
     magazines = load_magazines()
     logger.info("Loaded %d magazine pattern(s)", len(magazines))
 
