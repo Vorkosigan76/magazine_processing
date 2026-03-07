@@ -183,6 +183,16 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
         filepath = filepath.rename(corrected)
 
     filename = filepath.name
+
+    # Check for duplicate suffix like (1), (2)
+    if DUPLICATE_SUFFIX.search(filename):
+        original_name = DUPLICATE_SUFFIX.sub(r".\1", filename)
+        original_path = filepath.parent / original_name
+        if original_path.exists():
+            logger.info("Duplicate file (original exists), deleting: %s", filename)
+            filepath.unlink()
+            return False
+
     # Strip duplicate suffixes like (1), (2) before matching
     cleaned = DUPLICATE_SUFFIX.sub(r".\1", filename)
 

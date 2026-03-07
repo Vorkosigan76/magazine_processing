@@ -73,21 +73,20 @@ def main():
     magazines = load_magazines()
     logger.info("Loaded %d magazine pattern(s)", len(magazines))
 
-    # Process files that already exist before we start watching
-    process_existing(IMPORT_DIR, magazines, PROCESSED_DIR, QUARANTINE_DIR)
-
-    handler = MagazineHandler(magazines, PROCESSED_DIR, QUARANTINE_DIR)
-    observer = PollingObserver(timeout=5)
-    observer.schedule(handler, str(IMPORT_DIR), recursive=True)
-    observer.start()
-    logger.info("Watching %s for new PDFs...", IMPORT_DIR)
+    logger.info("Starting periodic check (every 10 minutes)")
 
     try:
         while True:
-            time.sleep(1)
+            try:
+                logger.info("Checking %s for new PDFs...", IMPORT_DIR)
+                process_existing(IMPORT_DIR, magazines, PROCESSED_DIR, QUARANTINE_DIR)
+                logger.info("Check complete. Next check in 10 minutes.")
+            except Exception as e:
+                logger.error("Error during check: %s", e, exc_info=True)
+                logger.info("Continuing despite error. Next check in 10 minutes.")
+            time.sleep(600)  # 10 minutes
     except KeyboardInterrupt:
-        observer.stop()
-    observer.join()
+        logger.info("Shutting down...")
 
 
 if __name__ == "__main__":
