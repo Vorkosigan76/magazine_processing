@@ -479,6 +479,11 @@ magazines:
     pattern: "^FT How to Spend it\\.[Pp]df$"
     delete: true
 
+  - name: "FT Magazine"
+    # Matches: FT Magazine.pdf
+    pattern: "^FT Magazine\\.[Pp]df$"
+    delete: true
+
   - name: "Geo"
     # Matches: Geo N563 • Janvier 2026.pdf
     pattern: "^Geo N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -816,12 +821,15 @@ magazines:
     #   "Le Figaro • Mercredi 4 Mars 2026.Pdf"                       (bullet + day name)
     #   "Le Figaro du Vendredi 6 Mars 2026.pdf"                       (du + day name)
     #   "Le Figaro du Samedi 7 et Dimanche 8 Mars 2026.pdf"           (du + weekend)
+    #   "Le Figaro • Samedi 7 et Dimanche 8 Mars 2026.pdf"            (bullet + weekend)
     patterns:
       - pattern: "^Le Figaro . [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Figaro du [A-Za-zÀ-ÿ]+ (\\d{1,2}) et [A-Za-zÀ-ÿ]+ \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Figaro du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^Le Figaro [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et [A-Za-zÀ-ÿ]+ \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
     template: "{name} - {year}{month}{day}.pdf"
 
@@ -870,6 +878,11 @@ magazines:
       - pattern: "^Le Monde . [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
     template: "{name} - {year}{month}{day}.pdf"
+
+  - name: "Le Monde du Camping-Car"
+    # Matches: Le Monde du Camping-Car N380 • Avril 2026.pdf
+    pattern: "^Le Monde du Camping-Car N\\d+ [•·] .+\\.[Pp]df$"
+    delete: true
 
   - name: "Le Monde des Ados"
     # Matches: Le Monde des Ados N51 • Mercredi 4 Mars 2026.pdf
@@ -1180,6 +1193,11 @@ magazines:
         date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
+  - name: "New Straits Times"
+    # Matches: New Straits Times - S'pore 070226.pdf (DDMMYY)
+    pattern: "^New Straits Times - .+ (\\d{2})(\\d{2})(\\d{2})\\.pdf$"
+    date_groups: [day, month, year_short]
+
   - name: "New York Times"
     # Matches: NYT 0703.pdf (MMDD format)
     pattern: "^NYT (\\d{2})(\\d{2})\\.pdf$"
@@ -1305,6 +1323,12 @@ magazines:
     pattern: "^Runner['\u2019]s World UK [–-] (\\d{4})-(\\d{2})\\.pdf$"
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
+
+  - name: "Running Attitude"
+    # Matches: Running Attitude N256 • Mars-Avril 2026.pdf
+    pattern: "^Running Attitude N\\d+ [•·] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.pdf$"
+    date_groups: [month_range, year]
+    template: "{name} {year}{month} - {month_range} {year}.pdf"
 
   - name: "Running Coach"
     # Matches: Running Coach N73 - Avril-Mai-Juin 2026.Pdf
@@ -1526,6 +1550,11 @@ magazines:
     pattern: "^The European Business Review (\\d{4})(\\d{2}) [–-] .*\\.pdf$"
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
+
+  - name: "The Island"
+    # Matches: The Island paper -Sri Lanka 07.03.2026.pdf
+    pattern: "^The Island paper ?-.+\\.[Pp]df$"
+    delete: true
 
   - name: "The Japan News"
     # Matches: The Japan News by The Yomiuri Shimbun (Japón) 27-02-26.pdf
