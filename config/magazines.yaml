@@ -193,6 +193,11 @@ magazines:
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
+  - name: "Cap dz"
+    # Matches: Cap dz.pdf
+    pattern: "^Cap dz\\.pdf$"
+    delete: true
+
   - name: "Ca m'interesse"
     # Matches: Ca m'interesse N539 • Janvier 2026.Pdf
     pattern: "^Ca m['\u2019]interesse N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -402,6 +407,11 @@ magazines:
     pattern: "^Eishockeynews [–-] (\\d{4})\\.(\\d{2})\\.(\\d{2})\\.pdf$"
     date_groups: [year, month, day]
 
+  - name: "El Moudjahid"
+    # Matches: El moudjahid.pdf
+    pattern: "^El [Mm]oudjahid\\.pdf$"
+    delete: true
+
   - name: "Electroniques"
     # Matches: Electroniques N171 • Decembre 2025.Pdf
     pattern: "^Electroniques N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -506,6 +516,11 @@ magazines:
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
+  - name: "Guide TSMF"
+    # Matches: Guide TSMF Plan D Epargne Retraite • Ed 2026.pdf
+    pattern: "^Guide TSMF .+\\.pdf$"
+    delete: true
+
   - name: "Guitar Part"
     # Matches: Guitar Part N377 - Février 2026.pdf
     pattern: "^Guitar Part N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -544,11 +559,21 @@ magazines:
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
+  - name: "Horizons"
+    # Matches: Horizons.pdf
+    pattern: "^Horizons\\.pdf$"
+    delete: true
+
   - name: "Ideal Home UK"
     # Matches: Ideal Home UK – 202602.pdf
     pattern: "^Ideal Home UK [–-] (\\d{4})(\\d{2})\\.pdf$"
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
+
+  - name: "Infosport"
+    # Matches: infosport-du-05-03-2026.pdf
+    pattern: "^infosport-.+\\.pdf$"
+    delete: true
 
   - name: "Intelligence Online"
     # Matches: Intelligence Online 20251125 • Mardi 25 Novembre 2025.Pdf
@@ -571,6 +596,11 @@ magazines:
     date_groups: [month, year]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "Journal FR"
+    # Matches: journal_fr.pdf
+    pattern: "^journal_fr\\.pdf$"
+    delete: true
+
   - name: "Jeux Video Magazine"
     # Matches: Jeux Video Magazine N298 • Novembre 2025.Pdf
     pattern: "^Jeux Video Magazine N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -582,9 +612,24 @@ magazines:
     pattern: "^Kuwait - Kuwait Times (\\d{2})-(\\d{2})-(\\d{2})\\.pdf$"
     date_groups: [day, month, year_short]
 
+  - name: "L'Echo d'Algerie"
+    # Matches: L'echo d'algérie.pdf
+    pattern: "^L.echo d.alg[eé]rie\\.pdf$"
+    delete: true
+
+  - name: "L'Echo d'Oran"
+    # Matches: L'echo d'oran.pdf
+    pattern: "^L.echo d.oran\\.pdf$"
+    delete: true
+
   - name: "L ECO"
     # Matches: L ECO N805 • 6 au 12 Mars 2026.pdf
     pattern: "^L ECO N\\d+ [•·] .+\\.pdf$"
+    delete: true
+
+  - name: "L'Expression"
+    # Matches: L'expression.pdf
+    pattern: "^L.expression\\.pdf$"
     delete: true
 
   - name: "L'Eveil de La Haute Loire"
@@ -606,7 +651,8 @@ magazines:
 
   - name: "L'Orient-Le Jour"
     # Matches: L Orient-Le Jour • Vendredi 27 Fevrier 2026.pdf
-    pattern: "^L Orient-Le Jour [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    #          🇱🇧 L Orient-Le Jour • 7 et 8 Mars 2026.pdf
+    pattern: "^(?:.*? )?L Orient-Le Jour [•·] (?:[A-Za-zÀ-ÿ]+ )?(\\d{1,2})(?: et \\d+)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
   - name: "L'Avenir"
@@ -787,10 +833,20 @@ magazines:
       - pattern: "^La Tribune [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
 
+  - name: "Le Carrefour d'Algerie"
+    # Matches: Le carrefour d'algérie.pdf
+    pattern: "^[Ll]e [Cc]arrefour d.alg[eé]rie\\.pdf$"
+    delete: true
+
   - name: "Le Canard Enchaine"
     # Matches: Le Canard enchaîné - 20260107.pdf
     pattern: "^Le Canard [Ee]ncha[iî]n[eé] [–-] (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
     date_groups: [year, month, day]
+
+  - name: "Le Courrier d'Algerie"
+    # Matches: Le-Courrier-dAlgérie-du-samedi-7-mars-2026.pdf
+    pattern: "^Le-Courrier-dAlg[eé]rie-.+\\.pdf$"
+    delete: true
 
   - name: "Le Courrier de L Atlas"
     # Matches: Le Courrier de L Atlas N207 • Decembre 2025.Pdf
@@ -842,6 +898,11 @@ magazines:
     # Matches: Le Figaro Sport • Vendredi 6 Mars 2026.pdf
     pattern: "^Le Figaro Sport [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
+
+  - name: "Le Jour d'Algerie"
+    # Matches: le jour d'algérie.pdf
+    pattern: "^[Ll]e [Jj]our d.alg[eé]rie\\.pdf$"
+    delete: true
 
   - name: "Le Journal de Mickey"
     # Matches both:
@@ -1217,6 +1278,11 @@ magazines:
     pattern: "^Nord Eclair .+ - \\d{2}-\\d{2}-\\d{4}\\.pdf$"
     delete: true
 
+  - name: "Ouest Tribune"
+    # Matches: ouest tribune.pdf
+    pattern: "^[Oo]uest [Tt]ribune\\.pdf$"
+    delete: true
+
   - name: "Octane UK"
     # Matches: Octane UK 2026-03 v.pdf → Octane UK 2026-03.pdf
     pattern: "^Octane UK (\\d{4})-(\\d{2}) v\\.pdf$"
@@ -1259,6 +1325,11 @@ magazines:
     date_groups: [month_range]
     template: "{name} {year}{month} - {month_range}.pdf"
 
+  - name: "Planet Sport"
+    # Matches: Planet sport.pdf
+    pattern: "^Planet [Ss]port\\.pdf$"
+    delete: true
+
   - name: "Planete Robots"
     # Matches: Planete Robots N95 • 2026-01.pdf
     pattern: "^Planete Robots N\\d+ [•·-] (\\d{4})-(\\d{2})\\.pdf$"
@@ -1293,6 +1364,11 @@ magazines:
     # Matches: Public N1181 • 6 au 12 Mars 2026.pdf
     pattern: "^Public N\\d+ [•·] (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
+
+  - name: "Quotidien d'Oran"
+    # Matches: Quotidien d'Oran.pdf
+    pattern: "^Quotidien d.Oran\\.pdf$"
+    delete: true
 
   - name: "Que Choisir"
     # Matches: Que Choisir N655 • Mars 2026.Pdf
@@ -1476,6 +1552,11 @@ magazines:
     pattern: "^Super Picsou G[eé]ant N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.pdf$"
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
+
+  - name: "T3 UK"
+    # Matches: T3 UK_-_March_2026.pdf
+    pattern: "^T3 UK_.+\\.pdf$"
+    delete: true
 
   - name: "Tabletop Gaming"
     # Matches: Tabletop Gaming N111 - February 2026.pdf
