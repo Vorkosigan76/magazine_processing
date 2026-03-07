@@ -8,6 +8,7 @@ from watchdog.observers.polling import PollingObserver
 from watchdog.events import FileSystemEventHandler, FileCreatedEvent
 
 from app.processor import load_magazines, process_file
+from app.version import BUILD_DATE, VERSION
 
 logging.basicConfig(
     level=logging.INFO,
@@ -70,9 +71,7 @@ def main():
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     QUARANTINE_DIR.mkdir(parents=True, exist_ok=True)
 
-    version = os.environ.get("BUILD_VERSION", "dev")
-    build_date = os.environ.get("BUILD_DATE", "unknown")
-    logger.info("Magazine Processor v%s (built %s)", version, build_date)
+    logger.info("Magazine Processor v%s (built %s)", VERSION, BUILD_DATE)
 
     magazines = load_magazines()
     logger.info("Loaded %d magazine pattern(s)", len(magazines))
