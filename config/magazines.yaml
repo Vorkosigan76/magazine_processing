@@ -1577,6 +1577,11 @@ magazines:
     date_groups: [season, year]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "The Star Malaysia"
+    # Matches: The Star - Malaysia 070226.pdf
+    pattern: "^The Star - Malaysia .+\\.pdf$"
+    delete: true
+
   - name: "The Sun UK"
     # Matches: The Sun UK - 6 March 2026.pdf → The Sun UK - 2026-03-06.pdf
     pattern: "^The Sun UK - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
