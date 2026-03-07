@@ -1,6 +1,7 @@
 import re
 import shutil
 import logging
+import unicodedata
 from pathlib import Path
 from datetime import date
 
@@ -183,6 +184,14 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
         filepath = filepath.rename(corrected)
 
     filename = filepath.name
+
+    # Normalize Unicode to NFC so accented characters (e.g. é) match patterns
+    filename_nfc = unicodedata.normalize("NFC", filename)
+    if filename_nfc != filename:
+        corrected = filepath.with_name(filename_nfc)
+        logger.info("Normalized Unicode: %s -> %s", filename, filename_nfc)
+        filepath = filepath.rename(corrected)
+        filename = filename_nfc
 
     # Check for duplicate suffix like (1), (2)
     if DUPLICATE_SUFFIX.search(filename):
