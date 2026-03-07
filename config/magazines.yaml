@@ -103,7 +103,8 @@ magazines:
   - name: "Anthem Tech Guides"
     # Matches: Anthem_Tech_Guides_AI_&_ChatGPT_Embrace_your_HOBBIES_With_CHATGPT.pdf
     pattern: "^Anthem_Tech_Guides_.+\\.pdf$"
-    delete: true
+    date_groups: []
+    template: "{name} - {date}.pdf"
 
   - name: "Annonces Automobile"
     # Matches: Annonces Automobile N382 • 2025.Pdf
