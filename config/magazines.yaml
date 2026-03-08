@@ -24,6 +24,11 @@
 # Default template (if omitted): "{name} - {date}.pdf"
 
 magazines:
+  - name: "101 Places For Over 50s To Visit"
+    # Matches: 101_Places_For_Over_50s_To_Visit_7th_Edition_December_2025.pdf
+    pattern: "^101_Places_For_Over_50s_To_Visit.*\\.pdf$"
+    delete: true
+
   - name: "4L Magazine"
     # Matches: 4L Magazine N93 • Janvier-Fevrier 2026.Pdf
     pattern: "^4L Magazine N\\d+ [•·] .+\\.[Pp]df$"
@@ -193,6 +198,16 @@ magazines:
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
+  - name: "Business Traveller Asia Pacific"
+    # Matches: business.traveller.asia.pacific.march.april.2026.pdf
+    pattern: "^business\\.traveller\\.asia\\.pacific\\..+\\.pdf$"
+    delete: true
+
+  - name: "Business Traveller UK"
+    # Matches: business.traveller.uk.march.2026.pdf
+    pattern: "^business\\.traveller\\.uk\\..+\\.pdf$"
+    delete: true
+
   - name: "Cap dz"
     # Matches: Cap dz.pdf
     pattern: "^Cap dz\\.pdf$"
@@ -336,6 +351,11 @@ magazines:
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
+  - name: "Cosmopolitan UK"
+    # Matches: Cosmopolitan UK Apr.May2026.pdf
+    pattern: "^Cosmopolitan UK .+\\.pdf$"
+    delete: true
+
   - name: "Cosmopolitan USA"
     # Matches: Cosmopolitan USA - Spring 2026 v.pdf
     pattern: "^Cosmopolitan USA - ([A-Za-z]+) (\\d{4}) v\\.pdf$"
@@ -395,6 +415,11 @@ magazines:
     pattern: "^Diplomatie N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.pdf$"
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
+
+  - name: "Explore Magazine"
+    # Matches: Explore Magazine – Spring 2026.pdf
+    pattern: "^Explore Magazine .+\\.pdf$"
+    delete: true
 
   - name: "Ecoute"
     # Matches: ecoute N4 • 2026.pdf
@@ -484,6 +509,11 @@ magazines:
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "Free Astronomy"
+    # Matches: Free Astronomy – March-April 2026.pdf
+    pattern: "^Free Astronomy .+\\.pdf$"
+    delete: true
+
   - name: "FT How to Spend it"
     # Matches: FT How to Spend it.pdf
     pattern: "^FT How to Spend it\\.[Pp]df$"
@@ -542,6 +572,11 @@ magazines:
     pattern: "^Hi-Fi News [–-] (\\d{4})-(\\d{2})\\.pdf$"
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
+
+  - name: "High Blood Pressure Handbook"
+    # Matches: High_Blood_Pressure_Handbook_-_2nd_Edition_-_December_2025.pdf
+    pattern: "^High_Blood_Pressure_Handbook.*\\.pdf$"
+    delete: true
 
   - name: "Historia"
     # Matches: Historia N947 • Mars 2026.Pdf
@@ -611,6 +646,11 @@ magazines:
     # Matches: Kuwait - Kuwait Times 06-03-26.pdf → Kuwait Times - 2026-03-06.pdf
     pattern: "^Kuwait - Kuwait Times (\\d{2})-(\\d{2})-(\\d{2})\\.pdf$"
     date_groups: [day, month, year_short]
+
+  - name: "Kuwait Times (alt)"
+    # Matches: Kuwait - Kuwait Times 08 Mar 2026.pdf
+    pattern: "^Kuwait - Kuwait Times \\d{2} [A-Za-z]+ \\d{4}\\.pdf$"
+    delete: true
 
   - name: "L'Echo d'Algerie"
     # Matches: L'echo d'algérie.pdf
@@ -1289,6 +1329,16 @@ magazines:
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "Oman Daily Observer"
+    # Matches: OMAN - Oman Daily Observer 08 Mar 2026.pdf
+    pattern: "^OMAN - Oman Daily Observer \\d{2} [A-Za-z]+ \\d{4}\\.pdf$"
+    delete: true
+
+  - name: "Owner Driver"
+    # Matches: Owner Driver – Issue 398, March 2026.pdf
+    pattern: "^Owner Driver .+ Issue \\d+, [A-Za-z]+ \\d{4}\\.pdf$"
+    delete: true
+
   - name: "PC Gamer UK"
     # Matches: PC Gamer UK 2026-01.pdf (no separator before date)
     pattern: "^PC Gamer UK (\\d{4})-(\\d{2})\\.pdf$"
@@ -1428,6 +1478,11 @@ magazines:
         date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
+  - name: "Saudi Gazette"
+    # Matches: Saudi Gazette 08 Mar 2026.pdf
+    pattern: "^Saudi Gazette \\d{2} [A-Za-z]+ \\d{4}\\.pdf$"
+    delete: true
+
   - name: "Science"
     # Matches both:
     #   "Science_0503.pdf"                   (daily download)
@@ -1519,6 +1574,8 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^South China Morning Post (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
         date_groups: [year, month, day]
+      - pattern: "^South China Morning Post (\\d{2})-(\\d{2})-(\\d{2})\\.pdf$"
+        date_groups: [day, month, year_short]
 
   - name: "Sport Auto"
     # Matches: Sport auto N767 • Decembre 2025.Pdf
@@ -1621,6 +1678,11 @@ magazines:
     pattern: "^The Economist Middle East and Africa Edition [–-] (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
+  - name: "The Economist UK"
+    # Matches: TEcon UK Edition_0703.pdf (DDMM format) → The Economist UK - 2026-03-07.pdf
+    pattern: "^TEcon UK Edition_(\\d{2})(\\d{2})\\.pdf$"
+    date_groups: [day, month]
+
   - name: "The Economist USA"
     # Matches: The Economist USA - 20260228.pdf
     pattern: "^The Economist USA [–-] (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
@@ -1667,6 +1729,26 @@ magazines:
     # Matches: The Sun UK - 6 March 2026.pdf → The Sun UK - 2026-03-06.pdf
     pattern: "^The Sun UK - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
+
+  - name: "The Sunday Times"
+    # Matches: The Times UK_0803.pdf (DDMM format) → The Sunday Times - 2026-03-08.pdf
+    pattern: "^The Times UK_(\\d{2})(\\d{2})\\.pdf$"
+    date_groups: [day, month]
+
+  - name: "The Times - Culture"
+    # Matches: The Times - Culture_0803.pdf
+    pattern: "^The Times - Culture_\\d{4}\\.pdf$"
+    delete: true
+
+  - name: "The Times - Magazine"
+    # Matches: The Times - Magazine_0803.pdf / The Times - Magazine - March 7, 2026.pdf
+    pattern: "^The Times - Magazine[_ -].*\\.pdf$"
+    delete: true
+
+  - name: "The Times - Style"
+    # Matches: The Times - Style_0803.pdf
+    pattern: "^The Times - Style_\\d{4}\\.pdf$"
+    delete: true
 
   - name: "The Times UK"
     # Matches: The Times UK - March 06, 2026.pdf
