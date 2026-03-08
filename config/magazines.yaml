@@ -1339,6 +1339,12 @@ magazines:
     pattern: "^Owner Driver .+ Issue \\d+, [A-Za-z]+ \\d{4}\\.pdf$"
     delete: true
 
+  - name: "PC Gamer (US Edition)"
+    # Matches: PC Gamer (US Edition) - April 2026.pdf
+    pattern: "^PC Gamer \\(US Edition\\) [–-] ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
   - name: "PC Gamer UK"
     # Matches: PC Gamer UK 2026-01.pdf (no separator before date)
     pattern: "^PC Gamer UK (\\d{4})-(\\d{2})\\.pdf$"
@@ -1640,6 +1646,12 @@ magazines:
     # Matches: Telerama N3952 • 11 au 17 Octobre 2025.Pdf
     pattern: "^Telerama N\\d+ [•·] (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
+
+  - name: "Tech Advisor"
+    # Matches: Tech Advisor - April 2026.pdf
+    pattern: "^Tech Advisor [–-] ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Techlife News"
     # Matches: Techlife News_2802.pdf (DDMM format)
