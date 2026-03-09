@@ -138,6 +138,16 @@ magazines:
     pattern: "^Arab News (\\d{2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
+  - name: "Arab Times"
+    # Matches: KUWAIT - Arab Times 09 Mar 2026.pdf
+    pattern: "^KUWAIT - Arab Times.*\\.pdf$"
+    delete: true
+
+  - name: "Australian Financial Review"
+    # Matches: Australian Financial Review - 9 March 2026.pdf
+    pattern: "^Australian Financial Review - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
   - name: "Auto Bild"
     # Matches: Auto Bild 2025.10.09.pdf
     pattern: "^Auto Bild (\\d{4})\\.(\\d{2})\\.(\\d{2})\\.pdf$"
@@ -437,6 +447,11 @@ magazines:
     pattern: "^El [Mm]oudjahid\\.pdf$"
     delete: true
 
+  - name: "Egyptian Mail"
+    # Matches: Eygpt - Egyptian Mail 08 Mar 2026.pdf
+    pattern: "^Eygpt - Egyptian Mail.*\\.pdf$"
+    delete: true
+
   - name: "Electroniques"
     # Matches: Electroniques N171 • Decembre 2025.Pdf
     pattern: "^Electroniques N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -462,9 +477,15 @@ magazines:
     delete: true
 
   - name: "Financial Times EU"
-    # Matches: FT EU 20260303.pdf → Financial Times EU - 2026-03-03.pdf
-    pattern: "^FT EU (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
-    date_groups: [year, month, day]
+    # Matches:
+    #   "FT EU 20260303.pdf"       (with date)
+    #   "FT EU.pdf"                (no date, uses today's date)
+    #   "FT EU(1).pdf"             (duplicate suffix, uses today's date)
+    patterns:
+      - pattern: "^FT EU (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
+        date_groups: [year, month, day]
+      - pattern: "^FT EU(?:\\(\\d+\\))?\\.pdf$"
+        date_groups: []
 
   - name: "Financial Times UK"
     # Matches both:
@@ -681,13 +702,22 @@ magazines:
     # Matches:
     #   "l Humanite • Vendredi 6 au Dimanche 8 Mars 2026.pdf"
     #   "l Humanite • Vendredi 27 au Dimanche 1er Mars 2026.pdf"   (ordinal "1er")
-    pattern: "^l Humanite [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) au [A-Za-zÀ-ÿ]+ \\d{1,2}(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
-    date_groups: [day, month_name, year]
+    #   "l Humanite • Lundi 9 Mars 2026.pdf"                       (single-day)
+    patterns:
+      - pattern: "^l Humanite [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) au [A-Za-zÀ-ÿ]+ \\d{1,2}(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^l Humanite [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
 
   - name: "L'Opinion"
-    # Matches: l Opinion • Vendredi 6 et Samedi 7 Mars 2026.pdf
-    pattern: "^l Opinion [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et [A-Za-zÀ-ÿ]+ \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
-    date_groups: [day, month_name, year]
+    # Matches:
+    #   "l Opinion • Vendredi 6 et Samedi 7 Mars 2026.pdf"   (dual-day)
+    #   "l Opinion • Lundi 9 Mars 2026.pdf"                   (single-day)
+    patterns:
+      - pattern: "^l Opinion [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et [A-Za-zÀ-ÿ]+ \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^l Opinion [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
 
   - name: "L'Orient-Le Jour"
     # Matches: L Orient-Le Jour • Vendredi 27 Fevrier 2026.pdf
@@ -962,11 +992,12 @@ magazines:
 
   - name: "Le Monde"
     # Matches:
-    #   "lmnd06032026.pdf"                              (ddmmyyyy)
-    #   "lmnd060326.pdf"                                (ddmmyy)
-    #   "Le Monde du Vendredi 6 Mars 2026.pdf"          (du + day name)
-    #   "Le Monde • 20260210.pdf"                       (Z: drive)
-    #   "Le Monde • Vendredi 6 Mars 2026.pdf"           (bullet + day name)
+    #   "lmnd06032026.pdf"                                     (ddmmyyyy)
+    #   "lmnd060326.pdf"                                       (ddmmyy)
+    #   "Le Monde du Vendredi 6 Mars 2026.pdf"                 (du + day name)
+    #   "Le Monde • 20260210.pdf"                              (Z: drive)
+    #   "Le Monde • Vendredi 6 Mars 2026.pdf"                  (bullet + day name)
+    #   "Le Monde • Dimanche 8 et Lundi 9 Mars 2026.pdf"      (dual-day)
     patterns:
       - pattern: "^lmnd(\\d{2})(\\d{2})(\\d{4})\\.pdf$"
         date_groups: [day, month, year]
@@ -976,6 +1007,8 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le Monde [•·] (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
         date_groups: [year, month, day]
+      - pattern: "^Le Monde [•·] [A-Za-zÀ-ÿ]+ \\d{1,2} et [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
       - pattern: "^Le Monde . [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
     template: "{name} - {year}{month}{day}.pdf"
@@ -1021,11 +1054,12 @@ magazines:
 
   - name: "Le Parisien"
     # Matches:
-    #   "Le Parisien - 5 Mars 2026.pdf"                       (daily download)
-    #   "Le Parisien • Vendredi 6 Mars 2026.pdf"              (Z: drive)
-    #   "Le Parisien • Samedi 28 Fevrier 2026.pdf"            (Z: drive)
+    #   "Le Parisien - 5 Mars 2026.pdf"                             (daily download)
+    #   "Le Parisien - 9 Mars 2026_260309_033831.pdf"               (with timestamp suffix)
+    #   "Le Parisien • Vendredi 6 Mars 2026.pdf"                    (Z: drive)
+    #   "Le Parisien • Samedi 28 Fevrier 2026.pdf"                  (Z: drive)
     patterns:
-      - pattern: "^Le Parisien - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+      - pattern: "^Le Parisien - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d+)*\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Parisien [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
@@ -1108,6 +1142,7 @@ magazines:
     #   "Les Echos Week-end - 6 Mars 2026.pdf"                    (day month_name year)
     #   "Les Echos • 20260102.pdf"                                (Z: drive)
     #   "Les Echos • Vendredi 6 et Samedi 7 Mars 2026.pdf"        (Z: drive dual-day)
+    #   "Les Echos • Lundi 9 Mars 2026.pdf"                       (Z: drive single-day)
     patterns:
       - pattern: "^LesEchos(\\d{2})(\\d{2})(\\d{4})\\.pdf$"
         date_groups: [day, month, year]
@@ -1116,6 +1151,8 @@ magazines:
       - pattern: "^Les Echos [•·] (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
         date_groups: [year, month, day]
       - pattern: "^Les Echos [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et [A-Za-zÀ-ÿ]+ \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^Les Echos [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
     template: "{name} - {year}{month}{day}.pdf"
 
@@ -1193,6 +1230,21 @@ magazines:
     pattern: "^Marmiton N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.pdf$"
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
+
+  - name: "Manila Standard"
+    # Matches: 🇵🇭 Manila Std.pdf-20260309.pdf
+    pattern: "^.*Manila Std\\.pdf-.*\\.pdf$"
+    delete: true
+
+  - name: "Maxi"
+    # Matches:
+    #   "Maxi - 16 Mars 2026.pdf"                        (simple format)
+    #   "Maxi N2055 • 16 au 22 Mars 2026.pdf"            (numbered with range)
+    patterns:
+      - pattern: "^Maxi - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^Maxi N\\d+ [•·] (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
 
   - name: "Maxi Cuisine"
     # Matches: Maxi Cuisine N184 • Octobre 2025.Pdf
@@ -1424,6 +1476,11 @@ magazines:
   - name: "Quotidien d'Oran"
     # Matches: Quotidien d'Oran.pdf
     pattern: "^Quotidien d.Oran\\.pdf$"
+    delete: true
+
+  - name: "Qatar Gulf Times"
+    # Matches: QATAR - GT 09 Mar 2026.pdf
+    pattern: "^QATAR - GT.*\\.pdf$"
     delete: true
 
   - name: "Que Choisir"
@@ -1696,15 +1753,25 @@ magazines:
     date_groups: [day, month]
 
   - name: "The Economist USA"
-    # Matches: The Economist USA - 20260228.pdf
-    pattern: "^The Economist USA [–-] (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
-    date_groups: [year, month, day]
+    # Matches:
+    #   "The Economist USA - 20260228.pdf"                              (compact date)
+    #   "The Economist USA - March 7, 2026_downmagaz.net.pdf"           (long date with site suffix)
+    patterns:
+      - pattern: "^The Economist USA [–-] (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
+        date_groups: [year, month, day]
+      - pattern: "^The Economist USA [–-] ([A-Za-z]+) (\\d{1,2}), (\\d{4})_.*\\.pdf$"
+        date_groups: [month_name, day, year]
 
   - name: "The European Business Review"
     # Matches: The European Business Review 202511 - Nov Dec 2025.pdf
     pattern: "^The European Business Review (\\d{4})(\\d{2}) [–-] .*\\.pdf$"
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
+
+  - name: "The i Newspaper"
+    # Matches: The i Newspaper - 9 March 2026.pdf
+    pattern: "^The i Newspaper.*\\.pdf$"
+    delete: true
 
   - name: "The Island"
     # Matches: The Island paper -Sri Lanka 07.03.2026.pdf
@@ -1763,9 +1830,14 @@ magazines:
     delete: true
 
   - name: "The Times UK"
-    # Matches: The Times UK - March 06, 2026.pdf
-    pattern: "^The Times UK - ([A-Za-z]+) (\\d{2}), (\\d{4})\\.pdf$"
-    date_groups: [month_name, day, year]
+    # Matches:
+    #   "The Times UK - March 06, 2026.pdf"         (Month DD, YYYY)
+    #   "The Times UK - 9 March 2026.pdf"           (D Month YYYY)
+    patterns:
+      - pattern: "^The Times UK - ([A-Za-z]+) (\\d{2}), (\\d{4})\\.pdf$"
+        date_groups: [month_name, day, year]
+      - pattern: "^The Times UK - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
 
   - name: "The Wall Street Journal"
     # Matches:
