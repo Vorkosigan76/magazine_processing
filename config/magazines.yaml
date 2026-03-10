@@ -190,6 +190,11 @@ magazines:
     pattern: "^Barrons_(\\d{2})(\\d{2})\\.pdf$"
     date_groups: [day, month]
 
+  - name: "Beijing Review"
+    # Matches: Beijing Review – Vol.69 No.10, 5 March 2026.pdf
+    pattern: "^Beijing Review.*\\.pdf$"
+    delete: true
+
   - name: "Boston Globe"
     # Matches:
     #   "Boston Globe - February 28, 2026.pdf"    (text month)
@@ -339,7 +344,8 @@ magazines:
 
   - name: "Corse Matin"
     # Matches: corse matin.Pdf
-    pattern: "^[Cc]orse [Mm]atin\\.[Pp]df$"
+    #          Corse Matin - 10 Mars 2026.pdf
+    pattern: "^[Cc]orse [Mm]atin.*\\.[Pp]df$"
     delete: true
 
   - name: "Courrier International"
@@ -593,6 +599,11 @@ magazines:
     pattern: "^Guide TSMF .+\\.pdf$"
     delete: true
 
+  - name: "Guide TV"
+    # Matches: Guide TV • 8 au 14 Mars 2026.pdf
+    pattern: "^Guide TV.*\\.pdf$"
+    delete: true
+
   - name: "Guitar Part"
     # Matches: Guitar Part N377 - Février 2026.pdf
     pattern: "^Guitar Part N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -735,6 +746,11 @@ magazines:
       - pattern: "^l Humanite [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
 
+  - name: "l Humanite magazine"
+    # Matches: l Humanite magazine N994 • 12 au 18 Mars 2026.pdf
+    pattern: "^[Ll] Humanite magazine N\\d+ [•·] .+\\.pdf$"
+    delete: true
+
   - name: "L'Opinion"
     # Matches:
     #   "l Opinion • Vendredi 6 et Samedi 7 Mars 2026.pdf"   (dual-day)
@@ -762,6 +778,11 @@ magazines:
   - name: "L Independant Catalan"
     # Matches: L Independant Catalan.Pdf
     pattern: "^L Independant Catalan\\.[Pp]df$"
+    delete: true
+
+  - name: "L Astronomie"
+    # Matches: L Astronomie N192 • Avril 2025.pdf
+    pattern: "^L Astronomie N\\d+ [•·] .+\\.pdf$"
     delete: true
 
   - name: "L Auto-Journal"
@@ -856,6 +877,12 @@ magazines:
     pattern: "^La Gazette .+ - \\d{2}-\\d{2}-\\d{4}\\.pdf$"
     delete: true
 
+  - name: "La Gazette des Courses"
+    # Matches: La Gazette des Courses - 20260310.pdf
+    #          La Gazette des Courses • Mardi 10 Mars 2026.pdf
+    pattern: "^La Gazette des Courses [•·\\-] .+\\.pdf$"
+    delete: true
+
   - name: "La Croix"
     # Matches: La Croix - 6 Mars 2026.pdf → La Croix - 2026-03-06.pdf
     #          La Croix • Vendredi 6 Mars 2026.pdf
@@ -880,7 +907,8 @@ magazines:
 
   - name: "La Nouvelle Republique des Pyrenees"
     # Matches: La Nouvelle Republique des Pyrenees.Pdf
-    pattern: "^La Nouvelle Republique des Pyrenees\\.[Pp]df$"
+    #          La Nouvelle République des Pyrénées du Mardi 10 Mars 2026.pdf
+    pattern: "^La Nouvelle R[eé]publique des Pyr[eé]n[eé]es.*\\.[Pp]df$"
     delete: true
 
   - name: "La Provence Aix-en-Provence Pays d Aix"
@@ -899,6 +927,11 @@ magazines:
   - name: "La Provences Vaucluse"
     # Matches: La Provences Vaucluse.Pdf
     pattern: "^La Provences? Vaucluse\\.[Pp]df$"
+    delete: true
+
+  - name: "La Provence feuillets"
+    # Matches: 10-03-2026-La provence -feuillets aix.pdf
+    pattern: "^\\d{2}-\\d{2}-\\d{4}-La [Pp]rovence.*feuillets.*\\.pdf$"
     delete: true
 
   - name: "La Province MONS-BORINAGE"
@@ -929,6 +962,21 @@ magazines:
       - pattern: "^La Tribune [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
 
+  - name: "La Voix du Nord"
+    # Matches: La Voix du Nord Roubaix - 10-03-2026 - TP.pdf
+    #          La Voix du Nord Lens – Liévin – Henin - 10-03-2026 - TP.pdf
+    #          La_Voix_du_Nord_Lille_Marcq_la_Madeleine_Lambersart_Lomme_10_03.pdf
+    #          La_Voix_du_Nord_Villeneuve_d'Ascq_Seclin_10_03_2026_TP.pdf
+    patterns:
+      - pattern: "^La Voix du Nord .+ - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+      - pattern: "^La_Voix_du_Nord_.+\\.pdf$"
+    delete: true
+
+  - name: "Le Bulletin de l'arrondissement de Rouen"
+    # Matches: Le Bulletin de l'arrondissement de Rouen - 10-03-2026 - TP.pdf
+    pattern: "^Le Bulletin de l.arrondissement de Rouen.*\\.pdf$"
+    delete: true
+
   - name: "Le Carrefour d'Algerie"
     # Matches: Le carrefour d'algérie.pdf
     pattern: "^[Ll]e [Cc]arrefour d.alg[eé]rie\\.pdf$"
@@ -938,6 +986,11 @@ magazines:
     # Matches: Le Canard enchaîné - 20260107.pdf
     pattern: "^Le Canard [Ee]ncha[iî]n[eé] [–-] (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
     date_groups: [year, month, day]
+
+  - name: "Le Carnet de la fringale culturelle"
+    # Matches: Le Carnet de la fringale culturelle N157 • 8 Mars 2026.pdf
+    pattern: "^Le Carnet de la fringale culturelle.*\\.pdf$"
+    delete: true
 
   - name: "Le Courrier d'Algerie"
     # Matches: Le-Courrier-dAlgérie-du-samedi-7-mars-2026.pdf
@@ -1117,6 +1170,27 @@ magazines:
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
+  - name: "Le Pays Briard"
+    # Matches: Le Pays Briard - 10-03-2026 - TP.pdf
+    pattern: "^Le Pays Briard - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    delete: true
+
+  - name: "Le Pays d'Auge"
+    # Matches: Le Pays d'Auge édition Littoral-Sud - 10-03-2026 - TP.pdf
+    pattern: "^Le Pays d.Auge.*\\.pdf$"
+    delete: true
+
+  - name: "Le Petit Bleu d'Agen"
+    # Matches: Le Petit Bleu d Agen du Mardi 10 Mars 2026.pdf
+    #          Le Petit Bleu D Agen.pdf
+    pattern: "^Le Petit Bleu [Dd].Agen.*\\.pdf$"
+    delete: true
+
+  - name: "Le petit quotidien"
+    # Matches: Le petit quotidien - 11-03-2026 - TP.pdf
+    pattern: "^Le petit quotidien.*\\.pdf$"
+    delete: true
+
   - name: "Le Point"
     # Matches both:
     #   "Le Point - 5 Mars 2026.pdf"                                          (daily download)
@@ -1126,6 +1200,11 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le Point N[\\d-]+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
+
+  - name: "Le Soir"
+    # Matches: Le Soir - 10-03-2026 - TP.pdf
+    pattern: "^Le Soir - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    delete: true
 
   - name: "Le Soir Bruxelles"
     pattern: "^Le Soir Bruxelles - \\d{2}-\\d{2}-\\d{4}\\.pdf$"
@@ -1165,6 +1244,11 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le Temps Week-End [•·] (\\d{1,2}) et \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
+
+  - name: "Le Temps (TP)"
+    # Matches: Le Temps - 10-03-2026 - TP.pdf
+    pattern: "^Le Temps - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    delete: true
 
   - name: "Les Dossiers du Pirate"
     # Matches: Les Dossiers du Pirate N45 • Fev-Mar-Avril 2026.Pdf
@@ -1207,6 +1291,11 @@ magazines:
         date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
+  - name: "Les Informations Dieppoises"
+    # Matches: Les Informations Dieppoises - 10-03-2026 - TP.pdf
+    pattern: "^Les Informations Dieppoises.*\\.pdf$"
+    delete: true
+
   - name: "Les Tresors de Picsou"
     # Matches: Les Trésors de Picsou - 2025-10.pdf
     pattern: "^Les Tr[eé]sors de Picsou [–-] (\\d{4})-(\\d{2})\\.pdf$"
@@ -1236,6 +1325,11 @@ magazines:
     pattern: "^Linux USA N\\d+, ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "low-tech Journal"
+    # Matches: low-tech Journal N24 • Mars-Avril 2026.pdf
+    pattern: "^low-tech Journal N\\d+ [•·] .+\\.pdf$"
+    delete: true
 
   - name: "M Le Magazine du Monde"
     # Matches: M Le magazine du Monde • Samedi 7 Mars 2026.pdf
@@ -1350,6 +1444,11 @@ magazines:
     date_groups: [month_range, year]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "Mon Quotidien"
+    # Matches: Mon Quotidien - 11-03-2026 - TP.pdf
+    pattern: "^Mon Quotidien - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    delete: true
+
   - name: "Monde Gourmand"
     # Matches: Monde Gourmand N85 • Septembre 2025.Pdf
     pattern: "^Monde Gourmand N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -1360,6 +1459,11 @@ magazines:
     # Matches: MoneyWeek 06 March 2026.pdf → MoneyWeek - 2026-03-06.pdf
     pattern: "^MoneyWeek (\\d{2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
+
+  - name: "Motor Sport Magazine"
+    # Matches: Motor Sport Magazine – April 2026.pdf
+    pattern: "^Motor Sport Magazine [–-] [A-Za-z]+ \\d{4}\\.pdf$"
+    delete: true
 
   - name: "National Geographic History"
     # Matches: National Geographic History 202603 – March-April 2026.pdf
@@ -1420,9 +1524,23 @@ magazines:
     pattern: "^Nord Eclair .+ - \\d{2}-\\d{2}-\\d{4}\\.pdf$"
     delete: true
 
+  - name: "Nord Littoral"
+    # Matches: Nord Littoral - 10-03-2026 - TP.pdf
+    pattern: "^Nord Littoral - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    delete: true
+
   - name: "Ouest Tribune"
     # Matches: ouest tribune.pdf
     pattern: "^[Oo]uest [Tt]ribune\\.pdf$"
+    delete: true
+
+  - name: "Ouest-France"
+    # Matches: Ouest-France Châteaubriant - 10-03-2026 - TP.pdf
+    #          Ouest-France Dinan - 10-03-2026 - TP.pdf
+    #          ouest france Ed France • Mardi 10 Mars 2026.pdf
+    patterns:
+      - pattern: "^Ouest-France .+ - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+      - pattern: "^[Oo]uest [Ff]rance .+\\.pdf$"
     delete: true
 
   - name: "Octane UK"
@@ -1433,12 +1551,28 @@ magazines:
 
   - name: "Oman Daily Observer"
     # Matches: OMAN - Oman Daily Observer 08 Mar 2026.pdf
-    pattern: "^OMAN - Oman Daily Observer \\d{2} [A-Za-z]+ \\d{4}\\.pdf$"
+    pattern: "^OMAN - Oman Daily Observer.*\\.pdf$"
+    delete: true
+
+  - name: "Otaku Manga"
+    # Matches: Otaku Manga N21 • Mars-Avril 2026.pdf
+    pattern: "^Otaku Manga N\\d+ [•·] .+\\.pdf$"
     delete: true
 
   - name: "Owner Driver"
     # Matches: Owner Driver – Issue 398, March 2026.pdf
     pattern: "^Owner Driver .+ Issue \\d+, [A-Za-z]+ \\d{4}\\.pdf$"
+    delete: true
+
+  - name: "Paris Turf"
+    # Matches: Paris Turf - 10-03-2026 - TP.pdf
+    pattern: "^Paris Turf - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    delete: true
+
+  - name: "Paris-Normandie"
+    # Matches: Paris-Normandie Eure - 10-03-2026 - TP.pdf
+    #          Paris-Normandie Dieppe Bray - 10-03-2026 - TP.pdf
+    pattern: "^Paris-Normandie .+ - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
     delete: true
 
   - name: "PC Gamer (US Edition)"
@@ -1702,6 +1836,11 @@ magazines:
     date_groups: [year]
     template: "{name} - {year}.pdf"
 
+  - name: "Spotlight"
+    # Matches: Spotlight – No. 4 2026.pdf
+    pattern: "^Spotlight [–-] No\\. \\d+ \\d{4}\\.pdf$"
+    delete: true
+
   - name: "Sud Ouest Landes"
     pattern: "^Sud Ouest Landes\\.pdf$"
     delete: true
@@ -1753,6 +1892,11 @@ magazines:
     # Matches: Telerama N3952 • 11 au 17 Octobre 2025.Pdf
     pattern: "^Telerama N\\d+ [•·] (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
+
+  - name: "Telerama (TP)"
+    # Matches: Telerama - 11-03-2026 - TP.pdf
+    pattern: "^Telerama - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    delete: true
 
   - name: "Tech Advisor"
     # Matches: Tech Advisor - April 2026.pdf
@@ -1853,6 +1997,11 @@ magazines:
     # Matches: The New Yorker_0203.pdf (DDMM format)
     pattern: "^The New Yorker_(\\d{2})(\\d{2})\\.pdf$"
     date_groups: [day, month]
+
+  - name: "The New York Times Book Review"
+    # Matches: The New York Times Book Review – March 08, 2026.pdf
+    pattern: "^The New York Times Book Review [–-] [A-Za-z]+ \\d{2}, \\d{4}\\.pdf$"
+    delete: true
 
   - name: "The Scientist"
     # Matches: The Scientist – Winter 2025.pdf
@@ -2048,6 +2197,12 @@ magazines:
     pattern: "^VTT Mag - ([a-zÀ-ÿ]+-[a-zÀ-ÿ]+) (\\d{4}) - TP\\.pdf$"
     date_groups: [month_range, year]
     template: "{name} {year}-{month}.pdf"
+
+  - name: "WeekEnd"
+    # Matches: WeekEnd - 13067.pdf
+    #          WeekEnd • Mardi 10 Mars 2026.pdf
+    pattern: "^WeekEnd [•·\\-] .+\\.pdf$"
+    delete: true
 
   - name: "What Hi-fi"
     # Matches: What Hi-Fi N259 • Mars 2026.pdf
