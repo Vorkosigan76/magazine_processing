@@ -477,3 +477,171 @@ class TestExistingPatternsUnbroken:
         result = match_magazine("Santé Magazine - Avril 2026.pdf", magazines)
         assert result is not None
         assert result[0] == "Sante Magazine"
+
+
+# ── New magazines ──
+
+
+class TestNewMagazines:
+    def test_air_force_times(self, magazines):
+        result = match_magazine("Air Force Times – Vol. 87, Issue 2, March 2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, template, _ = result
+        assert name == "Air Force Times"
+        assert pub_date == date(2026, 3, 1)
+        output = format_output_name(name, pub_date, template, "", {})
+        assert output == "Air Force Times 2026-03.pdf"
+
+    def test_fou_de_patisserie(self, magazines):
+        result = match_magazine("Fou de Patisserie N75 • Mars-Avril 2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Fou de Patisserie"
+        assert pub_date == date(2026, 3, 1)
+
+    def test_mon_air_fryer(self, magazines):
+        result = match_magazine("Mon Air Fryer N11 • Mars-Avril 2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Mon Air Fryer"
+        assert pub_date == date(2026, 3, 1)
+
+    def test_the_american_scholar(self, magazines):
+        result = match_magazine("The American Scholar – Spring 2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "The American Scholar"
+        assert pub_date == date(2026, 4, 1)
+
+    def test_the_guardian_uk(self, magazines):
+        result = match_magazine("The Guardian UK_1003.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "The Guardian UK"
+        assert pub_date.month == 3
+        assert pub_date.day == 10
+
+    def test_vtt_mag(self, magazines):
+        result = match_magazine("VTT Mag - avril-mai 2026 - TP.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "VTT Mag"
+        assert pub_date == date(2026, 4, 1)
+
+    def test_world_air_news(self, magazines):
+        result = match_magazine("World Air News – Vol. 54 Issue 01 March 2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "World Air News"
+        assert pub_date == date(2026, 3, 1)
+
+    def test_world_soccer(self, magazines):
+        result = match_magazine("World Soccer_Feb 2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "World Soccer"
+        assert pub_date == date(2026, 2, 1)
+
+
+# ── Additional patterns for existing magazines ──
+
+
+class TestAdditionalPatterns:
+    def test_boston_globe_ddmm(self, magazines):
+        result = match_magazine("Boston Globe_0203.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Boston Globe"
+        assert pub_date.day == 2
+        assert pub_date.month == 3
+
+    def test_aujourdhui_with_timestamp(self, magazines):
+        result = match_magazine("Aujourd hui en France • Vendredi 6 Mars 2026_260306_043349.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Aujourd'hui en France"
+        assert pub_date == date(2026, 3, 6)
+
+    def test_ft_eu_tp_format(self, magazines):
+        result = match_magazine("FT EU 06-03-2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Financial Times EU"
+        assert pub_date == date(2026, 3, 6)
+
+    def test_ft_us_tp_format(self, magazines):
+        result = match_magazine("FT US 06-03-2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Financial Times US"
+        assert pub_date == date(2026, 3, 6)
+
+    def test_ideal_home_uk_text_month(self, magazines):
+        result = match_magazine("Ideal Home UK – March 2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Ideal Home UK"
+        assert pub_date == date(2026, 3, 1)
+
+    def test_le_figaro_with_timestamp(self, magazines):
+        result = match_magazine("Le Figaro • Mardi 10 Mars 2026_260310_043349.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Le Figaro"
+        assert pub_date == date(2026, 3, 10)
+
+    def test_le_figaro_sport_tp(self, magazines):
+        result = match_magazine("Le Figaro Sport - 06-03-2026 - TP.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Le Figaro Sport"
+        assert pub_date == date(2026, 3, 6)
+
+    def test_lequipe_with_timestamp(self, magazines):
+        result = match_magazine("lequipe050326_260305_043349.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "L Equipe"
+        assert pub_date == date(2026, 3, 5)
+
+    def test_les_echos_tp(self, magazines):
+        result = match_magazine("Les Echos - 06-03-2026 - TP.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Les Echos"
+        assert pub_date == date(2026, 3, 6)
+
+    def test_les_echos_with_timestamp(self, magazines):
+        result = match_magazine("Les Echos • Lundi 9 Mars 2026_260309_043349.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Les Echos"
+        assert pub_date == date(2026, 3, 9)
+
+    def test_liberation_tp(self, magazines):
+        result = match_magazine("Libération - 06-03-2026 - TP.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Liberation"
+        assert pub_date == date(2026, 3, 6)
+
+    def test_liberation_with_timestamp(self, magazines):
+        result = match_magazine("Liberation • Vendredi 6 Mars 2026_260306_043349.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Liberation"
+        assert pub_date == date(2026, 3, 6)
+
+    def test_spirou_tp(self, magazines):
+        result = match_magazine("Spirou - 06-03-2026 - TP.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Le Journal de Spirou"
+        assert pub_date == date(2026, 3, 6)
+
+    def test_whisky_advocate_dash(self, magazines):
+        result = match_magazine("Whisky Advocate – Spring 2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Whisky Advocate"
+        assert pub_date == date(2026, 4, 1)
