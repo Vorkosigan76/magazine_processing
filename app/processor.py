@@ -97,6 +97,10 @@ def _parse_group(key: str, value: str) -> tuple[str, int, dict]:
         return "month", month_num, {}
     if key == "year_short":
         return "year", 2000 + int(value), {}
+    if key == "month":
+        month_num = MONTH_NAMES.get(value.lower())
+        if month_num is not None:
+            return "month", month_num, {"month_name_orig": value}
     return key, int(value), {}
 
 
