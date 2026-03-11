@@ -269,9 +269,14 @@ magazines:
     delete: true
 
   - name: "Challenges"
-    # Matches: Challenges - 5 Mars 2026.pdf → Challenges - 2026-03-05.pdf
-    pattern: "^Challenges - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
-    date_groups: [day, month_name, year]
+    # Matches:
+    #   "Challenges - 5 Mars 2026.pdf"
+    #   "Challenges - 12-03-2026 - TP.pdf"
+    patterns:
+      - pattern: "^Challenges - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^Challenges - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+        date_groups: [day, month, year]
 
   - name: "Charlie Hebdo"
     # Matches: Charlie Hebdo du Mercredi 04 Mars 2026.pdf
@@ -285,6 +290,7 @@ magazines:
     #   "China Daily - 6 March 2026.pdf"        (daily download)
     #   "China Daily 2025-12-13.pdf"             (Z: drive)
     #   "China Daily (Hong Kong) - 28 February 2026.pdf"
+    #   "China Daily - 11-03-2026 - TP.pdf"
     patterns:
       - pattern: "^China Daily - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
@@ -292,6 +298,8 @@ magazines:
         date_groups: [year, month, day]
       - pattern: "^China Daily \\(Hong Kong\\) - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
+      - pattern: "^China Daily - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+        date_groups: [day, month, year]
 
   - name: "China Daily Asia Weekly"
     # Matches: China Daily Asia Weekly - 27 February 2026.pdf
@@ -787,6 +795,23 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^l Opinion [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
+      - pattern: "^L'Opinion - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+        date_groups: [day, month, year]
+
+  - name: "L'équipe"
+    # Matches: L'équipe - 11-03-2026 - TP.pdf
+    pattern: "^L'équipe - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+    date_groups: [day, month, year]
+
+  - name: "L'Express"
+    # Matches: L'Express - 12-03-2026 - TP.pdf
+    pattern: "^L'Express - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+    date_groups: [day, month, year]
+
+  - name: "L'Humanité"
+    # Matches: L'Humanité - 11-03-2026 - TP.pdf
+    pattern: "^L'Humanité - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+    date_groups: [day, month, year]
 
   - name: "L'Orient-Le Jour"
     # Matches: L Orient-Le Jour • Vendredi 27 Fevrier 2026.pdf
@@ -1137,6 +1162,8 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le Monde . [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
+      - pattern: "^Le Monde - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+        date_groups: [day, month, year]
     template: "{name} - {year}{month}{day}.pdf"
 
   - name: "Le Monde du Camping-Car"
@@ -1470,10 +1497,16 @@ magazines:
     template: "{name} {year}-{month}.pdf"
 
   - name: "Modes & Travaux"
-    # Matches: Modes & Travaux N1502 • Janvier 2026.Pdf
-    pattern: "^Modes & Travaux N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
-    date_groups: [month_name, year]
-    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+    # Matches:
+    #   "Modes & Travaux N1502 • Janvier 2026.Pdf"
+    #   "Modes & Travaux Hors-Serie N49 • Mars 2026.pdf"
+    patterns:
+      - pattern: "^Modes & Travaux N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [month_name, year]
+        template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+      - pattern: "^Modes & Travaux Hors-Serie N\\d+ [•·] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [month_name, year]
+        template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Mon Air Fryer"
     # Matches: Mon Air Fryer N11 • Mars-Avril 2026.pdf
@@ -1556,6 +1589,11 @@ magazines:
         date_groups: [day, month]
       - pattern: "^Newsweek (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
         date_groups: [year, month, day]
+
+  - name: "Newsweek EU"
+    # Matches: Newsweek EU - 20-03-2026 - TP.pdf
+    pattern: "^Newsweek EU - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+    date_groups: [day, month, year]
 
   - name: "Nord Eclair"
     pattern: "^Nord Eclair .+ - \\d{2}-\\d{2}-\\d{4}\\.pdf$"
@@ -1759,12 +1797,17 @@ magazines:
     # Matches both:
     #   "Santé Magazine - Avril 2026.pdf"                    (daily download)
     #   "Sante Magazine N601 • Janvier 2026.pdf"             (Z: drive, no accent)
+    #   "Santé Magazine HS BIEN MANGER - mars-avril 2026 - TP.pdf"
     patterns:
       - pattern: "^Santé Magazine - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [month_name, year]
+        template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
       - pattern: "^Sante Magazine N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [month_name, year]
-    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+        template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+      - pattern: "^Santé Magazine HS .+ - ([a-zà-ÿ]+)-([a-zà-ÿ]+) (\\d{4}) - TP\\.pdf$"
+        date_groups: [month_range, year]
+        template: "{name} {year}{month} - {month_range} {year}.pdf"
 
   - name: "Saudi Gazette"
     # Matches: Saudi Gazette 08 Mar 2026.pdf
@@ -1890,6 +1933,11 @@ magazines:
     pattern: "^Spotlight [–-] No\\. \\d+ \\d{4}\\.pdf$"
     delete: true
 
+  - name: "Spirou"
+    # Matches: Spirou N4587 • Mercredi 11 Mars 2026.pdf
+    pattern: "^Spirou N\\d+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
   - name: "Sud Ouest Landes"
     pattern: "^Sud Ouest Landes\\.pdf$"
     delete: true
@@ -1903,6 +1951,11 @@ magazines:
     pattern: "^Stereo [–-] ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "Strategies"
+    # Matches: Strategies N2300 • Jeudi 12 Mars 2026.pdf
+    pattern: "^Strategies N\\d+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
 
   - name: "Süddeutsche Zeitung"
     # Matches: Süddeutsche Zeitung - 11 März 2026.pdf
