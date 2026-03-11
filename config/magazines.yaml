@@ -668,6 +668,12 @@ magazines:
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
+  - name: "Hotel & Lodge"
+    # Matches: Hotel & Lodge N145 • Mars-Avril 2026.pdf
+    pattern: "^Hotel & Lodge N\\d+ [•·] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [month_range, year]
+    template: "{name} {year}{month} - {month_range} {year}.pdf"
+
   - name: "Horizons"
     # Matches: Horizons.pdf
     pattern: "^Horizons\\.pdf$"
