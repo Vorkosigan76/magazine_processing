@@ -263,6 +263,11 @@ magazines:
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
+  - name: "Capital"
+    # Matches: Capital N414 • Mars 2026.pdf
+    pattern: "^Capital N\\d+ [•·] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+
   - name: "Centre Presse Le journal de l Aveyron"
     # Matches: Centre Presse Le journal de l Aveyron.Pdf
     pattern: "^Centre Presse Le journal de l Aveyron\\.[Pp]df$"
@@ -272,11 +277,14 @@ magazines:
     # Matches:
     #   "Challenges - 5 Mars 2026.pdf"
     #   "Challenges - 12-03-2026 - TP.pdf"
+    #   "Challenges N910 • 12 au 18 Mars 2026.pdf"
     patterns:
       - pattern: "^Challenges - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^Challenges - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
         date_groups: [day, month, year]
+      - pattern: "^Challenges N\\d+ [•·] (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
 
   - name: "Charlie Hebdo"
     # Matches: Charlie Hebdo du Mercredi 04 Mars 2026.pdf
@@ -364,34 +372,14 @@ magazines:
     pattern: "^Courrier [Ii]nternational N\\d+ [•·-] (\\d{1,2}) (?:[A-Za-zÀ-ÿ]+ )?(?:au \\d{1,2} )?([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
-  - name: "Courrier Picard Amiens et sa région"
-    # Matches: Courrier Picard Amiens et sa région - 11-03-2026 - TP.pdf
-    pattern: "^Courrier Picard Amiens et sa région - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+  - name: "Courrier Picard"
+    # Matches: Courrier Picard****.pdf (catch-all for any edition)
+    pattern: "^Courrier Picard.*\\.pdf$"
     delete: true
 
-  - name: "Courrier Picard Haute-Picardie"
-    # Matches: Courrier Picard Haute-Picardie - 11-03-2026 - TP.pdf
-    pattern: "^Courrier Picard Haute-Picardie - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "Courrier Picard L'Oise"
-    # Matches: Courrier Picard L'Oise - 11-03-2026 - TP.pdf
-    pattern: "^Courrier Picard L'Oise - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "Courrier Picard Picardie Maritime"
-    # Matches: Courrier Picard Picardie Maritime - 11-03-2026 - TP.pdf
-    pattern: "^Courrier Picard Picardie Maritime - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "Côté Rouen"
-    # Matches: Côté Rouen - 11-03-2026 - TP.pdf
-    pattern: "^Côté Rouen - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "Côté Toulouse"
-    # Matches: Côté Toulouse - 12-03-2026 - TP.pdf
-    pattern: "^Côté Toulouse - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+  - name: "Côté"
+    # Matches: Côté ***.pdf (catch-all for any edition)
+    pattern: "^Côté .*\\.pdf$"
     delete: true
 
   - name: "Cuisine Actuelle"
@@ -631,6 +619,12 @@ magazines:
     # Matches: Gala - 12-03-2026 - TP.pdf
     pattern: "^Gala - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
     delete: true
+
+  - name: "GameOn Magazine"
+    # Matches: GameOn Magazine – Issue 197, March 2026.pdf
+    pattern: "^GameOn Magazine [–-] Issue \\d+, ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} - {year}-{month}.pdf"
 
   - name: "Geny Courses"
     # Matches: Geny Courses - 11-03-2026 - TP.pdf
@@ -939,12 +933,15 @@ magazines:
   - name: "L Equipe"
     # Matches:
     #   "lequipe050326.pdf"                        (daily download)
+    #   "EQ12032026.pdf"                           (alternative daily)
     #   "L Equipe 20260101.pdf"                    (Z: drive)
     #   "L Equipe • Vendredi 6 Mars 2026.pdf"      (alternative format)
     #   "L Equipe du Jeudi 12 Mars 2026.pdf"        (alternative format)
     patterns:
       - pattern: "^lequipe(\\d{2})(\\d{2})(\\d{2})(?:_\\d+)*\\.pdf$"
         date_groups: [day, month, year_short]
+      - pattern: "^EQ(\\d{2})(\\d{2})(\\d{4})\\.pdf$"
+        date_groups: [day, month, year]
       - pattern: "^L Equipe (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
         date_groups: [year, month, day]
       - pattern: "^L Equipe [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -1042,14 +1039,9 @@ magazines:
     pattern: "^La Libre Belgique - \\d{2}-\\d{2}-\\d{4}\\.pdf$"
     delete: true
 
-  - name: "La Marne édition Marne-la-Vallée"
-    # Matches: La Marne édition Marne-la-Vallée - 11-03-2026 - TP.pdf
-    pattern: "^La Marne édition Marne-la-Vallée - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "La Marne édition Meaux"
-    # Matches: La Marne édition Meaux - 11-03-2026 - TP.pdf
-    pattern: "^La Marne édition Meaux - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+  - name: "La Marne édition"
+    # Matches: La Marne édition Marne-la-Vallée - 11-03-2026 - TP.pdf, La Marne édition Meaux - 11-03-2026 - TP.pdf, etc.
+    pattern: "^La Marne édition.*\\.pdf$"
     delete: true
 
   - name: "La Meuse"
@@ -1194,24 +1186,14 @@ magazines:
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
-  - name: "Le Courrier de l'Eure"
-    # Matches: Le Courrier de l'Eure - 11-03-2026 - TP.pdf
-    pattern: "^Le Courrier de l'Eure - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+  - name: "Le Courrier de"
+    # Matches: Le Courrier de l'Eure - 11-03-2026 - TP.pdf, Le Courrier de Mantes - 11-03-2026 - TP.pdf, etc.
+    pattern: "^Le Courrier de (?!L Atlas).*\\.pdf$"
     delete: true
 
-  - name: "Le Courrier de Mantes"
-    # Matches: Le Courrier de Mantes - 11-03-2026 - TP.pdf
-    pattern: "^Le Courrier de Mantes - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "Le Courrier des Yvelines édition Poissy"
-    # Matches: Le Courrier des Yvelines édition Poissy - 11-03-2026 - TP.pdf
-    pattern: "^Le Courrier des Yvelines édition Poissy - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "Le Courrier des Yvelines édition Saint Germain en Laye"
-    # Matches: Le_Courrier_des_Yvelines_édition_Saint_Germain_en_Laye_11_03_2026.pdf
-    pattern: "^Le_Courrier_des_Yvelines_édition_Saint_Germain_en_Laye_\\d{2}_\\d{2}_\\d{4}\\.pdf$"
+  - name: "Le Courrier des Yvelines"
+    # Matches: Le Courrier des Yvelines édition Poissy - 11-03-2026 - TP.pdf, Le_Courrier_des_Yvelines_édition_Saint_Germain_en_Laye_11_03_2026.pdf, etc.
+    pattern: "^Le[_ ]Courrier[_ ]des[_ ]Yvelines.*\\.pdf$"
     delete: true
 
   - name: "Le Courrier du Vietnam"
@@ -1233,8 +1215,8 @@ magazines:
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Le Havre Infos"
-    # Matches: Le Havre Infos - 11-03-2026 - TP.pdf
-    pattern: "^Le Havre Infos - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    # Matches: Le Havre Infos - 11-03-2026 - TP.pdf, Le Havre Infos - 11-03-2026.pdf, etc.
+    pattern: "^Le Havre Infos.*\\.pdf$"
     delete: true
 
   - name: "Le Figaro"
@@ -1413,8 +1395,8 @@ magazines:
     delete: true
 
   - name: "Le Perche"
-    # Matches: Le Perche - 11-03-2026 - TP.pdf
-    pattern: "^Le Perche - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    # Matches: Le Perche - 11-03-2026 - TP.pdf, Le Perche - 11-03-2026.pdf, etc.
+    pattern: "^Le Perche.*\\.pdf$"
     delete: true
 
   - name: "Le petit quotidien"
@@ -1444,14 +1426,9 @@ magazines:
     pattern: "^Le Soir Bruxelles - \\d{2}-\\d{2}-\\d{4}\\.pdf$"
     delete: true
 
-  - name: "Le Réveil Normand - Eure - Eure-et-Loir"
-    # Matches: Le Réveil Normand - Eure - Eure-et-Loir - 11-03-2026 - TP.pdf
-    pattern: "^Le Réveil Normand - Eure - Eure-et-Loir - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "Le Réveil Normand - Orne"
-    # Matches: Le Réveil Normand - Orne - 11-03-2026 - TP.pdf
-    pattern: "^Le Réveil Normand - Orne - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+  - name: "Le Réveil Normand"
+    # Matches: Le Réveil Normand - Eure - Eure-et-Loir - 11-03-2026 - TP.pdf, Le Réveil Normand - Orne - 11-03-2026 - TP.pdf, etc.
+    pattern: "^Le Réveil Normand.*\\.pdf$"
     delete: true
 
   - name: "Le Soir TV Soir"
@@ -1745,14 +1722,17 @@ magazines:
     template: "{name} {year}-{month}.pdf"
 
   - name: "New Scientist"
-    # Matches both:
+    # Matches:
     #   "New Scientist_0703.pdf"                  (daily download)
     #   "New Scientist N3573 - December 2025.pdf" (Z: drive)
+    #   "New Scientist 14 March 2026.pdf"
     patterns:
       - pattern: "^New Scientist_(\\d{2})(\\d{2})\\.pdf$"
         date_groups: [day, month]
       - pattern: "^New Scientist N\\d+ [–-] ([A-Za-z]+) (\\d{4})\\.pdf$"
         date_groups: [month_name, year]
+      - pattern: "^New Scientist (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "New Straits Times"
@@ -1787,6 +1767,11 @@ magazines:
   - name: "Nord Littoral"
     # Matches: Nord Littoral - 10-03-2026 - TP.pdf
     pattern: "^Nord Littoral - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    delete: true
+
+  - name: "Ouest"
+    # Matches: ouest.pdf
+    pattern: "^[Oo]uest\\.pdf$"
     delete: true
 
   - name: "Ouest Tribune"
@@ -1832,8 +1817,8 @@ magazines:
     delete: true
 
   - name: "Paris Courses"
-    # Matches: Paris Courses - 12-03-2026 - TP.pdf
-    pattern: "^Paris Courses - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    # Matches: Paris Courses - 12-03-2026 - TP.pdf, Paris Courses - 12-03-2026.pdf, etc.
+    pattern: "^Paris Courses.*\\.pdf$"
     delete: true
 
   - name: "Paris-Normandie"
@@ -1896,8 +1881,8 @@ magazines:
     template: "{name} {year}-{month}.pdf"
 
   - name: "Pontivy Journal"
-    # Matches: Pontivy Journal - 12-03-2026 - TP.pdf
-    pattern: "^Pontivy Journal - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+    # Matches: Pontivy Journal - 12-03-2026 - TP.pdf, Pontivy Journal - 12-03-2026.pdf, etc.
+    pattern: "^Pontivy Journal.*\\.pdf$"
     delete: true
 
   - name: "Pour la Science"
@@ -1962,6 +1947,11 @@ magazines:
     pattern: "^Que Choisir Sante N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "Reader's Digest India"
+    # Matches: Reader's Digest India March 2026.pdf
+    pattern: "^Reader's Digest India.*\\.pdf$"
+    delete: true
 
   - name: "Reiselust"
     pattern: "^Reiselust .*\\.pdf$"

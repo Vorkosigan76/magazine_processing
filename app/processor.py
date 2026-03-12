@@ -174,7 +174,7 @@ def match_delete(filename: str, magazines: list[dict]) -> str | None:
     return None
 
 
-DUPLICATE_SUFFIX = re.compile(r"\(\d+\)\.(pdf)$", re.IGNORECASE)
+DUPLICATE_SUFFIX = re.compile(r" ?\(\d+\)\.(pdf)$", re.IGNORECASE)
 
 
 def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quarantine_dir: Path) -> bool:
@@ -204,7 +204,7 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
         filepath = filepath.rename(corrected)
         filename = corrected.name
 
-    # Check for duplicate suffix like (1), (2)
+    # Check for duplicate suffix like (1), (2) or " (1)", " (2)"
     if DUPLICATE_SUFFIX.search(filename):
         original_name = DUPLICATE_SUFFIX.sub(r".\1", filename)
         original_path = filepath.parent / original_name
@@ -212,8 +212,12 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
             logger.info("Duplicate file (original exists), deleting: %s", filename)
             filepath.unlink()
             return False
+        else:
+            logger.info("Stripped duplicate suffix: %s -> %s", filename, original_name)
+            filepath = filepath.rename(original_path)
+            filename = original_name
 
-    # Strip duplicate suffixes like (1), (2) before matching
+    # Strip duplicate suffixes like (1), (2) before matching (fallback for edge cases)
     cleaned = DUPLICATE_SUFFIX.sub(r".\1", filename)
 
     # Check if file matches a magazine marked for deletion

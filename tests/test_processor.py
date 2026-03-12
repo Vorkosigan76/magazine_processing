@@ -173,6 +173,14 @@ class TestGroup1FrenchMonthly:
         assert result is not None
         assert result[0] == "Canard PC"
 
+    def test_capital(self, magazines):
+        result = match_magazine("Capital N414 • Mars 2026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "Capital"
+        assert pub_date.year == 2026
+        assert pub_date.month == 3
+
     def test_data_news_with_day(self, magazines):
         result = match_magazine("Data News N4 • 1 Octobre 2025.Pdf", magazines)
         assert result is not None
@@ -448,6 +456,13 @@ class TestExistingPatternsUnbroken:
         assert result is not None
         assert result[0] == "L Equipe"
 
+    def test_lequipe_eq_format(self, magazines):
+        result = match_magazine("EQ12032026.pdf", magazines)
+        assert result is not None
+        name, pub_date, _, _ = result
+        assert name == "L Equipe"
+        assert pub_date == date(2026, 3, 12)
+
     def test_les_echos_compact(self, magazines):
         result = match_magazine("LesEchos05032026.pdf", magazines)
         assert result is not None
@@ -686,3 +701,77 @@ class TestTPSuffixStripping:
 
         result = process_file(tp_file, magazines, output_dir, quarantine_dir)
         assert result is True
+
+
+# ── Duplicate suffix stripping in process_file ──
+
+
+class TestDuplicateSuffixStripping:
+    """Test that process_file handles browser duplicate suffixes like (1), (2)."""
+
+    def test_duplicate_suffix_no_space(self, magazines, tmp_path):
+        """Capital(1).pdf -> Capital.pdf (no space before parenthesis)."""
+        from app.processor import process_file
+
+        import_dir = tmp_path / "import"
+        import_dir.mkdir()
+        output_dir = tmp_path / "processed"
+        output_dir.mkdir()
+        quarantine_dir = tmp_path / "quarantine"
+
+        # Create a file with (1) suffix but no space
+        dup_file = import_dir / "Newsweek EU - 20-03-2026(1).pdf"
+        dup_file.write_bytes(b"%PDF-fake")
+
+        result = process_file(dup_file, magazines, output_dir, quarantine_dir)
+        assert result is True
+
+        dest = output_dir / "Newsweek EU" / "Newsweek EU - 2026-03-20.pdf"
+        assert dest.exists()
+        # Original (1) file should no longer exist
+        assert not dup_file.exists()
+
+    def test_duplicate_suffix_with_space(self, magazines, tmp_path):
+        """Capital (1).pdf -> Capital.pdf (space before parenthesis)."""
+        from app.processor import process_file
+
+        import_dir = tmp_path / "import"
+        import_dir.mkdir()
+        output_dir = tmp_path / "processed"
+        output_dir.mkdir()
+        quarantine_dir = tmp_path / "quarantine"
+
+        # Create a file with " (1)" suffix (browser-style duplicate)
+        dup_file = import_dir / "Newsweek EU - 20-03-2026 (1).pdf"
+        dup_file.write_bytes(b"%PDF-fake")
+
+        result = process_file(dup_file, magazines, output_dir, quarantine_dir)
+        assert result is True
+
+        dest = output_dir / "Newsweek EU" / "Newsweek EU - 2026-03-20.pdf"
+        assert dest.exists()
+        # Original " (1)" file should no longer exist
+        assert not dup_file.exists()
+
+    def test_duplicate_suffix_deleted_when_original_exists(self, magazines, tmp_path):
+        """If original file exists, the (1) duplicate is deleted."""
+        from app.processor import process_file
+
+        import_dir = tmp_path / "import"
+        import_dir.mkdir()
+        output_dir = tmp_path / "processed"
+        output_dir.mkdir()
+        quarantine_dir = tmp_path / "quarantine"
+
+        # Create both the original and duplicate
+        original_file = import_dir / "Newsweek EU - 20-03-2026.pdf"
+        original_file.write_bytes(b"%PDF-original")
+        dup_file = import_dir / "Newsweek EU - 20-03-2026 (1).pdf"
+        dup_file.write_bytes(b"%PDF-duplicate")
+
+        result = process_file(dup_file, magazines, output_dir, quarantine_dir)
+        assert result is False  # duplicate was deleted, not processed
+
+        # Duplicate should be gone, original untouched
+        assert not dup_file.exists()
+        assert original_file.exists()
