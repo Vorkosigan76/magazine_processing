@@ -844,18 +844,18 @@ magazines:
         date_groups: [day, month, year]
 
   - name: "L'équipe"
-    # Matches: L'équipe - 11-03-2026 - TP.pdf
-    pattern: "^L'équipe - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+    # Matches: L'équipe - 11-03-2026.pdf (TP suffix stripped automatically)
+    pattern: "^L'équipe - (\\d{2})-(\\d{2})-(\\d{4})\\.pdf$"
     date_groups: [day, month, year]
 
   - name: "L'Express"
-    # Matches: L'Express - 12-03-2026 - TP.pdf
-    pattern: "^L'Express - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+    # Matches: L'Express - 12-03-2026.pdf (TP suffix stripped automatically)
+    pattern: "^L'Express - (\\d{2})-(\\d{2})-(\\d{4})\\.pdf$"
     date_groups: [day, month, year]
 
   - name: "L'Humanité"
-    # Matches: L'Humanité - 11-03-2026 - TP.pdf
-    pattern: "^L'Humanité - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+    # Matches: L'Humanité - 11-03-2026.pdf (TP suffix stripped automatically)
+    pattern: "^L'Humanité - (\\d{2})-(\\d{2})-(\\d{4})\\.pdf$"
     date_groups: [day, month, year]
 
   - name: "L'Orient-Le Jour"
@@ -1799,8 +1799,8 @@ magazines:
         date_groups: [year, month, day]
 
   - name: "Newsweek EU"
-    # Matches: Newsweek EU - 20-03-2026 - TP.pdf
-    pattern: "^Newsweek EU - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
+    # Matches: Newsweek EU - 20-03-2026.pdf (TP suffix stripped automatically)
+    pattern: "^Newsweek EU - (\\d{2})-(\\d{2})-(\\d{4})\\.pdf$"
     date_groups: [day, month, year]
 
   - name: "Nord Eclair"
@@ -2025,7 +2025,7 @@ magazines:
       - pattern: "^Sante Magazine N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [month_name, year]
         template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
-      - pattern: "^Santé Magazine HS .+ - ([a-zà-ÿ]+)-([a-zà-ÿ]+) (\\d{4}) - TP\\.pdf$"
+      - pattern: "^Santé Magazine HS .+ - ([a-zà-ÿ]+)-([a-zà-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [month_range, year]
         template: "{name} {year}{month} - {month_range} {year}.pdf"
 
@@ -2524,8 +2524,8 @@ magazines:
     date_groups: [day, month_name, year]
 
   - name: "VTT Mag"
-    # Matches: VTT Mag - avril-mai 2026 - TP.pdf
-    pattern: "^VTT Mag - ([a-zÀ-ÿ]+-[a-zÀ-ÿ]+) (\\d{4}) - TP\\.pdf$"
+    # Matches: VTT Mag - avril-mai 2026.pdf (TP suffix stripped automatically)
+    pattern: "^VTT Mag - ([a-zÀ-ÿ]+-[a-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [month_range, year]
     template: "{name} {year}-{month}.pdf"
 

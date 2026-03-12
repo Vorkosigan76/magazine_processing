@@ -197,6 +197,13 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
         filepath = filepath.rename(corrected)
         filename = filename_nfc
 
+    # Strip " - TP" suffix (e.g. "L'Express - 12-03-2026 - TP.pdf" -> "L'Express - 12-03-2026.pdf")
+    if filename.lower().endswith(" - tp.pdf"):
+        corrected = filepath.with_name(filename[:-len(" - TP.pdf")] + ".pdf")
+        logger.info("Stripped TP suffix: %s -> %s", filename, corrected.name)
+        filepath = filepath.rename(corrected)
+        filename = corrected.name
+
     # Check for duplicate suffix like (1), (2)
     if DUPLICATE_SUFFIX.search(filename):
         original_name = DUPLICATE_SUFFIX.sub(r".\1", filename)

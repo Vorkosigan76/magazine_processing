@@ -522,7 +522,7 @@ class TestNewMagazines:
         assert pub_date.day == 10
 
     def test_vtt_mag(self, magazines):
-        result = match_magazine("VTT Mag - avril-mai 2026 - TP.pdf", magazines)
+        result = match_magazine("VTT Mag - avril-mai 2026.pdf", magazines)
         assert result is not None
         name, pub_date, _, _ = result
         assert name == "VTT Mag"
@@ -645,3 +645,44 @@ class TestAdditionalPatterns:
         name, pub_date, _, _ = result
         assert name == "Whisky Advocate"
         assert pub_date == date(2026, 4, 1)
+
+
+# ── TP suffix stripping in process_file ──
+
+
+class TestTPSuffixStripping:
+    """Test that process_file strips ' - TP' suffix before matching."""
+
+    def test_tp_suffix_stripped_and_matched(self, magazines, tmp_path):
+        from app.processor import process_file
+
+        import_dir = tmp_path / "import"
+        import_dir.mkdir()
+        output_dir = tmp_path / "processed"
+        output_dir.mkdir()
+        quarantine_dir = tmp_path / "quarantine"
+
+        # Create a file with TP suffix
+        tp_file = import_dir / "Newsweek EU - 20-03-2026 - TP.pdf"
+        tp_file.write_bytes(b"%PDF-fake")
+
+        result = process_file(tp_file, magazines, output_dir, quarantine_dir)
+        assert result is True
+
+        dest = output_dir / "Newsweek EU" / "Newsweek EU - 2026-03-20.pdf"
+        assert dest.exists()
+
+    def test_tp_suffix_case_insensitive(self, magazines, tmp_path):
+        from app.processor import process_file
+
+        import_dir = tmp_path / "import"
+        import_dir.mkdir()
+        output_dir = tmp_path / "processed"
+        output_dir.mkdir()
+        quarantine_dir = tmp_path / "quarantine"
+
+        tp_file = import_dir / "Newsweek EU - 20-03-2026 - tp.pdf"
+        tp_file.write_bytes(b"%PDF-fake")
+
+        result = process_file(tp_file, magazines, output_dir, quarantine_dir)
+        assert result is True
