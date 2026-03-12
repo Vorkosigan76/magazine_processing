@@ -869,39 +869,10 @@ magazines:
     pattern: "^L'Orne Hebdo - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
     delete: true
 
-  - name: "L'Union Edition de Châlons en Champagne"
-    # Matches: L'Union_Edition_de_Châlons_en_Champagne_11_03_2026_TP.pdf
-    pattern: "^L'Union_Edition_de_Châlons_en_Champagne_\\d{2}_\\d{2}_\\d{4}_TP\\.pdf$"
-    delete: true
-
-  - name: "L'Union Edition de Laon"
-    # Matches: L'Union Edition de Laon - 11-03-2026 - TP.pdf
-    pattern: "^L'Union Edition de Laon - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "L'Union Edition de Reims"
-    # Matches: L'Union Edition de Reims - 11-03-2026 - TP.pdf
-    pattern: "^L'Union Edition de Reims - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "L'Union Edition de Soissons"
-    # Matches: L'Union Edition de Soissons - 11-03-2026 - TP.pdf
-    pattern: "^L'Union Edition de Soissons - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "L'Union Edition de Vitry"
-    # Matches: L'Union Edition de Vitry - 11-03-2026 - TP.pdf
-    pattern: "^L'Union Edition de Vitry - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "L'Union Edition d'Epernay"
-    # Matches: L'Union Edition d'Epernay - 11-03-2026 - TP.pdf
-    pattern: "^L'Union Edition d'Epernay - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "L'Union Edition des Ardennes"
-    # Matches: L'Union Edition des Ardennes - 11-03-2026 - TP.pdf
-    pattern: "^L'Union Edition des Ardennes - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
+  - name: "L'Union (all editions)"
+    # Matches all L'Union editions: L'Union Edition de Laon - 11-03-2026.pdf, etc.
+    # TP suffix is stripped automatically before matching
+    pattern: "^L'Union[_ ]Edition[_ ]d.+\\d{2}[_-]\\d{2}[_-]\\d{4}.*\\.pdf$"
     delete: true
 
   - name: "L'Avenir"
@@ -970,12 +941,15 @@ magazines:
     #   "lequipe050326.pdf"                        (daily download)
     #   "L Equipe 20260101.pdf"                    (Z: drive)
     #   "L Equipe • Vendredi 6 Mars 2026.pdf"      (alternative format)
+    #   "L Equipe du Jeudi 12 Mars 2026.pdf"        (alternative format)
     patterns:
       - pattern: "^lequipe(\\d{2})(\\d{2})(\\d{2})(?:_\\d+)*\\.pdf$"
         date_groups: [day, month, year_short]
       - pattern: "^L Equipe (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
         date_groups: [year, month, day]
-      - pattern: "^L Equipe . [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+      - pattern: "^L Equipe [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^L Equipe du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
     template: "{name} - {year}{month}{day}.pdf"
 
@@ -1449,13 +1423,16 @@ magazines:
     delete: true
 
   - name: "Le Point"
-    # Matches both:
+    # Matches:
     #   "Le Point - 5 Mars 2026.pdf"                                          (daily download)
-    #   "Le Point N2786-2787 • Jeudi 18 et 25 Decembre 2025.Pdf"             (Z: drive)
+    #   "Le Point N2798 • Jeudi 12 Mars 2026.pdf"                            (Z: single date)
+    #   "Le Point N2786-2787 • Jeudi 18 et 25 Decembre 2025.Pdf"             (Z: double date)
     patterns:
       - pattern: "^Le Point - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
-      - pattern: "^Le Point N[\\d-]+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+      - pattern: "^Le Point N[\\d-]+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - pattern: "^Le Point N[\\d-]+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
 
   - name: "Le Soir"
@@ -2183,10 +2160,14 @@ magazines:
     date_groups: [day, month_name, year]
 
   - name: "Super Picsou Geant"
-    # Matches: Super Picsou Geant N252 • Janvier-Fevrier 2026.pdf
-    #          Super Picsou Géant N240 • Fevrier-Mars 2024.pdf
-    pattern: "^Super Picsou G[eé]ant N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.pdf$"
-    date_groups: [month_range, year]
+    # Matches:
+    #   "Super Picsou Geant N252 • Janvier-Fevrier 2026.pdf"                  (Z: drive)
+    #   "Super Picsou Géant - mars-avril 2026.pdf"                            (daily download)
+    patterns:
+      - pattern: "^Super Picsou G[eé]ant N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.pdf$"
+        date_groups: [month_range, year]
+      - pattern: "^Super Picsou G[eé]ant - ([a-zÀ-ÿ]+-[a-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
   - name: "T3 UK"
