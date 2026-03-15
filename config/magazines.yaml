@@ -268,13 +268,13 @@ magazines:
 
   - name: "Ca m'interesse"
     # Matches: Ca m'interesse N539 • Janvier 2026.Pdf
-    pattern: "^Ca m['\u2019]interesse N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    pattern: "^Ca m'interesse N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Ca m'interesse"
     # Matches: Ça M'Intéresse - Mars 2026.pdf
-    pattern: "^[CÇ]a [Mm]['\u2019][Ii]nt[eé]resse - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    pattern: "^[CÇ]a [Mm]'[Ii]nt[eé]resse - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [month_name, year]
     template: "Ca m'interesse {year}{month} - {month_name_orig} {year}.pdf"
 
@@ -1025,7 +1025,7 @@ magazines:
     delete: true
 
   - name: "L'Echo le Régional"
-    pattern: "^L'Echo le Régional - \\d{2}-\\d{2}-\\d{4}(?: - TP)?\\.pdf$"
+    pattern: "^L'Echo le R[eé]gional - \\d{2}-\\d{2}-\\d{4}(?: - TP)?\\.pdf$"
     delete: true
 
   - name: "L'Est-Eclair"
@@ -1052,7 +1052,7 @@ magazines:
 
   - name: "L'Astronomie"
     # Matches: L'Astronomie - Mars 2025.pdf
-    pattern: "^L['\u2019]Astronomie - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    pattern: "^L'Astronomie - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
@@ -1063,7 +1063,7 @@ magazines:
     #   "L Auto-Journal N1193 - 2 au 15 Octobre 2025.Pdf"                    (Z: same-month range)
     #   "L Auto-Journal N1203 • 19 Fevrier au 4 Mars2026.Pdf"                (Z: cross-month range)
     patterns:
-      - pattern: "^L['\u2019]Auto-Journal - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+      - pattern: "^L'Auto-Journal - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^L Auto-Journal N\\d+ [•·-] (\\d{1,2}) (?:[A-Za-zÀ-ÿ]+ )?(?:au \\d{1,2} )?([A-Za-zÀ-ÿ]+) ?(\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
@@ -1073,7 +1073,7 @@ magazines:
     #   "L'Automobile Magazine - Mars 2026.pdf"                                (daily download)
     #   "L Automobile Magazine N955 • Dec 2025 - Jan 2026.Pdf"                (Z: drive, bimonthly)
     patterns:
-      - pattern: "^L['\u2019]Automobile Magazine - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+      - pattern: "^L'Automobile Magazine - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [month_name, year]
       - pattern: "^L Automobile Magazine N\\d+ [•·] ([A-Za-zÀ-ÿ]+ \\d{4} - [A-Za-zÀ-ÿ]+ \\d{4}).*\\.pdf$"
         date_groups: [month_range]
@@ -2187,7 +2187,7 @@ magazines:
 
   - name: "Runner's World UK"
     # Matches: Runner's World UK – 2026-01.pdf
-    pattern: "^Runner['\u2019]s World UK [–-] (\\d{4})-(\\d{2})\\.pdf$"
+    pattern: "^Runner's World UK [–-] (\\d{4})-(\\d{2})\\.pdf$"
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
 
