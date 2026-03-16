@@ -1948,9 +1948,9 @@ magazines:
     date_groups: [day, month, year_short]
 
   - name: "New York Times"
-    # Matches: NYT 0703.pdf (MMDD format)
+    # Matches: NYT 1603.pdf (DDMM format)
     pattern: "^NYT (\\d{2})(\\d{2})\\.pdf$"
-    date_groups: [month, day]
+    date_groups: [day, month]
 
   - name: "Newsweek"
     # Matches both:
