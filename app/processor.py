@@ -101,6 +101,16 @@ def _parse_group(key: str, value: str) -> tuple[str, int, dict]:
         month_num = MONTH_NAMES.get(value.lower())
         if month_num is not None:
             return "month", month_num, {"month_name_orig": value}
+        # Validate numeric month
+        num_val = int(value)
+        if num_val < 1 or num_val > 12:
+            raise ValueError(f"Invalid month value: {value} (must be 1-12)")
+        return "month", num_val, {}
+    if key == "day":
+        num_val = int(value)
+        if num_val < 1 or num_val > 31:
+            raise ValueError(f"Invalid day value: {value} (must be 1-31)")
+        return "day", num_val, {}
     return key, int(value), {}
 
 
