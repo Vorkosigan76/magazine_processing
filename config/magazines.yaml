@@ -557,6 +557,11 @@ magazines:
     pattern: "^Daily Mail - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
+  - name: "Daily Mirror"
+    # Matches: Daily Mirror_1603.pdf (DDMM format)
+    pattern: "^Daily Mirror_(\\d{2})(\\d{2})\\.pdf$"
+    date_groups: [day, month]
+
   - name: "Dallas Morning News"
     # Matches: The Dallas Morning News - February 28, 2026.pdf
     pattern: "^The Dallas Morning News - ([A-Za-z]+) (\\d{1,2}), (\\d{4})\\.pdf$"
@@ -625,6 +630,11 @@ magazines:
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
+  - name: "Disney Princesses"
+    # Matches: Disney Princesses N144 • Janvier 2026.pdf
+    pattern: "^Disney Princesses N\\d+ [•·] [A-Za-zÀ-ÿ]+ \\d{4}\\.pdf$"
+    delete: true
+
   - name: "Explore Magazine"
     # Matches: Explore Magazine – Spring 2026.pdf
     pattern: "^Explore Magazine .+\\.pdf$"
@@ -635,6 +645,14 @@ magazines:
     pattern: "^ecoute N\\d+ [•·] (\\d{4})\\.pdf$"
     date_groups: [year]
     template: "{name} - {year}.pdf"
+
+  - name: "Edition Multimedia"
+    # Matches: Édition Multimédia - 16 Mars 2026.pdf
+    #          Edition Multimedia N361 • Lundi 16 Mars 2026.pdf
+    patterns:
+      - pattern: "^[ÉE]dition [Mm]ultim[eé]dia - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+      - pattern: "^Edition Multimedia N\\d+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    delete: true
 
   - name: "Eishockeynews"
     # Matches: Eishockeynews - 2025.10.27.pdf
@@ -950,6 +968,11 @@ magazines:
     pattern: "^Je D[eé]core - [A-Za-zÀ-ÿ]+ \\d{4}\\.pdf$"
     delete: true
 
+  - name: "Jeune indépendant"
+    # Matches: Jeune indépendant .pdf
+    pattern: "^Jeune ind[eé]pendant\\s*\\.pdf$"
+    delete: true
+
   - name: "Journal FR"
     # Matches: journal_fr.pdf
     pattern: "^journal_fr\\.pdf$"
@@ -1077,6 +1100,11 @@ magazines:
 
   - name: "L'Ardenais"
     pattern: "^L'Ardenais - \\d{2}-\\d{2}-\\d{4}(?: - TP)?\\.pdf$"
+    delete: true
+
+  - name: "L'algérie aujourd'hui"
+    # Matches: L'algérie aujourd'hui.pdf
+    pattern: "^L.alg[eé]rie aujourd.hui\\.pdf$"
     delete: true
 
   - name: "L'Echo le Régional"
@@ -1347,10 +1375,13 @@ magazines:
   - name: "La Tribune"
     # Matches: La Tribune - 5 Mars 2026.pdf
     #          La Tribune • Vendredi 6 Mars 2026.pdf
+    #          La Tribune du Mardi 17 Mars 2026.pdf
     patterns:
       - pattern: "^La Tribune - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^La Tribune [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^La Tribune du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
 
   - name: "La Tribune Quotidien"
@@ -1448,7 +1479,9 @@ magazines:
     delete: true
 
   - name: "Le Devoir"
-    pattern: "^Le Devoir [•·] [A-Za-zÀ-ÿ]+ \\d{1,2} [A-Za-zÀ-ÿ]+ \\d{4}\\.pdf$"
+    # Matches: Le Devoir • Mardi 17 Mars 2026.pdf
+    #          🇨🇦 Le Devoir • Mardi 17 Mars 2026.pdf
+    pattern: "^.*Le Devoir [•·] [A-Za-zÀ-ÿ]+ \\d{1,2} [A-Za-zÀ-ÿ]+ \\d{4}\\.pdf$"
     delete: true
 
   - name: "Le Figaro"
@@ -2438,6 +2471,11 @@ magazines:
     pattern: "^Spirou N\\d+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
+  - name: "Sud Ouest Bordeaux Agglo"
+    # Matches: Sud Ouest Bordeaux Agglo.pdf
+    pattern: "^Sud Ouest Bordeaux Agglo\\.pdf$"
+    delete: true
+
   - name: "Sud Ouest Landes"
     pattern: "^Sud Ouest Landes\\.pdf$"
     delete: true
@@ -2738,6 +2776,11 @@ magazines:
     pattern: "^The Week UK_(\\d{2})(\\d{2})\\.pdf$"
     date_groups: [day, month]
 
+  - name: "The Week Junior USA"
+    # Matches: The Week Junior USA – Vol 07 Issue 308, March 20, 2026.pdf
+    pattern: "^The Week Junior USA [–-] Vol \\d+ Issue \\d+, [A-Za-z]+ \\d{1,2}, \\d{4}\\.pdf$"
+    delete: true
+
   - name: "The Week US"
     # Matches: The Week US 13 March 2026.pdf
     pattern: "^The Week US (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
@@ -2805,6 +2848,11 @@ magazines:
     # Matches: Trends tendances Eco et Finances N10 • 5 Mars 2026.pdf
     pattern: "^Trends tendances Eco et Finances N\\d+ [•·] (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
+
+  - name: "Tribune de Geneve"
+    # Matches: 🇨🇭 Tribune de Geneve • Mardi 17 Mars 2026.pdf
+    pattern: "^.*Tribune de Gen[eè]ve [•·] [A-Za-zÀ-ÿ]+ \\d{1,2} [A-Za-zÀ-ÿ]+ \\d{4}\\.pdf$"
+    delete: true
 
   - name: "TV Magazine"
     # Matches: TV Magazine - 6 Mars 2026.pdf → TV Magazine - 2026-03-06.pdf
