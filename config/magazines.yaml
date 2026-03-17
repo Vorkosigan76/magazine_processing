@@ -187,6 +187,11 @@ magazines:
     pattern: "^Asian Age Delhi (\\d{2})-(\\d{2})\\.pdf$"
     date_groups: [day, month]
 
+  - name: "Asian Age London"
+    # Matches: Asian Age London 170326.pdf
+    pattern: "^Asian Age London \\d{6}\\.pdf$"
+    delete: true
+
   - name: "Atlantic Business Magazine"
     # Matches: Atlantic Business Magazine – Vol 37 No 2, March April 2026.pdf
     pattern: "^Atlantic Business Magazine [–-] Vol \\d+ No \\d+, ([A-Za-z]+) [A-Za-z]+ (\\d{4})\\.pdf$"
@@ -197,6 +202,16 @@ magazines:
     # Matches: Australian Financial Review - 9 March 2026.pdf
     pattern: "^Australian Financial Review - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
+
+  - name: "Australian Mountain Bike"
+    # Matches: Australian Mountain Bike – Issue 216, Autumn 2026.pdf
+    pattern: "^Australian Mountain Bike [–-] Issue \\d+, .+\\.pdf$"
+    delete: true
+
+  - name: "Australian ProPhoto"
+    # Matches: Australian ProPhoto – Issue 249, 2026.pdf
+    pattern: "^Australian ProPhoto [–-] Issue \\d+, \\d{4}\\.pdf$"
+    delete: true
 
   - name: "Auto Bild"
     # Matches: Auto Bild 2025.10.09.pdf
@@ -318,6 +333,16 @@ magazines:
     pattern: "^Ca [Mm]['\u2019 ][Ii]nteresse Hors-Serie Sante N\\d+ [•·] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [season, year]
     template: "{name} {year}{month} - {month_name} {year}.pdf"
+
+  - name: "Canadian Cycling Magazine"
+    # Matches: Canadian_Cycling_Magazine_–_Vol_17_Issue_2,_Buyer's_Guide_2026.pdf
+    pattern: "^Canadian_Cycling_Magazine_.+\\.pdf$"
+    delete: true
+
+  - name: "Canadian Running"
+    # Matches: Canadian Running – volume 19, issue 3,Trail Special 2026.pdf
+    pattern: "^Canadian Running [–-] .+\\.pdf$"
+    delete: true
 
   - name: "Canard PC"
     # Matches: Canard PC N474 • Janvier 2026.pdf
@@ -678,6 +703,12 @@ magazines:
   - name: "Elle Decoration"
     # Matches: Elle Decoration N332 • Avril 2026.pdf
     pattern: "^Elle Decoration N\\d+ [•·] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "Elle déco"
+    # Matches: Elle déco - avril 2026.pdf
+    pattern: "^Elle d[eé]co - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
@@ -1182,6 +1213,8 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^L Equipe du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
+      - pattern: "^L'[EÉ]quipe du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
     template: "{name} - {year}{month}{day}.pdf"
 
   - name: "L Equipe Supplement"
@@ -1226,8 +1259,12 @@ magazines:
 
   - name: "La Chine au Present"
     # Matches: La Chine au Present 2026 N2 • Fevrier 2026.pdf
-    pattern: "^La Chine au Present \\d{4} N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
-    date_groups: [month_name, year]
+    #          La Chine au present N3 • Mars 2026.pdf
+    patterns:
+      - pattern: "^La Chine au [Pp]resent \\d{4} N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [month_name, year]
+      - pattern: "^La Chine au [Pp]resent N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "La Depeche du Midi Haute Garonne"
@@ -1763,6 +1800,8 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le Temps Week-End [•·] (\\d{1,2}) et \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
+      - pattern: "^Le Temps du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
 
   - name: "Le Temps (TP)"
     # Matches: Le Temps - 10-03-2026 - TP.pdf
@@ -1798,6 +1837,8 @@ magazines:
       - pattern: "^Les Echos Week-end [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^Les Echos [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d+)*\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^Les Echos du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
     template: "{name} - {year}{month}{day}.pdf"
 
@@ -1873,8 +1914,12 @@ magazines:
 
   - name: "Macworld"
     # Matches: Macworld N43 -_Jan_2026.pdf
-    pattern: "^Macworld N\\d+ -_([A-Za-z]+)_(\\d{4})\\.pdf$"
-    date_groups: [month_name, year]
+    #          Macworld_April 2026.pdf
+    patterns:
+      - pattern: "^Macworld N\\d+ -_([A-Za-z]+)_(\\d{4})\\.pdf$"
+        date_groups: [month_name, year]
+      - pattern: "^Macworld_([A-Za-z]+) (\\d{4})\\.pdf$"
+        date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Madame Figaro"
@@ -1931,6 +1976,12 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^mes Finances magazine N\\d+ [•·] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "Mens Health UK"
+    # Matches: Mens Health UK_April 2026.pdf
+    pattern: "^Mens Health UK_([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Micro Pratique"
@@ -2398,6 +2449,12 @@ magazines:
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
+  - name: "Scientific American"
+    # Matches: Scientific American_April 2026.pdf
+    pattern: "^Scientific American_([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
   - name: "SignAI"
     # Matches: SignAI - 2025-12.pdf
     pattern: "^SignAI [–-] (\\d{4})-(\\d{2})\\.pdf$"
@@ -2578,6 +2635,11 @@ magazines:
     date_groups: [season, year]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "The Atlantic"
+    # Matches: The Atlantic_April 2026.pdf
+    pattern: "^The Atlantic_.+\\.pdf$"
+    delete: true
+
   - name: "The Australian"
     # Matches: The Australian - 6 March 2026.pdf → The Australian - 2026-03-06.pdf
     pattern: "^The Australian - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
@@ -2647,6 +2709,12 @@ magazines:
         date_groups: [year, month, day]
       - pattern: "^The Economist USA [–-] ([A-Za-z]+) (\\d{1,2}), (\\d{4})_.*\\.pdf$"
         date_groups: [month_name, day, year]
+
+  - name: "The Engineer"
+    # Matches: The Engineer – March 2026.pdf
+    pattern: "^The Engineer [–-] ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}-{month}.pdf"
 
   - name: "The European Business Review"
     # Matches: The European Business Review 202511 - Nov Dec 2025.pdf
@@ -2718,6 +2786,11 @@ magazines:
   - name: "The Sun UK"
     # Matches: The Sun UK - 6 March 2026.pdf → The Sun UK - 2026-03-06.pdf
     pattern: "^The Sun UK - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
+
+  - name: "The Sydney Morning Herald"
+    # Matches: The Sydney Morning Herald - 17 March 2026.pdf
+    pattern: "^The Sydney Morning Herald - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
 
   - name: "The Sunday Times"
@@ -2893,6 +2966,11 @@ magazines:
     # Matches: USA Today - March 5, 2026.pdf → USA Today - 2026-03-05.pdf
     pattern: "^USA Today - ([A-Za-z]+) (\\d{1,2}), (\\d{4})\\.pdf$"
     date_groups: [month_name, day, year]
+
+  - name: "USA Today Sports Weekly"
+    # Matches: USA Today Sports Weekly - 18 March 2026.pdf
+    pattern: "^USA Today Sports Weekly - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [day, month_name, year]
 
   - name: "Valeurs actuelles"
     # Matches: Valeurs actuelles - 11-03-2026.pdf
