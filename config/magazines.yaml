@@ -161,10 +161,13 @@ magazines:
   - name: "Aujourd'hui en France"
     # Matches: Aujourd hui en France • Vendredi 6 Mars 2026.pdf
     #          Aujourd'hui en France du Lundi 16 Mars 2026.pdf
+    #          Aujourd hui en France - Samedi 21 mars 2026.pdf
     patterns:
       - pattern: "^Aujourd hui en France [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d+)*\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^Aujourd.hui en France du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^Aujourd.hui en France - [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
 
   - name: "Apple Magazine"
@@ -246,6 +249,10 @@ magazines:
 
   - name: "avantages Hors-Serie"
     pattern: "^avantages Hors-Serie N\\d+ .+ [•·] \\d{4}\\.pdf$"
+    delete: true
+
+  - name: "Barron's"
+    pattern: "^Barron's_\\d+\\.pdf$"
     delete: true
 
   - name: "Barrons"
@@ -770,6 +777,11 @@ magazines:
     date_groups: [month_name, year]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "Emerging Nations"
+    # Matches: Emerging Nations – No. 60, February 2026.pdf
+    pattern: "^Emerging Nations [–-] No\\. \\d+, .+\\.pdf$"
+    delete: true
+
   - name: "Entreprendre a l'International"
     # Matches: Entreprendre a l international N643 • Nov-Dec 2025.Pdf
     #          Entreprendre à l'international N642 • Sep-Oct 2025.pdf
@@ -1052,6 +1064,10 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Investir - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
+
+  - name: "Iran Tehran Times"
+    pattern: "^Iran Tehran Times \\d+\\.pdf$"
+    delete: true
 
   - name: "Jeune Afrique"
     # Matches: Jeune Afrique N3155 • 12-2025.pdf
@@ -1623,7 +1639,7 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le Figaro du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
-      - pattern: "^Le Figaro [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et [A-Za-zÀ-ÿ]+ \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+      - pattern: "^Le Figaro [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et [A-Za-zÀ-ÿ]+ \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d+)*\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Figaro - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
         date_groups: [day, month, year]
@@ -1712,9 +1728,9 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le Monde [•·] (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
         date_groups: [year, month, day]
-      - pattern: "^Le Monde [•·] [A-Za-zÀ-ÿ]+ \\d{1,2} et [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+      - pattern: "^Le Monde [•·] [A-Za-zÀ-ÿ]+ \\d{1,2} et [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d+)*\\.pdf$"
         date_groups: [day, month_name, year]
-      - pattern: "^Le Monde . [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+      - pattern: "^Le Monde . [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d+)*\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Monde - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
         date_groups: [day, month, year]
@@ -2488,6 +2504,12 @@ magazines:
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "Runner's World USA"
+    # Matches: Runner's World USA – Vol 61, Spring 2026.pdf
+    pattern: "^Runner's World USA [–-] Vol \\d+, ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [season, year]
+    template: "{name} {year}-{month}.pdf"
+
   - name: "Running Attitude"
     # Matches: Running Attitude N256 • Mars-Avril 2026.pdf
     pattern: "^Running Attitude N\\d+ [•·] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.pdf$"
@@ -2593,6 +2615,12 @@ magazines:
     # Matches: SignAI - 2025-12.pdf
     pattern: "^SignAI [–-] (\\d{4})-(\\d{2})\\.pdf$"
     date_groups: [year, month]
+    template: "{name} {year}-{month}.pdf"
+
+  - name: "Ships Monthly"
+    # Matches: Ships Monthly – April 2026.pdf
+    pattern: "^Ships Monthly [–-] ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
     template: "{name} {year}-{month}.pdf"
 
   - name: "Silly Linguistics"
@@ -2815,11 +2843,14 @@ magazines:
     # Matches both:
     #   "TEcon Web Edition 07_03_26.pdf"      (daily download)
     #   "The Economist-2026-02-07.pdf"         (Z: drive)
+    #   "TEcon_2103 (true pdf).pdf"            (DDMM format)
     patterns:
       - pattern: "^TEcon Web Edition (\\d{2})_(\\d{2})_(\\d{2})\\.pdf$"
         date_groups: [day, month, year_short]
       - pattern: "^The Economist-(\\d{4})-(\\d{2})-(\\d{2})\\.pdf$"
         date_groups: [year, month, day]
+      - pattern: "^TEcon_(\\d{2})(\\d{2}) \\(true pdf\\)\\.pdf$"
+        date_groups: [day, month]
     template: "{name} - {year}{month}{day}.pdf"
 
   - name: "The Economist (Web Edition)"
@@ -2906,8 +2937,12 @@ magazines:
 
   - name: "The New York Times"
     # Matches: The New York Times • March 12, 2026.pdf
-    pattern: "^The New York Times [•·] ([A-Za-z]+) (\\d{1,2}), (\\d{4})\\.pdf$"
-    date_groups: [month_name, day, year]
+    #          NYT International 1803.pdf (DDMM format)
+    patterns:
+      - pattern: "^The New York Times [•·] ([A-Za-z]+) (\\d{1,2}), (\\d{4})\\.pdf$"
+        date_groups: [month_name, day, year]
+      - pattern: "^NYT International (\\d{2})(\\d{2})\\.pdf$"
+        date_groups: [day, month]
 
   - name: "The New York Times Book Review"
     # Matches: The New York Times Book Review – March 08, 2026.pdf
@@ -2953,6 +2988,11 @@ magazines:
   - name: "The Times - Style"
     # Matches: The Times - Style_0803.pdf
     pattern: "^The Times - Style_\\d{4}\\.pdf$"
+    delete: true
+
+  - name: "The Times LUXX"
+    # Matches: The Times LUXX • March 21, 2026.pdf
+    pattern: "^The Times LUXX [•·] .+\\.pdf$"
     delete: true
 
   - name: "The Times UK"
@@ -3233,6 +3273,16 @@ magazines:
     pattern: "^WeekEnd [•·\\-] .+\\.pdf$"
     delete: true
 
+  - name: "Weekly World Car Info"
+    # Matches: Weekly World Car Info – Issue 11 2026.pdf
+    pattern: "^Weekly World Car Info [–-] .+\\.pdf$"
+    delete: true
+
+  - name: "What Car, UK"
+    # Matches: What Car, UK – April 2026.pdf
+    pattern: "^What Car, UK [–-] .+\\.pdf$"
+    delete: true
+
   - name: "What Hi-fi"
     # Matches: What Hi-Fi N259 • Mars 2026.pdf
     pattern: "^What Hi-Fi N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -3260,6 +3310,12 @@ magazines:
     # Matches: WirtschaftsWoche_13.03.26.pdf
     pattern: "^WirtschaftsWoche_(\\d{2})\\.(\\d{2})\\.(\\d{2})\\.pdf$"
     date_groups: [day, month, year_short]
+
+  - name: "Women's Fitness UK"
+    # Matches: Women's Fitness UK – April 2026.pdf
+    pattern: "^Women's Fitness UK [–-] ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}-{month}.pdf"
 
   - name: "Womens Health UK"
     # Matches: Womens Health UK April 2026.pdf
