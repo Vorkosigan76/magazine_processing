@@ -1715,6 +1715,7 @@ magazines:
     #   "Le Monde du Vendredi 6 Mars 2026.pdf"                 (du + day name)
     #   "Le Monde • 20260210.pdf"                              (Z: drive)
     #   "Le Monde • Vendredi 6 Mars 2026.pdf"                  (bullet + day name)
+    #   "Le Monde - 22-23 Mars 2026.pdf"                       (day range)
     #   "Le Monde • Dimanche 8 et Lundi 9 Mars 2026.pdf"      (dual-day)
     #   "Le.Monde.19.Mars.2026.FRENCH.PDF-NoGRP.pdf"              (dot-separated)
     patterns:
@@ -1731,6 +1732,8 @@ magazines:
       - pattern: "^Le Monde [•·] [A-Za-zÀ-ÿ]+ \\d{1,2} et [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d+)*\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Monde . [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d+)*\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^Le Monde - (\\d{1,2})-\\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Monde - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.pdf$"
         date_groups: [day, month, year]
@@ -2355,6 +2358,12 @@ magazines:
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
+  - name: "PC Pro"
+    # Matches: Pc Pro March 2026 v.pdf
+    pattern: "^[Pp][Cc] [Pp]ro ([A-Za-z]+) (\\d{4}) v\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
   - name: "PC-Tricks Tipps und Anleitungen"
     # Matches: PC-Tricks, Tipps und Anleitungen - Oktober 2025.pdf (German months)
     pattern: "^PC-Tricks, Tipps und Anleitungen [–-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
@@ -2412,8 +2421,12 @@ magazines:
 
   - name: "Programmez!"
     # Matches: Programmez! N23 • Janvier-Fevrier 2026.Pdf
-    pattern: "^[Pp]rogrammez! N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.pdf$"
-    date_groups: [month_range, year]
+    #          Programmez!_2026_01_02.pdf (underscore-separated date)
+    patterns:
+      - pattern: "^[Pp]rogrammez! N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.pdf$"
+        date_groups: [month_range, year]
+      - pattern: "^[Pp]rogrammez!_(\\d{4})_(\\d{2})_(\\d{2})\\.pdf$"
+        date_groups: [year, month, day]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
   - name: "Programmez! Hors-Serie"
@@ -3144,8 +3157,12 @@ magazines:
 
   - name: "Uber hardware"
     # Matches: Uber hardware N11 • Decembre 2025.Pdf
-    pattern: "^Uber hardware N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
-    date_groups: [month_name, year]
+    #          Uber_Hardware_2026_02.pdf (underscore-separated date)
+    patterns:
+      - pattern: "^Uber hardware N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
+        date_groups: [month_name, year]
+      - pattern: "^Uber_Hardware_(\\d{4})_(\\d{2})\\.pdf$"
+        date_groups: [year, month]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Ultimate Defence"

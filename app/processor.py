@@ -222,6 +222,16 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
         filepath = filepath.rename(corrected)
         filename = filename_straight
 
+    # Strip "_fr.downmagaz.net" suffix (e.g. "Programmez!_2026_01_02_fr.downmagaz.net.pdf")
+    _DOWNMAGAZ = "_fr.downmagaz.net"
+    stem = filepath.stem
+    if _DOWNMAGAZ in stem:
+        new_stem = stem.replace(_DOWNMAGAZ, "")
+        corrected = filepath.with_name(new_stem + filepath.suffix)
+        logger.info("Stripped downmagaz suffix: %s -> %s", filename, corrected.name)
+        filepath = filepath.rename(corrected)
+        filename = corrected.name
+
     # Strip " - TP" suffix (e.g. "L'Express - 12-03-2026 - TP.pdf" -> "L'Express - 12-03-2026.pdf")
     if filename.lower().endswith(" - tp.pdf"):
         corrected = filepath.with_name(filename[:-len(" - TP.pdf")] + ".pdf")
