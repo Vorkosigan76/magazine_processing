@@ -1,13 +1,18 @@
 services:
   magazine-processor:
-    image: ghcr.io/vorkosigan76/magazine_processing:1.0.0
-    environment:
-      - IMPORT_DIR=/import
-      - PROCESSED_DIR=/processed
-      - QUARANTINE_DIR=/quarantine
+    container_name: magazine_processor
+    image: ghcr.io/vorkosigan76/magazine_processing:latest
     volumes:
-      - ./import:/import
-      - ./processed:/processed
-      - ./quarantine:/quarantine
-      - ./config:/app/config
+      - imports_magazines:/import
+      - media_magazines:/processed
+      - quarantine_magazines:/quarantine
     restart: unless-stopped
+
+volumes:
+  imports_magazines:
+    external: true
+  quarantine_magazines:
+    external: true
+  media_magazines:
+    external: true
+  

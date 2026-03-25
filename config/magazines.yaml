@@ -56,6 +56,12 @@ magazines:
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
+  - name: "60 Millions de Consommateurs Hors-Série"
+    # Matches: 60 Millions de Consommateurs Hors-Série - Avril-M_260324_072323.pdf
+    pattern: "^60 Millions de Consommateurs Hors-S[eé]rie - ([A-Za-zÀ-ÿ]+)-[A-Za-zÀ-ÿ]*_(\\d{2})\\d{4}_\\d{6}\\.pdf$"
+    date_groups: [month_name, year_short]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
   - name: "Abricot"
     # Matches: Abricot - Mars 2026.pdf
     #          abricot N434 • Mars 2026.pdf
@@ -549,6 +555,12 @@ magazines:
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
+  - name: "Cooking Light"
+    # Matches: Cooking_Light_–_Vol_39,_Iss_1_High_Protein_Racipes,_Spring_2026.pdf
+    pattern: "^Cooking_Light_[–-]_Vol_\\d+,_Iss_\\d+_[^,]+,_([A-Za-z]+)_(\\d{4})\\.pdf$"
+    date_groups: [season, year]
+    template: "{name} {year}-{month}.pdf"
+
   - name: "Courrier International"
     # Matches:
     #   "Courrier International N1844 - 5 Mars 2026.pdf"
@@ -560,6 +572,8 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Courrier [Ii]nternational - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
         date_groups: [day, month_name, year]
+      - pattern: "^Courrier [Ii]nternational N\\d+ [•·-] (\\d{1,2}) ([A-Za-zÀ-ÿ]+) au \\d{1,2}(?:er)? [A-Za-zÀ-ÿ]*_(\\d{2})\\d{4}_\\d{6}\\.pdf$"
+        date_groups: [day, month_name, year_short]
 
   - name: "Courrier Picard"
     # Matches: Courrier Picard****.pdf (catch-all for any edition)
@@ -850,6 +864,12 @@ magazines:
     date_groups: [month, year_short]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "Food & Wine USA"
+    # Matches: Food & Wine USA – April 2026.pdf
+    pattern: "^Food & Wine USA [–-] ([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
   - name: "Forbes Afrique"
     # Matches:
     #   "Forbes Afrique N88 • Decembre 2025.Pdf"     (monthly name)
@@ -1066,7 +1086,7 @@ magazines:
         date_groups: [day, month_name, year]
 
   - name: "Iran Tehran Times"
-    pattern: "^Iran Tehran Times \\d+\\.pdf$"
+    pattern: "^Ir[aá]n Tehran Times \\d+\\.pdf$"
     delete: true
 
   - name: "Jeune Afrique"
@@ -1103,6 +1123,11 @@ magazines:
   - name: "Kuwait Times (alt)"
     # Matches: Kuwait - Kuwait Times 08 Mar 2026.pdf
     pattern: "^Kuwait - Kuwait Times \\d{2} [A-Za-z]+ \\d{4}\\.pdf$"
+    delete: true
+
+  - name: "KAYHAN INTERNATIONAL"
+    # Matches: KAYHAN INTERNATIONAL 22 February.pdf
+    pattern: "^KAYHAN INTERNATIONAL.*\\.pdf$"
     delete: true
 
   - name: "L'Echo d'Algerie"
@@ -1567,6 +1592,8 @@ magazines:
       - pattern: "^Le Canard [Ee]ncha[iî]n[eé] [–-] (\\d{4})(\\d{2})(\\d{2})\\.pdf$"
         date_groups: [year, month, day]
       - pattern: "^Le Canard [Ee]ncha[iî]n[eé] [•·-] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})(?:\\(\\d+\\))?\\.pdf$"
+        date_groups: [day, month_name, year]
+      - pattern: "^Le Canard [Ee]ncha[iî]n[eé] [•·-] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})_\\d{6}_\\d{6}\\.pdf$"
         date_groups: [day, month_name, year]
 
   - name: "Le Carnet de la fringale culturelle"
@@ -2358,6 +2385,12 @@ magazines:
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
+  - name: "PC Gamer US"
+    # Matches: PC Gamer US_May 2026.pdf
+    pattern: "^PC Gamer US_([A-Za-z]+) (\\d{4})\\.pdf$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
   - name: "PC Pro"
     # Matches: Pc Pro March 2026 v.pdf
     pattern: "^[Pp][Cc] [Pp]ro ([A-Za-z]+) (\\d{4}) v\\.pdf$"
@@ -2576,6 +2609,8 @@ magazines:
         date_groups: [day, month]
       - pattern: "^Science . (\\d{4})-(\\d{2})-(\\d{2})\\.pdf$"
         date_groups: [year, month, day]
+      - pattern: "^Science - ([A-Za-z]+) (\\d{1,2}), (\\d{4})\\.pdf$"
+        date_groups: [month_name, day, year]
 
   - name: "Science & Vie"
     # Matches: Science & Vie N1302 • Mars 2026.Pdf
@@ -2765,6 +2800,11 @@ magazines:
     pattern: "^Testachat Magazine N\\d+ [•·] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [month_name, year]
 
+  - name: "Tehran Times"
+    # Matches: Tehran Times.pdf
+    pattern: "^Tehran Times\\.pdf$"
+    delete: true
+
   - name: "Tele 7 Jours" # Matches: Tele 7 Jours N3412 du 18 au 24 Octobre 2025.pdf
     pattern: "^Tele 7 Jours N\\d+ du (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
@@ -2947,6 +2987,11 @@ magazines:
     # Matches: The New Yorker 16 March 2026.pdf
     pattern: "^The New Yorker (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.pdf$"
     date_groups: [day, month_name, year]
+
+  - name: "The New Republic"
+    # Matches: The New Republic - April 2026.pdf
+    pattern: "^The New Republic.*\\.pdf$"
+    delete: true
 
   - name: "The New York Times"
     # Matches: The New York Times • March 12, 2026.pdf
