@@ -13,7 +13,7 @@ MONTH_NAMES = {name.lower(): num for num, name in enumerate(calendar.month_name)
 MONTH_ABBR = {name.lower(): num for num, name in enumerate(calendar.month_abbr) if num}
 MONTH_NAMES.update(MONTH_ABBR)
 MONTH_NAMES_FR = {
-    "janvier": 1, "février": 2, "fevrier": 2, "mars": 3, "avril": 4,
+    "janvier": 1, "février": 2, "fevrier": 2, "mars": 3, "nars": 3, "avril": 4,
     "mai": 5, "juin": 6, "juillet": 7, "août": 8, "aout": 8,
     "septembre": 9, "octobre": 10, "novembre": 11, "décembre": 12, "decembre": 12,
 }
@@ -222,6 +222,17 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
         filepath = filepath.rename(corrected)
         filename = filename_straight
 
+    # Strip country flag emoji prefixes (e.g. "🇰🇼 Kuwait Times..." -> "Kuwait Times...")
+    _FLAG_PREFIXES = ("🇰🇼 ", "🇮🇷 ", "🇪🇬 ", "🇦🇪 ")
+    for prefix in _FLAG_PREFIXES:
+        if filename.startswith(prefix):
+            new_name = filename[len(prefix):]
+            corrected = filepath.with_name(new_name)
+            logger.info("Stripped flag prefix: %s -> %s", filename, new_name)
+            filepath = filepath.rename(corrected)
+            filename = new_name
+            break
+
     # Strip "_fr.downmagaz.net" suffix (e.g. "Programmez!_2026_01_02_fr.downmagaz.net.pdf")
     _DOWNMAGAZ = "_fr.downmagaz.net"
     stem = filepath.stem
@@ -283,6 +294,15 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
         logger.info("Duplicate detected, deleting: %s", filename)
         filepath.unlink()
         return False
+
+    # Check for near-duplicates: same file size in the destination folder
+    incoming_size = filepath.stat().st_size
+    for existing in dest_dir.iterdir():
+        if existing.is_file() and existing.name != new_name and existing.stat().st_size == incoming_size:
+            logger.info("Near-duplicate detected (same size %d as %s), deleting: %s",
+                         incoming_size, existing.name, filename)
+            filepath.unlink()
+            return False
 
     shutil.move(str(filepath), str(dest_path))
     logger.info("Processed: %s -> %s", filename, dest_path)

@@ -703,6 +703,31 @@ class TestTPSuffixStripping:
         assert result is True
 
 
+# ── Flag emoji prefix stripping in process_file ──
+
+
+class TestFlagPrefixStripping:
+    """Test that process_file strips country flag emoji prefixes."""
+
+    def test_flag_prefix_stripped_and_matched(self, magazines, tmp_path):
+        from app.processor import process_file
+
+        import_dir = tmp_path / "import"
+        import_dir.mkdir()
+        output_dir = tmp_path / "processed"
+        output_dir.mkdir()
+        quarantine_dir = tmp_path / "quarantine"
+
+        flag_file = import_dir / "🇰🇼 Newsweek EU - 20-03-2026.pdf"
+        flag_file.write_bytes(b"%PDF-fake")
+
+        result = process_file(flag_file, magazines, output_dir, quarantine_dir)
+        assert result is True
+
+        dest = output_dir / "Newsweek EU" / "Newsweek EU - 2026-03-20.pdf"
+        assert dest.exists()
+
+
 # ── Duplicate suffix stripping in process_file ──
 
 
@@ -775,3 +800,91 @@ class TestDuplicateSuffixStripping:
         # Duplicate should be gone, original untouched
         assert not dup_file.exists()
         assert original_file.exists()
+
+
+# ── Near-duplicate detection (same size) ──
+
+
+class TestNearDuplicateDetection:
+    def test_near_duplicate_blocked_same_size(self, magazines, tmp_path):
+        """If a file with the same size exists in destination, incoming file is deleted."""
+        from app.processor import process_file
+
+        import_dir = tmp_path / "import"
+        import_dir.mkdir()
+        output_dir = tmp_path / "processed"
+        output_dir.mkdir()
+        quarantine_dir = tmp_path / "quarantine"
+
+        # Create existing file in destination
+        dest_dir = output_dir / "Le Monde"
+        dest_dir.mkdir()
+        existing_file = dest_dir / "Le Monde - 20260305.pdf"
+        existing_file.write_bytes(b"%PDF-1234567890")  # 18 bytes
+
+        # Create incoming file with same size but different date
+        incoming_file = import_dir / "lmnd06032026.pdf"  # Will parse as 2026-03-06
+        incoming_file.write_bytes(b"%PDF-1234567890")  # Same 18 bytes
+
+        result = process_file(incoming_file, magazines, output_dir, quarantine_dir)
+        assert result is False  # Near-duplicate detected, file deleted
+
+        # Incoming file should be deleted
+        assert not incoming_file.exists()
+        # Existing file should remain
+        assert existing_file.exists()
+        # No new file should be created
+        new_file = dest_dir / "Le Monde - 20260306.pdf"
+        assert not new_file.exists()
+
+    def test_different_size_passes(self, magazines, tmp_path):
+        """If existing file has different size, incoming file is processed normally."""
+        from app.processor import process_file
+
+        import_dir = tmp_path / "import"
+        import_dir.mkdir()
+        output_dir = tmp_path / "processed"
+        output_dir.mkdir()
+        quarantine_dir = tmp_path / "quarantine"
+
+        # Create existing file in destination with different size
+        dest_dir = output_dir / "Le Monde"
+        dest_dir.mkdir()
+        existing_file = dest_dir / "Le Monde - 20260305.pdf"
+        existing_file.write_bytes(b"%PDF-short")  # 10 bytes
+
+        # Create incoming file with different size
+        incoming_file = import_dir / "lmnd06032026.pdf"
+        incoming_file.write_bytes(b"%PDF-much-longer-content")  # 24 bytes
+
+        result = process_file(incoming_file, magazines, output_dir, quarantine_dir)
+        assert result is True  # Different size, should be processed
+
+        new_file = dest_dir / "Le Monde - 20260306.pdf"
+        assert new_file.exists()
+
+    def test_exact_duplicate_still_works(self, magazines, tmp_path):
+        """Exact same destination filename still triggers the original duplicate check."""
+        from app.processor import process_file
+
+        import_dir = tmp_path / "import"
+        import_dir.mkdir()
+        output_dir = tmp_path / "processed"
+        output_dir.mkdir()
+        quarantine_dir = tmp_path / "quarantine"
+
+        # Create existing file at exact destination path
+        dest_dir = output_dir / "Le Monde"
+        dest_dir.mkdir()
+        existing_file = dest_dir / "Le Monde - 20260306.pdf"
+        existing_file.write_bytes(b"%PDF-existing")
+
+        # Create incoming file that will produce the same destination name
+        incoming_file = import_dir / "lmnd06032026.pdf"
+        incoming_file.write_bytes(b"%PDF-incoming-different-size")
+
+        result = process_file(incoming_file, magazines, output_dir, quarantine_dir)
+        assert result is False  # Exact duplicate detected
+
+        assert not incoming_file.exists()
+        assert existing_file.exists()

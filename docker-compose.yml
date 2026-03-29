@@ -6,6 +6,7 @@ services:
       - imports_magazines:/import
       - media_magazines:/processed
       - quarantine_magazines:/quarantine
+      - ./config:/app/config
     restart: unless-stopped
 
 volumes:
