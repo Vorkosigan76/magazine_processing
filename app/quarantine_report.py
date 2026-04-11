@@ -1,3 +1,4 @@
+import os
 import re
 import logging
 import tempfile
@@ -266,6 +267,7 @@ def generate_quarantine_report(quarantine_dir: Path) -> Path | None:
         try:
             with open(fd, "w", encoding="utf-8") as f:
                 f.write(report_text)
+            os.chmod(tmp_path, 0o666)
             Path(tmp_path).replace(report_path)
         except BaseException:
             Path(tmp_path).unlink(missing_ok=True)
@@ -273,6 +275,7 @@ def generate_quarantine_report(quarantine_dir: Path) -> Path | None:
     except OSError:
         # Fallback: direct write if atomic write fails (e.g. cross-device)
         report_path.write_text(report_text, encoding="utf-8")
+        os.chmod(report_path, 0o666)
 
     total_files = sum(len(files) for _, files in groups)
     logger.info(
