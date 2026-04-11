@@ -1,5 +1,6 @@
 import/
 processed/
+quarantine/
 __pycache__/
 *.pyc
 .venv/

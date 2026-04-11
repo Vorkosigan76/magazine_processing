@@ -8,6 +8,7 @@ from watchdog.observers.polling import PollingObserver
 from watchdog.events import FileSystemEventHandler, FileCreatedEvent
 
 from app.processor import load_magazines, process_file
+from app.quarantine_report import generate_quarantine_report
 from app.version import BUILD_DATE, BUILD_TIME, VERSION
 
 logging.basicConfig(
@@ -83,6 +84,7 @@ def main():
             try:
                 logger.info("Checking %s for new PDFs...", IMPORT_DIR)
                 process_existing(IMPORT_DIR, magazines, PROCESSED_DIR, QUARANTINE_DIR)
+                generate_quarantine_report(QUARANTINE_DIR)
                 logger.info("Check complete. Next check in 10 minutes.")
             except Exception as e:
                 logger.error("Error during check: %s", e, exc_info=True)
