@@ -7,6 +7,7 @@ services:
       - media_magazines:/processed
       - quarantine_magazines:/quarantine
       - ./config:/app/config
+    user: "1000:1000"
     restart: unless-stopped
 
 volumes:
