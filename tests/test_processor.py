@@ -415,6 +415,19 @@ class TestZDrivePatterns:
         assert result is not None
         assert result[0] == "China Daily"
 
+    def test_china_daily_ddmmyy(self, magazines):
+        """China Daily DD-MM-YY format (e.g. 04-05-26)."""
+        for fn in [
+            "China Daily 04-05-26.pdf",
+            "China Daily 05-05-26.pdf",
+            "China Daily 09-05-26.pdf",
+            "China Daily 11-04-26.pdf",
+            "China Daily 23-05-26.pdf",
+        ]:
+            result = match_magazine(fn, magazines)
+            assert result is not None, f"Failed to match {fn}"
+            assert result[0] == "China Daily"
+
     def test_science_z(self, magazines):
         result = match_magazine("Science – 2026-01-08.pdf", magazines)
         assert result is not None
