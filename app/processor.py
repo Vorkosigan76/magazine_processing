@@ -137,7 +137,7 @@ def match_magazine(filename: str, magazines: list[dict]) -> tuple[str, date, str
                     logger.error(f"  Pattern: {compiled.pattern}")
                     logger.error(f"  Captured groups: {groups}")
                     logger.error(f"  Date groups config: {date_groups}")
-                    raise
+                    return None
                 today = date.today()
                 if not date_map:
                     pub_date = today
