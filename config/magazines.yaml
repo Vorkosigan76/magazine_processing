@@ -1937,9 +1937,10 @@ magazines:
     delete: true
 
   - name: "La Dépêche du Dimanche Haute-Garonne"
-    # Matches: La Depeche du Dimanche Haute-Garonne.pdf (no date in filename)
+    # Matches: La Depeche du Dimanche Haute-Garonne.pdf (no date in filename, use processing date)
     pattern: "^La Depeche du Dimanche Haute-Garonne\\.[Pp]df$"
-    delete: true
+    date_groups: []
+    template: "{name} - {date}.pdf"
 
   - name: "La Dépêche du Midi Haute-Garonne"
     # Matches: La Depeche du Midi Haute Garonne 15-03-2026.pdf
