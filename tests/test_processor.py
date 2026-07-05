@@ -248,7 +248,7 @@ class TestGroup4CompactMonthly:
         result = match_magazine("Alternatives Economiques - 202601.pdf", magazines)
         assert result is not None
         name, pub_date, _, _ = result
-        assert name == "Alternatives Economiques"
+        assert name == "Alternatives Économiques"
         assert pub_date == date(2026, 1, 1)
 
     def test_national_geo_uk(self, magazines):
@@ -304,7 +304,7 @@ class TestGroup7EnglishMonthly:
         result = match_magazine("PC Gamer USA - December 2025.pdf", magazines)
         assert result is not None
         name, pub_date, _, _ = result
-        assert name == "PC Gamer USA"
+        assert name == "PC Gamer US"
         assert pub_date == date(2025, 12, 1)
 
     def test_stereo(self, magazines):
@@ -332,7 +332,7 @@ class TestGroup8WeeklyFrench:
     def test_telerama(self, magazines):
         result = match_magazine("Telerama N3952 • 11 au 17 Octobre 2025.Pdf", magazines)
         assert result is not None
-        assert result[0] == "Telerama"
+        assert result[0] == "Télérama"
 
     def test_handelsblatt_german(self, magazines):
         result = match_magazine("Handelsblatt N194 - 9 Oktober 2025.pdf", magazines)
@@ -354,7 +354,7 @@ class TestGroup9Special:
     def test_planete_robots(self, magazines):
         result = match_magazine("Planete Robots N95 • 2026-01.pdf", magazines)
         assert result is not None
-        assert result[0] == "Planete Robots"
+        assert result[0] == "Planète Robots"
 
     def test_modellfan(self, magazines):
         result = match_magazine("ModellFan - 2026.01.pdf", magazines)
@@ -467,13 +467,13 @@ class TestExistingPatternsUnbroken:
     def test_lequipe(self, magazines):
         result = match_magazine("lequipe050326.pdf", magazines)
         assert result is not None
-        assert result[0] == "L Equipe"
+        assert result[0] == "L'Equipe"
 
     def test_lequipe_eq_format(self, magazines):
         result = match_magazine("EQ12032026.pdf", magazines)
         assert result is not None
         name, pub_date, _, _ = result
-        assert name == "L Equipe"
+        assert name == "L'Equipe"
         assert pub_date == date(2026, 3, 12)
 
     def test_les_echos_compact(self, magazines):
@@ -504,7 +504,7 @@ class TestExistingPatternsUnbroken:
     def test_sante_magazine_original(self, magazines):
         result = match_magazine("Santé Magazine - Avril 2026.pdf", magazines)
         assert result is not None
-        assert result[0] == "Sante Magazine"
+        assert result[0] == "Santé Magazine"
 
 
 # ── New magazines ──
@@ -553,7 +553,7 @@ class TestNewMagazines:
         result = match_magazine("VTT Mag - avril-mai 2026.pdf", magazines)
         assert result is not None
         name, pub_date, _, _ = result
-        assert name == "VTT Mag"
+        assert name == "VTT Magazine"
         assert pub_date == date(2026, 4, 1)
 
     def test_world_air_news(self, magazines):
@@ -629,7 +629,7 @@ class TestAdditionalPatterns:
         result = match_magazine("lequipe050326_260305_043349.pdf", magazines)
         assert result is not None
         name, pub_date, _, _ = result
-        assert name == "L Equipe"
+        assert name == "L'Equipe"
         assert pub_date == date(2026, 3, 5)
 
     def test_les_echos_tp(self, magazines):
