@@ -136,7 +136,7 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Air & Cosmos [–-] (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
-      - pattern: "^Air_Cosmos_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
+      - pattern: "^Air_Cosmos_(\\d{4})_(\\d{2})_(\\d{1,2})\\.[Pp]df$"
         date_groups: [year, month, day]
 
   - name: "Air Force Times"
@@ -284,8 +284,9 @@ magazines:
     template: "{name} - {year}.pdf"
 
   - name: "Arch\u00e9ologia"
-    # Matches: Archelogia N654 • Juin 2026.pdf
-    pattern: "^Arch[e\u00e9]ologia N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+    # Matches: Archelogia N654 • Juin 2026.pdf (typo: missing "o" before "logia")
+    #          Archéologia N654 • Juin 2026.pdf
+    pattern: "^Arch[e\u00e9]o?logia N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
@@ -1103,8 +1104,12 @@ magazines:
   - name: "Entreprendre a l'International"
     # Matches: Entreprendre a l international N643 • Nov-Dec 2025.Pdf
     #          Entreprendre à l'international N642 • Sep-Oct 2025.pdf
-    pattern: "^Entreprendre [aà] l['\u2019 ]?[Ii]nternational N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_range, year]
+    #          Entreprendre à l'international - Mai-Juin 2026.pdf (no issue number)
+    patterns:
+      - pattern: "^Entreprendre [aà] l['\u2019 ]?[Ii]nternational N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_range, year]
+      - pattern: "^Entreprendre [aà] l['\u2019 ]?[Ii]nternational - ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
   - name: "Essential Guide to ChatGPT - 2nd Edition"
@@ -1690,9 +1695,12 @@ magazines:
     # Matches: L Histoire N540 • Fevrier 2026.Pdf
     #          L Histoire N342 La Revolution et le peuple • Mai 2009.pdf (subtitle before •)
     #          L'Histoire - Mai 2026.pdf
+    #          L'Histoire - Juillet-Août 2026.pdf (month range)
     patterns:
       - pattern: "^L Histoire N\\d+.*[•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
+      - pattern: "^L'Histoire - ([A-Za-zÀ-ÿ]+)-([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, month_name, year]
       - pattern: "^L'Histoire - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
@@ -1801,11 +1809,12 @@ magazines:
     # Matches:
     #   "l Humanite • Vendredi 6 au Dimanche 8 Mars 2026.pdf"
     #   "l Humanite • Vendredi 27 au Dimanche 1er Mars 2026.pdf"   (ordinal "1er")
+    #   "l Humanite • Vendredi 19 et Samedi 20 Juin 2026.pdf"      ("et" instead of "au")
     #   "l Humanite • Lundi 9 Mars 2026.pdf"                       (single-day)
     #   "L.Humanite.19.Mars.2026.FRENCH.PDF-NoGRP.pdf"
     #   "l Humanite  • Lundi 1er Juin 2026.pdf"                    (double-space, ordinal day)
     patterns:
-      - pattern: "^l Humanite [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) au [A-Za-zÀ-ÿ]+ \\d{1,2}(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+      - pattern: "^l Humanite [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) (?:au|et) [A-Za-zÀ-ÿ]+ \\d{1,2}(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^l Humanite [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
@@ -1840,18 +1849,23 @@ magazines:
     #   "l Opinion • Vendredi 6 et Samedi 7 Mars 2026.pdf"   (dual-day)
     #   "l Opinion • Lundi 9 Mars 2026.pdf"                   (single-day)
     #   "l Opinion  • Lundi 1er Juin 2026.pdf"                (double-space, ordinal day)
+    #   "l Opinion • Mercredi 1er Juillet 2026.pdf"           (single-space, ordinal day)
     #   "LOpinion06032026.pdf"                                 (daily download)
+    #   "LOpinion_26062026.pdf"                                (daily download, underscore)
     #   "L.Opinion.19.Mars.2026.FRENCH.PDF-NoGRP.pdf"         (dot-separated)
     patterns:
       - pattern: "^l Opinion [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et [A-Za-zÀ-ÿ]+ \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
-      - pattern: "^l Opinion [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+      - pattern: "^l Opinion [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^L'Opinion - (\\d{2})-(\\d{2})-(\\d{4}) - TP\\.[Pp]df$"
         date_groups: [day, month, year]
       - pattern: "^l Opinion  [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2})(?:er|ème|eme)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^LOpinion(\\d{2})(\\d{2})(\\d{4})\\.[Pp]df$"
+        date_groups: [day, month, year]
+        template: "{name} - {year}{month}{day}.pdf"
+      - pattern: "^LOpinion_(\\d{2})(\\d{2})(\\d{4})\\.[Pp]df$"
         date_groups: [day, month, year]
         template: "{name} - {year}{month}{day}.pdf"
       - pattern: "^L\\.Opinion\\.(\\d{1,2})\\.([A-Za-zÀ-ÿ]+)\\.(\\d{4})\\.FRENCH\\.[Pp]df-NoGRP\\.[Pp]df$"
@@ -1920,6 +1934,11 @@ magazines:
   - name: "La Croix L'Hebdo"
     # Matches: La Croix L'Hebdo • Semaine du 27 Mars 2026.pdf
     pattern: "^La Croix L'Hebdo.*\\.pdf$"
+    delete: true
+
+  - name: "La Dépêche du Dimanche Haute-Garonne"
+    # Matches: La Depeche du Dimanche Haute-Garonne.pdf (no date in filename)
+    pattern: "^La Depeche du Dimanche Haute-Garonne\\.[Pp]df$"
     delete: true
 
   - name: "La Dépêche du Midi Haute-Garonne"
@@ -2455,13 +2474,14 @@ magazines:
     #   "Le Parisien - Lundi 30 mars 2026.pdf"                      (dash + day name)
     #   "Le Parisien du Mardi 31 Mars 2026_260331_085427.pdf"       (du + suffix)
     #   "Le Parisien  • Lundi 1er Juin 2026.pdf"                    (double-space + ordinal "1er")
+    #   "Le Parisien • Mercredi 1er Juillet 2026.pdf"               (single-space + ordinal "1er")
     #   "Le Parisien - 2026 05 31.pdf"                              (YYYY MM DD spaced)
     #   "Le Parisien - Lundi 15 huin 2026.pdf"                      (typo: huin=juin)
     #   "Le Parisien Dimanche  • 7 Juin 2026.pdf"                   (double-space before bullet)
     patterns:
       - pattern: "^Le Parisien - (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d+)*\\.[Pp]df$"
         date_groups: [day, month_name, year]
-      - pattern: "^Le Parisien [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d{6}_\\d{6})?\\.[Pp]df$"
+      - pattern: "^Le Parisien [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d{6}_\\d{6})?\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Parisien du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
