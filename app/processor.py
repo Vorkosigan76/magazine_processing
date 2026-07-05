@@ -133,11 +133,11 @@ def match_magazine(filename: str, magazines: list[dict]) -> tuple[str, date, str
                         date_map[date_key] = parsed
                         extra_vars.update(extras)
                 except ValueError as e:
-                    logger.error(f"Date parsing error for '{filename}' matched by pattern '{mag['name']}': {e}")
-                    logger.error(f"  Pattern: {compiled.pattern}")
-                    logger.error(f"  Captured groups: {groups}")
-                    logger.error(f"  Date groups config: {date_groups}")
-                    return None
+                    logger.warning(f"Date parsing failed for '{filename}' with pattern '{mag['name']}': {e} — trying other patterns")
+                    logger.warning(f"  Pattern: {compiled.pattern}")
+                    logger.warning(f"  Captured groups: {groups}")
+                    logger.warning(f"  Date groups config: {date_groups}")
+                    continue
                 today = date.today()
                 if not date_map:
                     pub_date = today
