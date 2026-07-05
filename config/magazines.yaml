@@ -1936,16 +1936,14 @@ magazines:
     pattern: "^La Croix L'Hebdo.*\\.pdf$"
     delete: true
 
-  - name: "La Dépêche du Dimanche Haute-Garonne"
-    # Matches: La Depeche du Dimanche Haute-Garonne.pdf (no date in filename, use processing date)
-    pattern: "^La Depeche du Dimanche Haute-Garonne\\.[Pp]df$"
-    date_groups: []
-    template: "{name} - {date}.pdf"
-
   - name: "La Dépêche du Midi Haute-Garonne"
     # Matches: La Depeche du Midi Haute Garonne 15-03-2026.pdf
-    pattern: "^La Depeche du Midi Haute Garonne (\\d{2})-(\\d{2})-(\\d{4})\\.[Pp]df$"
-    date_groups: [day, month, year]
+    #          La Depeche du Dimanche Haute-Garonne.pdf (no date in filename, use processing date)
+    patterns:
+      - pattern: "^La Depeche du Midi Haute Garonne (\\d{2})-(\\d{2})-(\\d{4})\\.[Pp]df$"
+        date_groups: [day, month, year]
+      - pattern: "^La Depeche du Dimanche Haute-Garonne\\.[Pp]df$"
+        date_groups: []
     template: "{name} - {date}.pdf"
 
   - name: "La Depeche du Midi Toulouse"
