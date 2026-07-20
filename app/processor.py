@@ -222,6 +222,15 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
         filepath = filepath.rename(corrected)
         filename = filename_straight
 
+    # Normalize superscript Unicode digits to ASCII (e.g. corrupted PDF metadata extraction)
+    _SUPERSCRIPT_DIGITS = str.maketrans("⁰¹²³⁴⁵⁶⁷⁸⁹", "0123456789")
+    filename_digits = filename.translate(_SUPERSCRIPT_DIGITS)
+    if filename_digits != filename:
+        corrected = filepath.with_name(filename_digits)
+        logger.info("Normalized superscript digits: %s -> %s", filename, filename_digits)
+        filepath = filepath.rename(corrected)
+        filename = filename_digits
+
     # Strip country flag emoji prefixes (e.g. "🇰🇼 Kuwait Times..." -> "Kuwait Times...")
     _FLAG_PREFIXES = ("🇰🇼 ", "🇮🇷 ", "🇪🇬 ", "🇦🇪 ")
     for prefix in _FLAG_PREFIXES:
