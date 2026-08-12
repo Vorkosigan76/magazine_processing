@@ -7,16 +7,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Read version
+      - name: Bump patch version
         id: version
-        run: echo "VERSION=$(cat VERSION)" >> "$GITHUB_OUTPUT"
+        run: |
+          IFS='.' read -r major minor patch < VERSION
+          new_version="${major}.${minor}.$((patch + 1))"
+          echo "$new_version" > VERSION
+          echo "VERSION=$new_version" >> "$GITHUB_OUTPUT"
+
+      - name: Commit bumped version
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add VERSION
+          git commit -m "chore: bump version to ${{ steps.version.outputs.VERSION }} [skip ci]"
+          git push
 
       - name: Log in to GHCR
         uses: docker/login-action@v3

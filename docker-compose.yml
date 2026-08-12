@@ -2,6 +2,7 @@ services:
   magazine-processor:
     container_name: magazine_processor
     image: ghcr.io/vorkosigan76/magazine_processing:latest
+    pull_policy: always
     volumes:
       - imports_magazines:/import
       - media_magazines:/processed
