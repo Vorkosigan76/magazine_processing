@@ -29,7 +29,7 @@ python scripts/rename_z_drive.py              # execute
 - **`app/main.py`** — Entry point. Runs an infinite loop calling `process_existing()` every 10 minutes. Note: imports `PollingObserver` but does **not** use it; the loop is simple `time.sleep(600)`.
 - **`app/processor.py`** — Core logic: loads `config/magazines.yaml`, compiles regexes, extracts dates, moves files. Also handles deletion for `delete: true` entries.
 - **`app/quarantine_report.py`** — Scans `/quarantine`, groups unrecognized files by filename skeleton, and writes `/quarantine/quarantine_report.txt` with suggested YAML entries.
-- **`app/version.py`** — Hardcoded version string. May drift from the `VERSION` file used by CI.
+- **`app/version.py`** — Reads `BUILD_VERSION`/`BUILD_DATE` env vars (baked in by the Dockerfile from CI build-args); falls back to the `VERSION` file and "dev" outside Docker.
 - **`scripts/rename_z_drive.py`** — Standalone utility that walks `/mnt/z`, matches PDFs against YAML patterns, and renames them in-place to match templates. Has hardcoded `FOLDER_RENAMES` and `SKIP_FOLDERS`.
 
 ## Key conventions
@@ -72,12 +72,14 @@ When running locally, paths default to absolute `/import`, `/processed`, `/quara
 - `PROCESSED_DIR`
 - `QUARANTINE_DIR`
 
-In Docker, `docker-compose.yml` mounts `./config:/app/config` as a volume, so `config/magazines.yaml` changes take effect on container restart without rebuilding the image.
+In Docker, `docker-compose.yml` mounts `./config:/app/config` as a volume, so `config/magazines.yaml` changes take effect on container restart without rebuilding the image. `docker-compose.yml` also sets `pull_policy: always`, so `docker compose up` always fetches the current `:latest` tag from GHCR instead of reusing a stale local image.
 
 ## CI / release
 
-- `.github/workflows/build.yml` builds and pushes to `ghcr.io/vorkosigan76/magazine_processing` on every push to `main`.
-- The workflow reads the version from the `VERSION` file. Keep `VERSION` in sync with `app/version.py` if you care about accurate version logging.
+- `.github/workflows/build.yml` builds and pushes to `ghcr.io/vorkosigan76/magazine_processing` on every push to `main`, tagged with both the version and `latest`.
+- CI auto-increments the `VERSION` file's patch number on every run and commits it back to `main` with a `[skip ci]`-tagged commit (avoids a rebuild loop) before building — so don't bump `VERSION` by hand, and don't be surprised to see auto-generated "chore: bump version" commits.
+- `BUILD_DATE` build-arg comes from `github.event.head_commit.timestamp`, so the version banner in logs (`app/main.py`) reflects the triggering commit's time.
+- The auto-push-back step needs the repo's Settings → Actions → General → "Workflow permissions" set to "Read and write permissions".
 
 ## Testing notes
 
