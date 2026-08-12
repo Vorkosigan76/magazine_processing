@@ -1197,8 +1197,12 @@ magazines:
 
   - name: "Empire UK"
     # Matches: Empire UK_May 2026.pdf
-    pattern: "^Empire UK_([A-Za-z]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_name, year]
+    #          Empire UK 09.2026_freemagazines.top.pdf
+    patterns:
+      - pattern: "^Empire UK_([A-Za-z]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
+      - pattern: "^Empire UK (\\d{2})\\.(\\d{4})_freemagazines\\.top\\.[Pp]df$"
+        date_groups: [month, year]
     template: "{name} {year}-{month}.pdf"
 
   - name: "Esprit D\u00e9fense"
@@ -2734,6 +2738,8 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le Monde du [A-Za-zÀ-ÿ]+ (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - pattern: "^Le_Monde_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month, day]
     template: "{name} - {year}{month}{day}.pdf"
 
   - name: "Le Monde des Ados"
@@ -2860,6 +2866,8 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le Parisien Dimanche [•·] (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})_\\d+_\\d+\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - pattern: "^Le_Parisien_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month, day]
 
   - name: "Le Parisien Week-End"
     # Matches: Le Parisien week-end • Vendredi 27 Fevrier 2026.pdf
@@ -2995,6 +3003,11 @@ magazines:
     pattern: "^Le Temps - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
     delete: true
 
+  - name: "Les Cahiers de Science & Vie"
+    # Matches: Les_Cahiers_de_Science_Vie_2026_09.pdf
+    pattern: "^Les_Cahiers_de_Science_Vie_(\\d{4})_(\\d{2})\\.[Pp]df$"
+    date_groups: [year, month]
+
   - name: "Les Dossiers du Pirate"
     # Matches: Les Dossiers du Pirate N45 • Fev-Mar-Avril 2026.Pdf
     pattern: "^Les Dossiers du Pirate N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.[Pp]df$"
@@ -3128,6 +3141,8 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Libération Du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - pattern: "^Libération_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month, day]
     template: "{name} - {year}{month}{day}.pdf"
 
   - name: "Linux USA"
@@ -4067,11 +4082,15 @@ magazines:
   - name: "Science & Vie Guerres & Histoire"
     # Matches: Science & Vie Guerres & Histoire N82 • Jan 2025.pdf
     #          Science_&_Vie_Guerres_&_Histoire_N82_•_Jan_2025.pdf
+    #          Science_Vie_Guerres_Histoire_2026_09_10.pdf
     patterns:
       - pattern: "^Science & Vie Guerres & Histoire N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
       - pattern: "^Science_&_Vie_Guerres_&_Histoire_N\\d+_[•·]_([A-Za-zÀ-ÿ]+)_(\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
+      - pattern: "^Science_Vie_Guerres_Histoire_(\\d{4})_(\\d{2})_\\d{2}\\.[Pp]df$"
+        date_groups: [year, month]
+        template: "{name} - {year}{month}.pdf"
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Science & Vie Guerres & Histoire Hors-Serie"
@@ -4757,11 +4776,14 @@ magazines:
   - name: "Time International Edition"
     # Matches: Time International Edition_0903.pdf (DDMM format)
     #          Time International Edition 17, Aug 2026.pdf
+    #          Time International Edition - August 17, 2026_freemagazines.top.pdf
     patterns:
       - pattern: "^Time International Edition_(\\d{2})(\\d{2})\\.[Pp]df$"
         date_groups: [day, month]
       - pattern: "^Time International Edition (\\d{1,2}), ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - pattern: "^Time International Edition \\- ([A-Za-z]+) (\\d{1,2}), (\\d{4})_freemagazines\\.top\\.[Pp]df$"
+        date_groups: [month_name, day, year]
 
   - name: "Time Special Edition"
     # Matches: Time Special Edition - Super Mario, 2026.pdf
