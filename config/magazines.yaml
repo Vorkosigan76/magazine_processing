@@ -54,9 +54,21 @@ magazines:
 
   - name: "60 Millions de Consommateurs"
     # Matches: 60 millions de consommateurs N620 • Janvier 2026.Pdf
-    pattern: "^60 [Mm]illions de [Cc]onsommateurs N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_name, year]
+    #          60 millions de consommateurs N627  Septembre 2026 🇫🇷  .pdf (double space, flag emoji)
+    patterns:
+      - pattern: "^60 [Mm]illions de [Cc]onsommateurs N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
+      - pattern: "^60 [Mm]illions de [Cc]onsommateurs N\\d+  ([A-Za-zÀ-ÿ]+) (\\d{4}) 🇫🇷  \\.[Pp]df$"
+        date_groups: [month_name, year]
+      - # Matches: MAGAZINE 60 Millions de Consommateurs - Septembre 2026.pdf
+        pattern: "^MAGAZINE \\d+ Millions de Consommateurs - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "60 Millions de Consommateurs (underscore)"
+    # Matches: 60_Millions_de_Consommateurs_2026_09.pdf (no day, duplicate of dated issue)
+    pattern: "^60_Millions_de_Consommateurs_\\d{4}_\\d{2}\\.[Pp]df$"
+    delete: true
 
   - name: "60 Millions de Consommateurs Hors Serie"
     # Matches: 60 Millions de Consommateurs N231 • Jan Fev 2026.pdf
@@ -204,6 +216,11 @@ magazines:
     date_groups: [year]
     template: "{name} - {year}.pdf"
 
+  - name: "Allrecipes - Fall"
+    # Matches: Allrecipes_-_Fall_2026.pdf
+    pattern: "^Allrecipes_\\-_Fall_2026\\.[Pp]df$"
+    delete: true
+
   - name: "Alpes Magazine"
     # Matches: Alpes Magazine N217 • Mars-Avril 2026.pdf
     pattern: "^Alpes Magazine N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
@@ -301,6 +318,9 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^AppleMagazine_-_Issue_\\d+_(\\d{1,2})_([A-Za-z]+)_(\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: Applemagazine_August_14_2026.pdf
+        pattern: "^Applemagazine_([A-Za-z]+)_(\\d{1,2})_(\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, day, year]
 
   - name: "Apple watch - The Complete manual"
     # Matches: Apple watch - The Complete manual , 14th Edition 2026.pdf
@@ -389,6 +409,12 @@ magazines:
         pattern: "^Aujourd hui en France Dimanche  ?[•·] (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^Aujourd'hui en France - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: Aujourd hui en France du Mardi 1er Septembre 2026.pdf
+        pattern: "^Aujourd.hui en France du [A-Za-zÀ-ÿ]+ (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: JOURNAL Aujourd'hui en France - 18 Août 2026.pdf
+        pattern: "^JOURNAL Aujourd'hui en France - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
 
   - name: "Australian Financial Review"
@@ -482,6 +508,11 @@ magazines:
     date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
+  - name: "BBC Easy Cook UK"
+    # Matches: BBC Easy Cook UK 09.2026_freemagazines.top.pdf
+    pattern: "^BBC Easy Cook UK \\d{2}\\.\\d{4}_freemagazines\\.top\\.[Pp]df$"
+    delete: true
+
   - name: "BBC Sky at Night"
     # Matches: BBC Sky at Night – Issue 251, April 2026.pdf
     pattern: "^BBC Sky at Night [–-] Issue \\d+, .+\\.[Pp]df$"
@@ -494,8 +525,12 @@ magazines:
 
   - name: "Beaux Arts Magazine"
     # Matches: Beaux Arts Magazine N502 • Avril 2026.pdf
-    pattern: "^Beaux Arts Magazine N\\d+ [•·] ([A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_name, year]
+    #          Beaux_Arts_2026_09.pdf (underscore YYYY_MM)
+    patterns:
+      - pattern: "^Beaux Arts Magazine N\\d+ [•·] ([A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
+      - pattern: "^Beaux_Arts_(\\d{4})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
 
   - name: "Beijing Review"
     # Matches: Beijing Review – Vol.69 No.10, 5 March 2026.pdf
@@ -596,6 +631,10 @@ magazines:
       - pattern: "^Ca m'interesse Histoire \\d+ \\- ([A-Za-zÀ-ÿ]+)\\-([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, month_name, year]
         template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+      - # Matches: Ça M'Intéresse Histoire - Septembre-Octobre 2026.pdf (no issue number)
+        pattern: "^[ÇC]a [Mm]['’ ][Ii]nt[eé]resse Histoire - ([A-Za-zÀ-ÿ]+)-([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, month_name, year]
+        template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
   - name: "Ça m'intéresse Hors-Série Santé"
@@ -615,7 +654,9 @@ magazines:
     delete: true
 
   - name: "Canard Enchaine"
-    pattern: "^canard\\d+\\.pdf$"
+    patterns:
+      - pattern: "^canard\\d+\\.pdf$"
+      - pattern: "^Canard\\d+_\\d+_\\d+\\.[Pp]df$"
     delete: true
 
   - name: "Canard PC"
@@ -630,8 +671,12 @@ magazines:
 
   - name: "Canard PC Hardware Hors-Serie"
     # Matches: Canard PC Hardware Hors-Serie N65 • Nov-Dec 2025.Pdf
-    pattern: "^Canard PC Hardware Hors-Serie N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_range, year]
+    #          Canard PC Hors-Série Hardware - Été 2026.pdf (reversed order, season)
+    patterns:
+      - pattern: "^Canard PC Hardware Hors-Serie N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_range, year]
+      - pattern: "^Canard PC Hors-S[ée]rie Hardware - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [season, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
   - name: "Canard PC Hors-Serie"
@@ -653,6 +698,11 @@ magazines:
     # Matches: Capital N414 • Mars 2026.pdf
     pattern: "^Capital N\\d+ [•·] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
     date_groups: [month_name, year]
+
+  - name: "Capital France"
+    # Matches: Capital France - Septembre 2026.pdf
+    pattern: "^Capital France - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+    delete: true
 
   - name: "Capital Hors-Serie"
     # Matches: Capital Hors-Serie N84 • Mars-Avril-Mai 2026_260315_091308.pdf
@@ -717,8 +767,12 @@ magazines:
 
   - name: "Cheval magazine"
     # Matches: Cheval magazine N542 • Juin 2026.pdf
-    pattern: "^Cheval magazine N\\d+ [•·] ([A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_name, year]
+    #          Cheval_2026_09.pdf (underscore YYYY_MM)
+    patterns:
+      - pattern: "^Cheval magazine N\\d+ [•·] ([A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
+      - pattern: "^Cheval_(\\d{4})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
 
   - name: "China Daily"
     # Matches both:
@@ -882,6 +936,12 @@ magazines:
         date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
+  - name: "Connaissance des Arts"
+    # Matches: Connaissance des Arts - Septembre 2026.pdf
+    pattern: "^Connaissance des Arts - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
   - name: "Cooking Light"
     # Matches: Cooking_Light_–_Vol_39,_Iss_1_High_Protein_Racipes,_Spring_2026.pdf
     pattern: "^Cooking_Light_[–-]_Vol_\\d+,_Iss_\\d+_[^,]+,_([A-Za-z]+)_(\\d{4})\\.[Pp]df$"
@@ -912,6 +972,7 @@ magazines:
     #   "Courrier international N1826 • 30 Oct au 5 Nov 2025.Pdf"
     #   "Courrier International - 19 Mars 2026.pdf"
     #   "Courrier_International_-_26_Mars_2026.pdf"       (underscores)
+    #   "Courrier_International_2026_08_13.pdf"           (underscore YYYY_MM_DD)
     patterns:
       - pattern: "^Courrier [Ii]nternational N\\d+ [•·-] (\\d{1,2}) (?:[A-Za-zÀ-ÿ]+ )?(?:au \\d{1,2}(?:er)? )?([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
@@ -921,6 +982,10 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Courrier [Ii]nternational N\\d+ [•·-] (\\d{1,2}) ([A-Za-zÀ-ÿ]+) au \\d{1,2}(?:er)? [A-Za-zÀ-ÿ]*_(\\d{2})\\d{4}_\\d{6}\\.[Pp]df$"
         date_groups: [day, month_name, year_short]
+      - pattern: "^Courrier_International_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month, day]
+      - pattern: "^Courrier [Ii]nternational N\\d+ du (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
 
   - name: "Courrier Picard"
     # Matches: Courrier Picard****.pdf (catch-all for any edition)
@@ -952,6 +1017,8 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^Cuisine_Actuelle_(\\d{4})_(\\d{2})\\.[Pp]df$"
         date_groups: [year, month]
+      - pattern: "^Cuisine Actuelle - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Cuisine et Vins de France"
@@ -967,8 +1034,12 @@ magazines:
 
   - name: "Cuisine et Vins de France Hors-Série Nº"
     # Matches: Cuisine et Vins de France Hors-Série Nº42 Printemps 2026.pdf
-    pattern: "^Cuisine et Vins de France Hors-S[ée]rie N[\xba\xb0]\\d+ ([A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [season, year]
+    #          Cuisine_et_Vins_de_France_HS_2026_09.pdf (underscore YYYY_MM, numeric month)
+    patterns:
+      - pattern: "^Cuisine et Vins de France Hors-S[ée]rie N[\xba\xb0]\\d+ ([A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [season, year]
+      - pattern: "^Cuisine_et_Vins_de_France_HS_(\\d{4})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
 
   - name: "Cycling Weekly"
     # Matches: Cycling Weekly 2026.01.08.pdf, Cycling Weekly 4 June.pdf
@@ -1023,13 +1094,18 @@ magazines:
     pattern: "^Data News N\\d+ [•·-] (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
     date_groups: [day, month_name, year]
 
+  - name: "Decision Bourse Le Revenu"
+    # Matches: Decision Bourse Le Revenu N103 • 29 Aout 2026.pdf
+    pattern: "^Decision Bourse Le Revenu N\\d+ [•·] (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+    date_groups: [day, month_name, year]
+
   - name: "Der Spiegel"
     # Matches: Der Spiegel - 2025.10.10.pdf
     # Matches: Der_Spiegel_19.06.26_de.downmagaz.net.pdf
     patterns:
       - pattern: "^Der Spiegel [–-] (\\d{4})\\.(\\d{2})\\.(\\d{2})\\.[Pp]df$"
         date_groups: [year, month, day]
-      - pattern: "^Der_Spiegel_(\\d{2})\\.(\\d{2})\\.(\\d{2})_de\\.downmagaz\\.net\\.[Pp]df$"
+      - pattern: "^Der_Spiegel_(\\d{1,2})\\.(\\d{2})\\.(\\d{2})_de\\.downmagaz\\.net\\.[Pp]df$"
         date_groups: [day, month, year_short]
       - pattern: "^Der_Spiegel_(\\d{1,2})\\.(\\d{1,2})\\.(\\d{2})\\.[Pp]df$"
         date_groups: [day, month, year_short]
@@ -1203,6 +1279,8 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^Empire UK (\\d{2})\\.(\\d{4})_freemagazines\\.top\\.[Pp]df$"
         date_groups: [month, year]
+      - pattern: "^Empire UK - Issue \\d+ ([A-Za-z]+) (\\d{4})_freemagazines\\.top\\.[Pp]df$"
+        date_groups: [month_name, year]
     template: "{name} {year}-{month}.pdf"
 
   - name: "Esprit D\u00e9fense"
@@ -1221,6 +1299,11 @@ magazines:
       - pattern: "^Entreprendre [aà] l['\u2019 ]?[Ii]nternational - ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_range, year]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
+
+  - name: "Entrepreneur's Startups"
+    # Matches: Entrepreneur's Startups Fall Winter 2026_freemagazines.top.pdf
+    pattern: "^Entrepreneur's Startups Fall Winter \\d{4}_freemagazines\\.top\\.[Pp]df$"
+    delete: true
 
   - name: "Esprit Trail"
     # Matches: Esprit_Trail_2026_08_09.pdf
@@ -1352,6 +1435,8 @@ magazines:
       - pattern: "^Food & Wine (\\d{2})\\.(\\d{4}) USA\\.[Pp]df$"
         date_groups: [month, year]
         template: "{name} - {year}{month}.pdf"
+      - pattern: "^Food_amp_Wine_USA_-_([A-Za-z]+)_(\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Forbes"
@@ -1617,8 +1702,13 @@ magazines:
 
   - name: "Historia Hors-Serie"
     # Matches: Historia Hors-Serie N78 • Decembre 2025.Pdf
-    pattern: "^Historia Hors-Serie N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_name, year]
+    #          Historia_HS_2026_09.pdf (underscore YYYY_MM)
+    patterns:
+      - pattern: "^Historia Hors-Serie N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
+      - pattern: "^Historia_HS_(\\d{4})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
+        template: "{name} - {year}{month}.pdf"
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "History of War"
@@ -1739,8 +1829,17 @@ magazines:
     date_groups: [year]
     template: "{name} - {year}.pdf"
 
+  - name: "Je Cuisine"
+    # Matches: Je Cuisine - Août 2026.pdf
+    pattern: "^Je Cuisine - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
   - name: "Je Décore"
-    pattern: "^Je D[eé]core - [A-Za-zÀ-ÿ]+ \\d{4}\\.pdf$"
+    # Matches: je Decore  Peinture & murs deco • Aout 2026.pdf
+    patterns:
+      - pattern: "^Je D[eé]core - [A-Za-zÀ-ÿ]+ \\d{4}\\.pdf$"
+      - pattern: "^je Decore  Peinture & murs deco [•·] [A-Za-zÀ-ÿ]+ \\d{4}\\.[Pp]df$"
     delete: true
 
   - name: "Jeune Afrique"
@@ -1821,6 +1920,9 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^L Auto-Journal N\\d+ [•·-] (\\d{1,2}) (?:[A-Za-zÀ-ÿ]+ )?(?:au \\d{1,2} )?([A-Za-zÀ-ÿ]+) ?(\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: L'Auto_Journal_2026_09_3.pdf
+        pattern: "^L'Auto_Journal_(\\d{4})_(\\d{2})_(\\d{1,2})\\.[Pp]df$"
+        date_groups: [year, month, day]
 
   - name: "L Automobile Magazine"
     # Matches both:
@@ -1833,6 +1935,9 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^L Automobile Magazine N\\d+ [•·] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
+      - pattern: "^L'Automobile_(\\d{4})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
+        template: "{name} - {year}{month}.pdf"
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "L'Automobile Nouvelles Énergies"
@@ -1877,6 +1982,9 @@ magazines:
         date_groups: [day, month, year]
       - pattern: "^L Equipe (\\d{4})(\\d{2})(\\d{2})\\.[Pp]df$"
         date_groups: [year, month, day]
+      - # Matches: L Equipe 23082026.pdf (DDMMYYYY, day-first)
+        pattern: "^L Equipe (\\d{2})(\\d{2})(\\d{4})\\.[Pp]df$"
+        date_groups: [day, month, year]
       - pattern: "^L Equipe [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^L Equipe du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
@@ -1928,6 +2036,36 @@ magazines:
       - pattern: "^L'équipe du (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^L'équipe du (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})_\\d+_\\d+\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: EQ du Jeudi 3 Septembre 2026.pdf
+        pattern: "^EQ du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: EQ du Jeudi 3 Septembre 2026_260903_134704.pdf
+        pattern: "^EQ du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})_\\d+_\\d+\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: JOURNAL L'Équipe Du Mercredi 2 Septembre 2026.pdf
+        pattern: "^JOURNAL L'[EÉ]quipe Du [A-Za-zÀ-ÿ]+ (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: Journal l'equipe du 20 août 2026.pdf (no weekday name)
+        pattern: "^Journal l'equipe du (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: L'Équipe 13 08 26 – Pfred.pdf
+        pattern: "^L'[EÉ]quipe (\\d{2}) (\\d{2}) (\\d{2}) [–-] Pfred\\.[Pp]df$"
+        date_groups: [day, month, year_short]
+      - # Matches: equipe 22 août 2026.pdf (no leading "L")
+        pattern: "^equipe (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: equipe 22 août 2026_260822_095955.pdf
+        pattern: "^equipe (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})_\\d+_\\d+\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: equipe Lundi 24 Août 2026.pdf
+        pattern: "^equipe Lundi (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: lq409.pdf (day=4, month=09)
+        pattern: "^lq(\\d)(\\d{2})\\.[Pp]df$"
+        date_groups: [day, month]
+      - # Matches: L'Équipe 1er Septembre 2026.pdf
+        pattern: "^L'[EÉ]quipe (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
     template: "{name} - {year}{month}{day}.pdf"
 
@@ -2035,6 +2173,13 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^L_Express - \\d+ ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
+      - # Matches: L'Express - 13 Août 2026 - bc04baea.pdf
+        pattern: "^L'Express - \\d+ ([A-Za-zÀ-ÿ]+) (\\d{4}) - [a-f0-9]+\\.[Pp]df$"
+        date_groups: [month_name, year]
+      - # Matches: L'Express_2026_08_27.pdf
+        pattern: "^L'Express_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month, day]
+        template: "{name} - {year}{month}{day}.pdf"
       - pattern: "^L Express N\\d+ . (\\d{1,2}) (?:[A-Za-zÀ-ÿ]+ )?au (?:\\d{1,2}(?:er)? )?([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d{6}_\\d{6})?\\.[Pp]df$"
         date_groups: [day, month_name, year]
         template: "{original}"
@@ -2088,6 +2233,12 @@ magazines:
         date_groups: [year, month, day]
       - pattern: "^L_Humanité +(\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: L'Humanité - Jeudi 13 Août 2026.pdf
+        pattern: "^L'Humanité - [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: L'Humanité 31 08 2026 🇫🇷 .pdf
+        pattern: "^L'Humanité (\\d{2}) (\\d{2}) (\\d{4}) 🇫🇷 \\.[Pp]df$"
+        date_groups: [day, month, year]
 
   - name: "L'Informaticien"
     # Matches: L'Informaticien - Juin 2026.pdf
@@ -2135,6 +2286,9 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^L'Opinion du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: L'Opinion du Mardi 1er Septembre 2026.pdf
+        pattern: "^L'Opinion du [A-Za-zÀ-ÿ]+ (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
       - pattern: "^L'Opinion_-_(\\d{1,2})_([A-Za-zÀ-ÿ]+)_(\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^LOpinion_-_(\\d{1,2})_([A-Za-zÀ-ÿ]+)_(\\d{4})\\.[Pp]df$"
@@ -2149,6 +2303,15 @@ magazines:
       - pattern: "^Opinion - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^L'Opinion \\- (\\d+) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: L'Opinion - 26 08 2026 🇫🇷 .pdf
+        pattern: "^L'Opinion - (\\d{2}) (\\d{2}) (\\d{4}) 🇫🇷 \\.[Pp]df$"
+        date_groups: [day, month, year]
+      - # Matches: LOpinion 31 08 2026 🇫🇷 .pdf
+        pattern: "^LOpinion (\\d{2}) (\\d{2}) (\\d{4}) 🇫🇷 \\.[Pp]df$"
+        date_groups: [day, month, year]
+      - # Matches: l Opinion  Mercredi 2 Septembre 2026 🇫🇷 .pdf (no bullet)
+        pattern: "^l Opinion  [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4}) 🇫🇷 \\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^L'Opinion_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
         date_groups: [year, month, day]
@@ -2232,6 +2395,12 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^La Dépêche du Midi Toulouse - (\\d+) ([A-Za-zÀ-ÿ]+) (\\d{4})p\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: La Dépêche du Midi Toulouse - 29 08 2026 🇫🇷 .pdf
+        pattern: "^La Dépêche du Midi Toulouse - (\\d{2}) (\\d{2}) (\\d{4}) 🇫🇷 \\.[Pp]df$"
+        date_groups: [day, month, year]
+      - # Matches: La Dépêche du Midi Toulouse 28 08 2026 🇫🇷  .pdf
+        pattern: "^La Dépêche du Midi Toulouse (\\d{2}) (\\d{2}) (\\d{4}) 🇫🇷  \\.[Pp]df$"
+        date_groups: [day, month, year]
 
   - name: "La Dépêche Louviers"
     pattern: "^La D[eé]p[eê]che Louviers - \\d{2}-\\d{2}-\\d{4}(?: - TP)?\\.pdf$"
@@ -2350,6 +2519,9 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^La Revue du Vin de France - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
+      - pattern: "^La_Revue_du_Vin_de_France_(\\d{4})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
+        template: "{name} - {year}{month}.pdf"
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "La Revue Française de Généalogie"
@@ -2372,6 +2544,9 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^La\\.Tribune\\.(\\d{1,2})\\.([A-Za-zÀ-ÿ]+)\\.(\\d{4})\\.FRENCH\\.[Pp]df-NoGRP\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: La Tribune Du Mercredi 26 08 2026 🇫🇷.pdf
+        pattern: "^La Tribune Du [A-Za-zÀ-ÿ]+ (\\d{2}) (\\d{2}) (\\d{4}) 🇫🇷\\.[Pp]df$"
+        date_groups: [day, month, year]
 
   - name: "La Tribune Dimanche"
     # Matches: La Tribune Dimanche du 29 Mars 2026.pdf
@@ -2426,6 +2601,9 @@ magazines:
       - pattern: "^Le Canard [Ee]ncha[iî]n[eé]\\.- (\\d{2})\\.(\\d{2})\\.(\\d{4})\\.[Pp]df$"
         date_groups: [day, month, year]
       - pattern: "^Le Canard [Ee]ncha[iî]n[eé] du (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: Le Canard Enchaîné du Mercredi 19 Août 2026.pdf
+        pattern: "^Le Canard [Ee]ncha[iî]n[eé] du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Canard [Ee]ncha[iî]n[eé] - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
@@ -2602,6 +2780,11 @@ magazines:
       - pattern: "^Le_Figaro_Sport_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
         date_groups: [year, month, day]
 
+  - name: "Le Figaro Sport (JOURNAL prefix)"
+    # Matches: JOURNAL Le Figaro Sport — 18 Août 2026.pdf
+    pattern: "^JOURNAL Le Figaro Sport [–—-] \\d{1,2} [A-Za-zÀ-ÿ]+ \\d{4}\\.[Pp]df$"
+    delete: true
+
   - name: "Le Havre Infos"
     # Matches: Le Havre Infos - 11-03-2026 - TP.pdf, Le Havre Infos - 11-03-2026.pdf, etc.
     pattern: "^Le Havre Infos.*\\.pdf$"
@@ -2726,6 +2909,21 @@ magazines:
         date_groups: [day, month, year]
       - pattern: "^Le Monde (\\d{2})-(\\d{2})-(\\d{4})\\.[Pp]df$"
         date_groups: [day, month, year]
+      - # Matches: Le Monde 31-08-2026 🇫🇷 .pdf
+        pattern: "^Le Monde (\\d{2})-(\\d{2})-(\\d{4}) 🇫🇷 \\.[Pp]df$"
+        date_groups: [day, month, year]
+      - # Matches: Le Monde du 20 08 2026 🇫🇷  .pdf
+        pattern: "^Le Monde du (\\d{2}) (\\d{2}) (\\d{4}) 🇫🇷  \\.[Pp]df$"
+        date_groups: [day, month, year]
+      - # Matches: Le Monde week-end 290826.pdf
+        pattern: "^Le Monde week-end (\\d{2})(\\d{2})(\\d{2})\\.[Pp]df$"
+        date_groups: [day, month, year_short]
+      - # Matches: Le Monde. 14 08 2026.pdf
+        pattern: "^Le Monde\\. (\\d{2}) (\\d{2}) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month, year]
+      - # Matches: le monde 28 08 2026 🇫🇷  .pdf
+        pattern: "^Le monde (\\d{2}) (\\d{2}) (\\d{4}) 🇫🇷  \\.[Pp]df$"
+        date_groups: [day, month, year]
       - pattern: "^Le Monde (\\d{2})(\\d{2})(\\d{4})\\.[Pp]df$"
         date_groups: [day, month, year]
       - pattern: "^Le Monde [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
@@ -2762,11 +2960,22 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^Le Monde Diplomatique N\\.\\d+ \\- ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
+      - # Matches: Monde diplo- Sept 2026_260827_230300.pdf
+        pattern: "^Monde diplo- ([A-Za-zÀ-ÿ]+) \\d+_\\d+_\\d+\\.[Pp]df$"
+        date_groups: [month_name]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "Le Monde Diplomatique - Edição"
+    # Matches: Le Monde Diplomatique - Edição 218 (2025-09).pdf
+    pattern: "^Le Monde Diplomatique - Edição \\d+ \\(\\d{4}-\\d+\\)\\.[Pp]df$"
+    delete: true
 
   - name: "Le Monde diplomatique Maniere de Voir"
     # Matches: Le Monde diplomatique Maniere de Voir N208 • Aou-Sep 2026.pdf
-    pattern: "^Le Monde diplomatique Maniere de Voir N\\d+ [•·] [A-Za-zÀ-ÿ]+\\-[A-Za-zÀ-ÿ]+ \\d{4}\\.[Pp]df$"
+    #          MAGAZINE Le Monde diplomatique Maniere de Voir Aout-Septembre 2026.pdf
+    patterns:
+      - pattern: "^Le Monde diplomatique Maniere de Voir N\\d+ [•·] [A-Za-zÀ-ÿ]+\\-[A-Za-zÀ-ÿ]+ \\d{4}\\.[Pp]df$"
+      - pattern: "^MAGAZINE Le Monde diplomatique Maniere de Voir [A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+ \\d{4}\\.[Pp]df$"
     delete: true
 
   - name: "Le Monde du Camping-Car"
@@ -2780,8 +2989,11 @@ magazines:
     patterns:
       - pattern: "^Le Monde Histoire & Civilisations N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
-      - pattern: "^Le Monde Histoire & Civilisations - ([A-Za-z\\u00C0-\\u00FF]+-[A-Za-z\\u00C0-\\u00FF]+) (\\d{4})\\.[Pp]df$"
+      - pattern: "^Le Monde Histoire & Civilisations - ([A-Za-z\u00C0-\u00FF]+-[A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_range, year]
+      - pattern: "^Histoire_Civilisations_(\\d{4})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
+        template: "{name} - {year}{month}.pdf"
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Le Nouvel Economiste"
@@ -2809,6 +3021,7 @@ magazines:
     # Matches: Le Nouvel Obs N3208 C1 • 12 au 18 Mars 2026.pdf
     #          Le Nouvel Obs   16 Juillet 2026.pdf (triple space, no dash)
     #          Le_Nouvel_Obs_20260806.pdf / Le_Nouvel_Obz_20260723.pdf
+    #          Le_Nouvel_Obs_2026_08_13.pdf (underscore YYYY_MM_DD)
     patterns:
       - pattern: "^Le Nouvel Obs - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
@@ -2819,6 +3032,8 @@ magazines:
       - pattern: "^Le Nouvel Obs N\\d+ C\\d+ [•·] (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^Le_Nouvel_Ob[sz]_(\\d{4})(\\d{2})(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month, day]
+      - pattern: "^Le_Nouvel_Obs_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
         date_groups: [year, month, day]
 
   - name: "Le Parisien"
@@ -2868,20 +3083,30 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le_Parisien_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
         date_groups: [year, month, day]
+      - # Matches: Le Parisien week-end • Vendredi 27 Fevrier 2026.pdf (merged from "Le Parisien Week-End")
+        pattern: "^Le Parisien [Ww]eek-end [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: Le Parisien week-end du Vendredi 28 Aout 2026.pdf
+        pattern: "^Le Parisien [Ww]eek-end du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
 
-  - name: "Le Parisien Week-End"
-    # Matches: Le Parisien week-end • Vendredi 27 Fevrier 2026.pdf
-    pattern: "^Le Parisien [Ww]eek-end [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [day, month_name, year]
+  - name: "Le Particulier Conso"
+    # Matches: Le Particulier Conso - Septembre 2026.pdf
+    pattern: "^Le Particulier Conso - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Le Particulier Immobilier"
     # Matches: Le Particulier Immobilier N433 • Octobre 2025.Pdf
     #          Le Particulier Immobilier - Juillet-Août 2026.pdf (month range, no issue number)
+    #          Le Particulier Immobilier - Septembre 2026.pdf (single month, no issue number)
     patterns:
       - pattern: "^Le Particulier Immobilier N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
       - pattern: "^Le Particulier Immobilier - ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_range, year]
+      - pattern: "^Le Particulier Immobilier - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Le Particulier Vie Pratique"
@@ -2924,12 +3149,24 @@ magazines:
     patterns:
       - pattern: "^Le Point - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: Le Point — 13 Août 2026.pdf
+        pattern: "^Le Point [–—-] (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
       - pattern: "^Le Point N[\\d-]+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Point N[\\d-]+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) et \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^Le Point N[\\d-]+ [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})(?:_\\d+)*\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: Le_Point_2026_08_20.pdf
+        pattern: "^Le_Point_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month, day]
+
+  - name: "Le Revenu Magazine"
+    # Matches: Le Revenu Magazine - Septembre 2026.pdf
+    pattern: "^Le Revenu Magazine - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Le Réveil Normand"
     # Matches: Le Réveil Normand - Eure - Eure-et-Loir - 11-03-2026 - TP.pdf, Le Réveil Normand - Orne - 11-03-2026 - TP.pdf, etc.
@@ -3067,6 +3304,18 @@ magazines:
         date_groups: [day, month, year]
       - pattern: "^Les_Echos_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
         date_groups: [year, month, day]
+      - # Matches: JOURNAL Les Echos Du Mercredi 2 Septembre 2026.pdf
+        pattern: "^JOURNAL Les Echos Du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: JOURNAL Les Échos 18 Août 2026.pdf
+        pattern: "^JOURNAL Les [EÉ]chos (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: Les Echos Week-end • 28 et 29 Aout 2026.pdf
+        pattern: "^Les Echos Week-end [•·] (\\d{1,2}) et \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: Les Echos • Mardi 1er Septembre 2026.pdf
+        pattern: "^Les Echos [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
     template: "{name} - {year}{month}{day}.pdf"
 
   - name: "Les Grands Dossiers de Diplomatie"
@@ -3123,6 +3372,9 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Liberation du [A-Za-zÀ-ÿ]+ (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: Liberation du Mardi 1er Septembre 2026.pdf
+        pattern: "^Liberation du [A-Za-zÀ-ÿ]+ (\\d{1,2})(?:er)? ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
       - pattern: "^Liberation [•·] [A-Za-zÀ-ÿ]+ (\\d{1,2}) au [A-Za-zÀ-ÿ]+ \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
       - pattern: "^Lib[eé]ration - [A-Za-zÀ-ÿ]+ (\\d{1,2}) et [A-Za-zÀ-ÿ]+ \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
@@ -3143,6 +3395,9 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Libération_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
         date_groups: [year, month, day]
+      - # Matches: JOURNAL Libération 18-08-2026.pdf
+        pattern: "^JOURNAL Lib[eé]ration (\\d{2})-(\\d{2})-(\\d{4})\\.[Pp]df$"
+        date_groups: [day, month, year]
     template: "{name} - {year}{month}{day}.pdf"
 
   - name: "Linux USA"
@@ -3264,8 +3519,18 @@ magazines:
 
   - name: "Maxi Cuisine"
     # Matches: Maxi Cuisine N184 • Octobre 2025.Pdf
-    pattern: "^Maxi Cuisine N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_name, year]
+    #          Maxi Cuisine - Septembre 2026.pdf (no issue number)
+    patterns:
+      - pattern: "^Maxi Cuisine N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
+      - pattern: "^Maxi Cuisine - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "Maxi Hors-Série Cuisine"
+    # Matches: Maxi Hors-Série Cuisine - Septembre-Octobre 2026.pdf
+    pattern: "^Maxi Hors-S[eé]rie Cuisine - ([A-Za-zÀ-ÿ]+)-([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+    date_groups: [month_name, month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Maximum PC"
@@ -3273,6 +3538,11 @@ magazines:
     pattern: "^Maximum PC_([A-Za-z]+) (\\d{4})\\.[Pp]df$"
     date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
+
+  - name: "Mediapart"
+    # Matches: Mediapart • Lundi 31 Aout 2026.pdf
+    pattern: "^Mediapart [•·] [A-Za-zÀ-ÿ]+ \\d{1,2} [A-Za-zÀ-ÿ]+ \\d{4}\\.[Pp]df$"
+    delete: true
 
   - name: "Men's Fitness Guide"
     pattern: "^Men's_Fitness_Guide_[–-]_Issue_\\d+,_.*_\\d{4}\\.pdf$"
@@ -3424,6 +3694,9 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^Monde Gourmand Nº\\d+ ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
+      - # Matches: Monde Gourmand N°95 Août 2026.pdf (degree sign, not masculine ordinal indicator)
+        pattern: "^Monde Gourmand N°\\d+ ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Montagnes magazine"
@@ -3471,6 +3744,11 @@ magazines:
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "National Geographic History (freemagazines.top)"
+    # Matches: National Geographic History 09.10 2026_freemagazines.top.pdf
+    pattern: "^National Geographic History \\d{2}\\.\\d{2} \\d{4}_freemagazines\\.top\\.[Pp]df$"
+    delete: true
+
   - name: "National Geographic Hors-Serie"
     # Matches: National Geographic Hors-Serie N76 • Oct-Nov 2025.Pdf
     pattern: "^National Geographic Hors-Serie N\\d+ [•·-] ([A-Za-zÀ-ÿ]+-[A-Za-zÀ-ÿ]+(?:-[A-Za-zÀ-ÿ]+)*) (\\d{4})\\.[Pp]df$"
@@ -3496,8 +3774,12 @@ magazines:
 
   - name: "National Geographic Traveller UK"
     # Matches: National Geographic Traveller UK - 202603.pdf
-    pattern: "^National Geographic Traveller UK [–-] (\\d{4})(\\d{2})\\.[Pp]df$"
-    date_groups: [year, month]
+    #          National Geographic Traveller UK 10.2026_freemagazines.top.pdf
+    patterns:
+      - pattern: "^National Geographic Traveller UK [–-] (\\d{4})(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
+      - pattern: "^National Geographic Traveller UK (\\d{2})\\.(\\d{4})_freemagazines\\.top\\.[Pp]df$"
+        date_groups: [month, year]
     template: "{name} {year}-{month}.pdf"
 
   - name: "National Geographic UK"
@@ -3536,12 +3818,19 @@ magazines:
         date_groups: [day, month]
       - pattern: "^New_Scientist_International_Edition_-_(\\d{1,2})_([A-Za-z]+)_(\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - pattern: "^New Scientist International Edition - (\\d{1,2}) ([A-Za-z]+) (\\d{4})_freemagazines\\.top\\.[Pp]df$"
+        date_groups: [day, month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "New Straits Times"
     # Matches: New Straits Times - S'pore 070226.pdf (DDMMYY)
     pattern: "^New Straits Times - .+ (\\d{2})(\\d{2})(\\d{2})\\.[Pp]df$"
     date_groups: [day, month, year_short]
+
+  - name: "New York Daily News"
+    # Matches: New York Daily News - August 15, 2026.pdf
+    pattern: "^New York Daily News - ([A-Za-z]+) \\d+, \\d{4}\\.[Pp]df$"
+    delete: true
 
   - name: "New York Magazine"
     # Matches: New York Magazine_2707.pdf
@@ -3590,6 +3879,16 @@ magazines:
     # Matches: Newsweek EU - 20-03-2026.pdf (TP suffix stripped automatically)
     pattern: "^Newsweek EU - (\\d{2})-(\\d{2})-(\\d{4})\\.[Pp]df$"
     date_groups: [day, month, year]
+
+  - name: "Newsweek Int"
+    # Matches: Newsweek Int 4.09.2026_freemagazines.top.pdf
+    pattern: "^Newsweek Int \\d\\.\\d{2}\\.\\d{4}_freemagazines\\.top\\.[Pp]df$"
+    delete: true
+
+  - name: "Newsweek USA"
+    # Matches: Newsweek USA - September 11, 2026_freemagazines.top.pdf
+    pattern: "^Newsweek USA - ([A-Za-z]+) \\d+, \\d{4}_freemagazines\\.top\\.[Pp]df$"
+    date_groups: [month_name]
 
   - name: "Nord Eclair"
     pattern: "^Nord Eclair .+ - \\d{2}-\\d{2}-\\d{4}\\.pdf$"
@@ -3678,6 +3977,8 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^.?PC Gamer UK [–-] ([A-Za-z]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
+      - pattern: "^PC_Gamer_UK_(\\d{2})_(\\d{4})\\.[Pp]df$"
+        date_groups: [month, year]
     template: "{name} {year}-{month}.pdf"
 
   - name: "PC Gamer US"
@@ -3708,8 +4009,15 @@ magazines:
 
   - name: "PC Trucs & Astuces"
     # Matches: PC Trucs & Astuces N61 • Avril-Mai-Juin 2026.pdf
-    pattern: "^PC Trucs & Astuces N\\d+ [•·] ([A-Za-z\u00C0-\u00FF]+)\\-([A-Za-z\u00C0-\u00FF]+)\\-([A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_name, month_name, month_name, year]
+    #          PC Trucs & Astuces N62 • Juillet-Septembre 2026.pdf (2-month range)
+    #          PC Trucs et Astuces - Juillet-Septembre 2026.pdf ("et" spelling, no issue number)
+    patterns:
+      - pattern: "^PC Trucs & Astuces N\\d+ [•·] ([A-Za-z\u00C0-\u00FF]+)\\-([A-Za-z\u00C0-\u00FF]+)\\-([A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, month_name, month_name, year]
+      - pattern: "^PC Trucs & Astuces N\\d+ [•·] ([A-Za-z\u00C0-\u00FF]+)-([A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, month_name, year]
+      - pattern: "^PC Trucs et Astuces - ([A-Za-z\u00C0-\u00FF]+)-([A-Za-z\u00C0-\u00FF]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "PC-Tricks Tipps und Anleitungen"
@@ -3759,6 +4067,9 @@ magazines:
         date_groups: [month_range, year]
       - pattern: "^Picsou Magazine - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_range, year]
+      - pattern: "^Picsou_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month, day]
+        template: "{name} - {year}{month}{day}.pdf"
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
   - name: "Pirate Informatique"
@@ -3769,6 +4080,8 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^Pirate Informatique N\\d+ [•·] ([A-Za-zÀ-ÿ]+)\\-([A-Za-zÀ-ÿ]+)\\-([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, month_name, month_name, year]
+      - pattern: "^Pirate Informatique - ([A-Za-zÀ-ÿ]+)-([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Plane & Pilot"
@@ -3825,8 +4138,12 @@ magazines:
 
   - name: "Pour la Science"
     # Matches: Pour la Science N581 • Mars 2026.pdf
-    pattern: "^Pour la Science N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_name, year]
+    #          Pour la Science - Septembre 2026.pdf (no issue number)
+    patterns:
+      - pattern: "^Pour la Science N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
+      - pattern: "^Pour la Science - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Pratique des Arts"
@@ -3892,8 +4209,12 @@ magazines:
 
   - name: "Que Choisir"
     # Matches: Que Choisir N655 • Mars 2026.Pdf
-    pattern: "^Que Choisir N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_name, year]
+    #          Que Choisir - Septembre 2026.pdf (no issue number)
+    patterns:
+      - pattern: "^Que Choisir N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
+      - pattern: "^Que Choisir - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Que Choisir Hors-Serie"
@@ -3908,8 +4229,13 @@ magazines:
 
   - name: "Que Choisir Pratique"
     # Matches: Que Choisir Pratique N147 • Mars 2026.pdf
-    pattern: "^Que Choisir Pratique N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [month_name, year]
+    #          Que_Choisir_Pratique_2026_09.pdf (underscore YYYY_MM)
+    patterns:
+      - pattern: "^Que Choisir Pratique N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, year]
+      - pattern: "^Que_Choisir_Pratique_(\\d{4})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
+        template: "{name} - {year}{month}.pdf"
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Que Choisir Sante"
@@ -4071,6 +4397,9 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^Science & Vie [–-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
+      - pattern: "^Science_Vie_(\\d{4})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
+        template: "{name} - {year}{month}.pdf"
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Science & Vie Decouvertes"
@@ -4100,6 +4429,12 @@ magazines:
     date_groups: [year, month]
     template: "{name} {year}-{month}.pdf"
 
+  - name: "Science & Vie Hors-Serie"
+    # Matches: Science_Vie_HS_2026_09.pdf (underscore YYYY_MM, generic Hors-Série)
+    pattern: "^Science_Vie_HS_(\\d{4})_(\\d{2})\\.[Pp]df$"
+    date_groups: [year, month]
+    template: "{name} - {year}{month}.pdf"
+
   - name: "Science & Vie Hors-Serie Biologie"
     # Matches: Science & Vie Hors-Serie Biologie N323 • Janvier 2026.Pdf
     pattern: "^Science & Vie Hors-Serie Biologie N\\d+ [•·-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
@@ -4119,6 +4454,11 @@ magazines:
         date_groups: [month_name, year]
       - pattern: "^Sciences et Avenir - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [month_name, year]
+      - pattern: "^Sciences et Avenir N\\d+  ([A-Za-zÀ-ÿ]+) (\\d{4}) 🇫🇷  \\.[Pp]df$"
+        date_groups: [month_name, year]
+      - pattern: "^Sciences_et_Avenir_(\\d{4})_(\\d{2})\\.[Pp]df$"
+        date_groups: [year, month]
+        template: "{name} - {year}{month}.pdf"
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Sciences et Avenir Hors-Serie"
@@ -4207,6 +4547,9 @@ magazines:
         date_groups: [day, month, year_short]
       - pattern: "^South China Morning Post \\(China\\) (\\d{2})-(\\d{2})-(\\d{2})\\.[Pp]df$"
         date_groups: [day, month, year_short]
+      - # Matches: South China Morning Post • August 16, 2026.pdf
+        pattern: "^South China Morning Post [•·] ([A-Za-zÀ-ÿ]+) (\\d{1,2}), (\\d{4})\\.[Pp]df$"
+        date_groups: [month_name, day, year]
 
   - name: "Spektrum Kompakt"
     pattern: "^Spektrum Kompakt .*\\.pdf$"
@@ -4252,6 +4595,8 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Strat[eé]gies - (\\d{1,2}) ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - pattern: "^Stratégies_(\\d{4})_(\\d{2})_(\\d{1,2})\\.[Pp]df$"
+        date_groups: [year, month, day]
 
   - name: "Stratégies Hors-Série"
     # Matches: Stratégies Hors-Série - 42 Juin 2026.pdf
@@ -4350,6 +4695,8 @@ magazines:
       - pattern: "^TEcon \\(Web Edition\\) \\d{1,2} [A-Za-z]+ \\d{4}\\.pdf$"
       - pattern: "^TEcon \\(Web Edition\\)_\\d{4}\\.pdf$"
       - pattern: "^TEcon \\(Web Edition\\) \\d+,[A-Za-zÀ-ÿ]+ \\d{4}\\.[Pp]df$"
+      - # Matches: TEcon (Web Edition_2208.pdf (missing closing paren)
+        pattern: "^TEcon \\(Web Edition_\\d{4}\\.[Pp]df$"
     delete: true
 
   - name: "Tehran Times"
@@ -4443,6 +4790,12 @@ magazines:
         date_groups: [day, month]
       - pattern: "^TEcon\\-(\\d{1,2})\\-([A-Za-zÀ-ÿ]+)\\-(\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: TEcon 15, Aug 2026.pdf
+        pattern: "^TEcon (\\d{1,2}), ([A-Za-z]+) (\\d{4})\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: The Economist 08.29.2026_downmagaz.net.pdf
+        pattern: "^The Economist (\\d{2})\\.(\\d{2})\\.(\\d{4})_downmagaz\\.net\\.[Pp]df$"
+        date_groups: [month, day, year]
     template: "{name} - {year}{month}{day}.pdf"
 
   - name: "The Economist (Web Edition)"
@@ -4450,6 +4803,11 @@ magazines:
     pattern: "^The Economist \\(Web Edition\\)_(\\d{2})(\\d{2})\\.[Pp]df$"
     date_groups: [day, month]
     template: "The Economist - {date}.pdf"
+
+  - name: "The Economist EU"
+    # Matches: TEcon (EU)  15-08-2026.pdf
+    pattern: "^TEcon \\(EU\\)  (\\d{2})-(\\d{2})-(\\d{4})\\.[Pp]df$"
+    date_groups: [day, month, year]
 
   - name: "The Economist Middle East Africa"
     # Matches: The Economist Middle East and Africa Edition - 27 September 2025.pdf
@@ -4479,6 +4837,12 @@ magazines:
         date_groups: [month_name, day, year]
       - pattern: "^TEcon_UK_-_(\\d{1,2})th\\d{1,2}th_([A-Za-z]+)_(\\d{4})\\.[Pp]df$"
         date_groups: [day, month_name, year]
+      - # Matches: The Economist UK - 22 August 2026_freemagazines.top.pdf
+        pattern: "^The Economist UK - (\\d{1,2}) ([A-Za-z]+) (\\d{4})_freemagazines\\.top\\.[Pp]df$"
+        date_groups: [day, month_name, year]
+      - # Matches: The Economist UK 08.29.2026_freemagazines.top.pdf
+        pattern: "^The Economist UK (\\d{2})\\.(\\d{2})\\.(\\d{4})_freemagazines\\.top\\.[Pp]df$"
+        date_groups: [month, day, year]
 
   - name: "The Economist USA"
     # Matches:
@@ -4795,6 +5159,12 @@ magazines:
     # Matches: Time US - June 2026.pdf
     pattern: "^Time US.*\\.[Pp]df$"
     delete: true
+
+  - name: "Top Santé"
+    # Matches: Top Santé - Octobre 2026.pdf
+    pattern: "^Top Santé - ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
+    date_groups: [month_name, year]
+    template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
   - name: "Total Jeux Video"
     # Matches: Total Jeux Vidéo - 202601.pdf
