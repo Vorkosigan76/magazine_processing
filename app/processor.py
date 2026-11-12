@@ -15,7 +15,7 @@ MONTH_NAMES.update(MONTH_ABBR)
 MONTH_NAMES_FR = {
     "janvier": 1, "février": 2, "fevrier": 2, "mars": 3, "nars": 3, "avril": 4,
     "mai": 5, "juin": 6, "juillet": 7, "août": 8, "aout": 8,
-    "septembre": 9, "octobre": 10, "novembre": 11, "décembre": 12, "decembre": 12,
+    "septembre": 9, "octobre": 10, "otobre": 10, "novembre": 11, "décembre": 12, "decembre": 12,
 }
 MONTH_NAMES.update(MONTH_NAMES_FR)
 
@@ -62,11 +62,11 @@ def load_magazines(config_path: Path = CONFIG_PATH) -> list[dict]:
         elif "pattern" in mag:
             # Support single pattern or multiple patterns per magazine
             mag["_variants"] = [
-                (re.compile(mag["pattern"], re.IGNORECASE), mag["date_groups"])
+                (re.compile(mag["pattern"], re.IGNORECASE), mag["date_groups"], None)
             ]
         else:
             mag["_variants"] = [
-                (re.compile(v["pattern"], re.IGNORECASE), v["date_groups"])
+                (re.compile(v["pattern"], re.IGNORECASE), v["date_groups"], v.get("template"))
                 for v in mag["patterns"]
             ]
     return magazines
@@ -89,7 +89,7 @@ def _parse_group(key: str, value: str) -> tuple[str, int, dict]:
         month_num = MONTH_NAMES.get(first_month.lower())
         if month_num is None:
             raise ValueError(f"Unknown month name: {first_month}")
-        return "month", month_num, {"month_range": value}
+        return "month", month_num, {"month_range": value, "month_name_orig": value}
     if key == "season":
         month_num = SEASONS.get(value.lower())
         if month_num is None:
@@ -121,7 +121,7 @@ def match_magazine(filename: str, magazines: list[dict]) -> tuple[str, date, str
     for mag in magazines:
         if mag.get("delete"):
             continue
-        for compiled, date_groups in mag["_variants"]:
+        for compiled, date_groups, variant_template in mag["_variants"]:
             m = compiled.match(filename)
             if m:
                 groups = m.groups()
@@ -150,7 +150,7 @@ def match_magazine(filename: str, magazines: list[dict]) -> tuple[str, date, str
                     if day > max_day:
                         day = max_day
                     pub_date = date(year, month, day)
-                template = mag.get("template", DEFAULT_TEMPLATE)
+                template = variant_template or mag.get("template", DEFAULT_TEMPLATE)
                 return mag["name"], pub_date, template, extra_vars
     return None
 
