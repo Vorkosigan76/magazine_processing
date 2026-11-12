@@ -288,8 +288,11 @@ def process_file(filepath: Path, magazines: list[dict], output_dir: Path, quaran
         logger.warning("Unrecognized file, moving to quarantine: %s", filename)
         quarantine_dir.mkdir(parents=True, exist_ok=True)
         dest_path = quarantine_dir / filename
-        if not dest_path.exists():
-            shutil.move(str(filepath), str(dest_path))
+        if dest_path.exists():
+            logger.info("Duplicate quarantined file detected, deleting: %s", filename)
+            filepath.unlink()
+            return False
+        shutil.move(str(filepath), str(dest_path))
         return False
 
     mag_name, pub_date, template, extra_vars = result

@@ -741,6 +741,34 @@ class TestFlagPrefixStripping:
         assert dest.exists()
 
 
+# ── Quarantine handling in process_file ──
+
+
+class TestQuarantineHandling:
+    def test_duplicate_quarantined_file_is_deleted_from_import(self, magazines, tmp_path):
+        """An existing quarantine copy must not leave a duplicate in import."""
+        from app.processor import process_file
+
+        import_dir = tmp_path / "import"
+        import_dir.mkdir()
+        output_dir = tmp_path / "processed"
+        output_dir.mkdir()
+        quarantine_dir = tmp_path / "quarantine"
+        quarantine_dir.mkdir()
+
+        filename = "Unrecognized Magazine.pdf"
+        quarantined_file = quarantine_dir / filename
+        quarantined_file.write_bytes(b"original quarantined file")
+        incoming_file = import_dir / filename
+        incoming_file.write_bytes(b"duplicate import file")
+
+        result = process_file(incoming_file, magazines, output_dir, quarantine_dir)
+
+        assert result is False
+        assert not incoming_file.exists()
+        assert quarantined_file.read_bytes() == b"original quarantined file"
+
+
 # ── Duplicate suffix stripping in process_file ──
 
 
