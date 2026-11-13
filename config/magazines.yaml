@@ -24,6 +24,28 @@
 # Default template (if omitted): "{name} - {date}.pdf"
 
 magazines:
+  - name: "Alternatives Économiques"
+    pattern: "^Alternatives Economiques (\\d{4})-(\\d{2})\\.[Pp]df$"
+    date_groups: [year, month]
+    template: "{name} {year}-{month}.pdf"
+  - name: "Men's Fitness Guide"
+    pattern: "^Men’s Fitness Guide.*(\\d{4})\\.[Pp]df$"
+    date_groups: [year]
+    template: "{original}"
+  - name: "Yoga World"
+    pattern: "^Yoga World - (\\d{4}) (\\d{2})-(\\d{2})\\.[Pp]df$"
+    date_groups: [year, month, month]
+    template: "{original}"
+  - name: "Electric Drive"
+    pattern: "^Electric Drive.*\\.[Pp]df$"
+    delete: true
+  - name: "L'Orient-Le Jour"
+    pattern: "^L'Orient-Le Jour.*\\.[Pp]df$"
+    delete: true
+  - name: "Le Parisien Week-End"
+    pattern: "^Le Parisien Week-End.*\\.[Pp]df$"
+    delete: true
+
   - name: "Food & Wine USA (residual)"
     pattern: "^Food_&_Wine_USA_.*_([A-Za-z]+)_\\d+_\\d+_\\d+\\.[Pp]df$"
     date_groups: [month_name]
@@ -1611,7 +1633,7 @@ magazines:
         date_groups: [year, month, day]
     template: "{name} {year}{month} - {month_range} {year}.pdf"
 
-  - name: "Cuisine et Vins de France Hors-Série Nº"
+  - name: "Cuisine et Vins de France Hors-Série"
     # Matches: Cuisine et Vins de France Hors-Série Nº42 Printemps 2026.pdf
     #          Cuisine_et_Vins_de_France_HS_2026_09.pdf (underscore YYYY_MM, numeric month)
     patterns:
@@ -1619,6 +1641,7 @@ magazines:
         date_groups: [season, year]
       - pattern: "^Cuisine_et_Vins_de_France_HS_(\\d{4})_(\\d{2})\\.[Pp]df$"
         date_groups: [year, month]
+    template: "{name} - {date}.pdf"
 
   - name: "Cycling Weekly"
     # Matches: Cycling Weekly 2026.01.08.pdf, Cycling Weekly 4 June.pdf
@@ -2060,7 +2083,7 @@ magazines:
         date_groups: [month_name, year]
     template: "{name} {year}{month} - {month_name_orig} {year}.pdf"
 
-  - name: "Forbes"
+  - name: "Forbes US"
     # Matches: 02-26-Forbes.pdf (MM-YY-Forbes)
     pattern: "^(\\d{2})-(\\d{2})-Forbes\\.[Pp]df$"
     date_groups: [month, year_short]
@@ -2976,7 +2999,7 @@ magazines:
       - pattern: "^L\\. Hebdo du Finistere.*\\.[Pp]df$"
     delete: true
 
-  - name: "L'Humanite"
+  - name: "L'Humanité"
     # Matches:
     #   "l Humanite • Vendredi 6 au Dimanche 8 Mars 2026.pdf"
     #   "l Humanite • Vendredi 27 au Dimanche 1er Mars 2026.pdf"   (ordinal "1er")
@@ -3709,6 +3732,9 @@ magazines:
         date_groups: [day, month_name, year]
       - pattern: "^Le_Journal_de_Spirou_(\\d{4})_(\\d{2})_(\\d{2})\\.[Pp]df$"
         date_groups: [year, month, day]
+      - pattern: "^Le Journal de Spirou N\\d+\\.[Pp]df$"
+        date_groups: []
+        template: "{original}"
 
   - name: "Le Journal du Dimanche"
     # Matches: Le Journal du Dimanche - 29 Mars 2026.pdf
@@ -5706,7 +5732,7 @@ magazines:
     date_groups: [year]
     template: "{name} - {year}.pdf"
 
-  - name: "Sport Auto France"
+  - name: "Sport Auto"
     # Matches: Sport Auto France - Juin 2026.pdf
     pattern: "^Sport Auto France [–-] ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
     date_groups: [month_name, year]
@@ -5850,9 +5876,10 @@ magazines:
       - pattern: "^Tehran Times \\d{6}\\.pdf$"
     delete: true
 
-  - name: "Tele 7 Jours" # Matches: Tele 7 Jours N3412 du 18 au 24 Octobre 2025.pdf
-    pattern: "^Tele 7 Jours N\\d+ du (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
-    date_groups: [day, month_name, year]
+  - name: "Tele 7 Jours"
+    # Delete every Télé 7 Jours variant.
+    pattern: "^T[eé]l[eé] 7 Jours.*\\.[Pp]df$"
+    delete: true
 
   - name: "Tele Magazine"
     # Matches: Tele magazine N3672 • 28 Mars au 3 Avril 2026.pdf
@@ -5864,17 +5891,8 @@ magazines:
     delete: true
 
   - name: "Télérama"
-    # Matches: Telerama N3952 • 11 au 17 Octobre 2025.Pdf
-    pattern: "^Telerama N\\d+ [•·] (\\d{1,2}) au \\d{1,2} ([A-Za-zÀ-ÿ]+) (\\d{4})\\.[Pp]df$"
-    delete: true
-
-  - name: "Telerama (TP)"
-    # Matches: Telerama - 11-03-2026 - TP.pdf
-    pattern: "^Telerama - \\d{2}-\\d{2}-\\d{4} - TP\\.pdf$"
-    delete: true
-
-  - name: "Telerama Sortir"
-    pattern: "^Telerama Sortir [•·] \\d{1,2} au \\d{1,2} [A-Za-zÀ-ÿ]+ \\d{4}\\.pdf$"
+    # Delete every Télérama variant, including standard, TP, and Sortir issues.
+    pattern: "^T[ée]l[ée]rama.*\\.[Pp]df$"
     delete: true
 
   - name: "Testachat Magazine"
@@ -6195,7 +6213,7 @@ magazines:
     pattern: "^The Sydney Morning Herald - (\\d{1,2}) ([A-Za-z]+) (\\d{4})\\.[Pp]df$"
     delete: true
 
-  - name: "The Times"
+  - name: "The Times UK"
     # Matches: The Times - 1 June 2026.pdf
     # Matches: The Times UK_0803.pdf (DDMM format) → The Sunday Times - 2026-03-08.pdf
     patterns:
